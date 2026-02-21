@@ -6,19 +6,27 @@
 }
 
 /* ============================================================
-   DESIGN TOKENS  — Gwern-inspired dark palette
+   DESIGN TOKENS  — Gwern colorway
    ============================================================ */
 :root {
-  --bg:          #1c1b19;   /* deep warm black */
-  --bg-alt:      #242320;   /* slightly lighter, for code/quote blocks */
-  --text:        #c8c0b0;   /* warm off-white, easy on the eyes */
-  --text-dim:    #7a7570;   /* dates, captions, muted annotations */
-  --accent:      #8ab0c8;   /* steel blue — links */
-  --accent-h:    #b0ccde;   /* hovered links */
-  --border:      #302e2a;   /* subtle dividers */
-  --border-h:    #504e48;   /* stronger divider on hover */
-  --max-width:   720px;
-  --font-serif:  Georgia, "Linux Libertine", "Times New Roman", serif;
+  --bg:          #0f0e0d;   /* near-black, slight warm tint */
+  --bg-alt:      #171614;   /* code/quote backgrounds */
+  --text:        #d4ccc0;   /* warm cream */
+  --text-dim:    #6a6460;   /* muted annotations, dates */
+  --accent:      #c8bfb4;   /* links — warm cream, slightly lighter */
+  --accent-h:    #e0d8d0;   /* hovered links */
+  --border:      #1e1c1a;   /* subtle dividers */
+  --border-h:    #38362f;   /* stronger divider */
+
+  /* Layout */
+  --text-width:  650px;
+  --note-width:  210px;
+  --note-gap:    2rem;
+  /* Wide page = text + gap + notes + outer padding */
+  --page-width:  calc(var(--text-width) + var(--note-gap) + var(--note-width) + 6rem);
+
+  /* Fonts — Linux Libertine first (local), EB Garamond as web fallback */
+  --font-serif:  "Linux Libertine O", "Linux Libertine", "Libertinus Serif", "EB Garamond", Georgia, serif;
   --font-mono:   "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
 }
 
@@ -28,6 +36,7 @@
 html {
   font-size: 18px;
   scroll-behavior: smooth;
+  scroll-padding-top: 2rem;
 }
 
 body {
@@ -36,8 +45,9 @@ body {
   line-height: 1.8;
   color: var(--text);
   background: var(--bg);
-  margin: 0;
-  padding: 0 1.25rem;
+  margin: 0 auto;
+  max-width: var(--page-width);
+  padding: 0 3rem;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
 }
@@ -46,11 +56,16 @@ body {
    LAYOUT SHELLS
    ============================================================ */
 header,
-main,
 footer {
-  max-width: var(--max-width);
+  max-width: var(--text-width);
   margin-left: auto;
   margin-right: auto;
+}
+
+main {
+  /* expands wider on post pages via .post-content grid */
+  margin-top: 2.5rem;
+  margin-bottom: 4rem;
 }
 
 /* ============================================================
@@ -95,14 +110,6 @@ header nav a:hover {
 }
 
 /* ============================================================
-   MAIN CONTENT AREA
-   ============================================================ */
-main {
-  margin-top: 2.5rem;
-  margin-bottom: 4rem;
-}
-
-/* ============================================================
    SITE FOOTER
    ============================================================ */
 footer {
@@ -123,13 +130,32 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1.3;
   font-weight: bold;
   margin-top: 2.2em;
-  margin-bottom: 0.6em;
+  margin-bottom: 0.5em;
 }
 
 h1 { font-size: 1.9rem; margin-top: 0; }
-h2 { font-size: 1.35rem; font-variant: small-caps; letter-spacing: 0.04em; }
-h3 { font-size: 1.1rem;  font-variant: small-caps; letter-spacing: 0.03em; }
-h4 { font-size: 1rem;    font-style: italic; font-weight: normal; }
+h2 { font-size: 1.3rem;  font-variant: small-caps; letter-spacing: 0.05em; }
+h3 { font-size: 1.05rem; font-variant: small-caps; letter-spacing: 0.04em; }
+h4 { font-size: 1rem;    font-style: italic; font-weight: normal; margin-top: 1.5em; }
+
+/* Heading anchor § link */
+.heading-anchor {
+  opacity: 0;
+  margin-left: 0.4em;
+  font-size: 0.8em;
+  font-style: normal;
+  font-variant: normal;
+  text-decoration: none;
+  color: var(--text-dim);
+  transition: opacity 0.15s;
+  user-select: none;
+}
+
+h2:hover .heading-anchor,
+h3:hover .heading-anchor,
+h4:hover .heading-anchor {
+  opacity: 1;
+}
 
 /* ============================================================
    LINKS
@@ -156,27 +182,81 @@ a:visited {
    ============================================================ */
 p {
   margin-top: 0;
-  margin-bottom: 1.1em;
+  margin-bottom: 0;
+  text-align: justify;
   hyphens: auto;
+  text-indent: 1.5em;
+}
+
+/* No indent after headings, block-level elements, or at start */
+h1 + p, h2 + p, h3 + p, h4 + p,
+.post-content > p:first-child,
+.abstract p,
+blockquote p,
+li > p,
+.toc + p,
+figure + p,
+hr + p {
+  text-indent: 0;
 }
 
 /* Drop cap on the first paragraph of a post */
 .post-content > p:first-of-type::first-letter {
   float: left;
   font-size: 3.4em;
-  line-height: 0.8;
-  padding-right: 0.1em;
-  padding-top: 0.05em;
+  line-height: 0.82;
+  padding-right: 0.08em;
+  padding-top: 0.04em;
   color: var(--text);
   font-weight: bold;
+}
+
+/* ============================================================
+   ABSTRACT / EPIGRAPH
+   ============================================================ */
+.abstract {
+  border-left: 3px solid var(--accent);
+  background: var(--bg-alt);
+  padding: 0.9em 1.25em;
+  margin: 0 0 2.5em;
+  border-radius: 0 4px 4px 0;
+}
+
+.abstract p {
+  font-style: italic;
+  color: var(--text-dim);
+  text-indent: 0;
+  margin-bottom: 0;
+}
+
+.epigraph {
+  margin: 1.5em 0 2em 1.5em;
+  color: var(--text-dim);
+  font-style: italic;
+}
+
+.epigraph p {
+  text-indent: 0;
+  margin-bottom: 0.2em;
+}
+
+.epigraph cite {
+  display: block;
+  font-style: normal;
+  font-size: 0.88em;
+  margin-top: 0.4em;
+}
+
+.epigraph cite::before {
+  content: "— ";
 }
 
 /* ============================================================
    BLOCKQUOTES
    ============================================================ */
 blockquote {
-  margin: 1.5em 0;
-  padding: 0.75em 1.25em;
+  margin: 1.2em 0;
+  padding: 0.6em 1.25em;
   border-left: 3px solid var(--border-h);
   background: var(--bg-alt);
   color: var(--text-dim);
@@ -184,7 +264,112 @@ blockquote {
   border-radius: 0 4px 4px 0;
 }
 
-blockquote p { margin-bottom: 0; }
+blockquote p {
+  text-indent: 0;
+  margin-bottom: 0;
+}
+
+/* ============================================================
+   TABLE OF CONTENTS
+   ============================================================ */
+.toc {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.85em 1.4em;
+  margin: 0 0 2.2em;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.toc .toc-title {
+  font-size: 0.8rem;
+  font-variant: small-caps;
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+  margin: 0 0 0.5em;
+  font-weight: bold;
+}
+
+.toc ol {
+  margin: 0;
+  padding-left: 1.25em;
+}
+
+.toc li {
+  margin-bottom: 0.2em;
+}
+
+.toc a {
+  color: var(--text-dim);
+  text-decoration: none;
+}
+
+.toc a:hover {
+  color: var(--accent-h);
+}
+
+.toc .toc-h3 {
+  padding-left: 1em;
+  font-size: 0.92em;
+}
+
+/* ============================================================
+   POST LAYOUT — WIDE GRID WITH SIDENOTES
+   ============================================================ */
+@media (min-width: 960px) {
+  .post-content {
+    display: grid;
+    grid-template-columns: minmax(0, var(--text-width)) var(--note-width);
+    column-gap: var(--note-gap);
+    max-width: calc(var(--text-width) + var(--note-gap) + var(--note-width));
+  }
+
+  .post-content > * {
+    grid-column: 1;
+    min-width: 0;
+  }
+
+  .sidenote {
+    grid-column: 2;
+    align-self: start;
+  }
+}
+
+/* ============================================================
+   SIDENOTES
+   ============================================================ */
+.sidenote {
+  font-size: 0.8rem;
+  line-height: 1.55;
+  color: var(--text-dim);
+  border-left: 1px solid var(--border-h);
+  padding-left: 0.8rem;
+  margin-top: 0.15rem;
+}
+
+.sidenote p {
+  text-align: left;
+  text-indent: 0;
+  margin-bottom: 0;
+  hyphens: none;
+}
+
+.sidenote-number {
+  color: var(--accent);
+  font-size: 0.75em;
+  vertical-align: super;
+  line-height: 0;
+  margin-right: 0.3em;
+  font-family: var(--font-mono);
+}
+
+/* On narrow screens, hide sidenotes (footnotes shown at bottom instead) */
+@media (max-width: 959px) {
+  .sidenote {
+    display: none;
+  }
+}
 
 /* ============================================================
    CODE
@@ -195,7 +380,7 @@ code {
   background: var(--bg-alt);
   padding: 0.15em 0.35em;
   border-radius: 3px;
-  color: #c8a87a; /* warm amber for inline code */
+  color: #c8a87a;
 }
 
 pre {
@@ -205,14 +390,14 @@ pre {
   padding: 1.1em 1.3em;
   overflow-x: auto;
   line-height: 1.55;
-  margin: 1.5em 0;
+  margin: 1.2em 0;
 }
 
 pre code {
   background: none;
   padding: 0;
   border-radius: 0;
-  color: #b8c8a8; /* muted green for code blocks */
+  color: #b8c8a8;
   font-size: 0.85em;
 }
 
@@ -237,14 +422,15 @@ hr::before {
    ============================================================ */
 ul, ol {
   padding-left: 1.5em;
-  margin-bottom: 1.1em;
+  margin-top: 0;
+  margin-bottom: 0.8em;
 }
 
-li { margin-bottom: 0.3em; }
+li { margin-bottom: 0.25em; }
 
 li > ul,
 li > ol {
-  margin-top: 0.3em;
+  margin-top: 0.25em;
   margin-bottom: 0;
 }
 
@@ -255,7 +441,7 @@ table {
   width: 100%;
   border-collapse: collapse;
   font-size: 0.9em;
-  margin: 1.5em 0;
+  margin: 1.4em 0;
 }
 
 th {
@@ -283,7 +469,7 @@ img {
   height: auto;
   border-radius: 3px;
   display: block;
-  margin: 1.5em auto;
+  margin: 1.4em auto;
 }
 
 figure {
@@ -299,33 +485,43 @@ figcaption {
 }
 
 /* ============================================================
-   FOOTNOTES  (Eleventy renders <sup> links and a <section>)
+   FOOTNOTES  (shown on narrow screens; replaced by sidenotes on wide)
    ============================================================ */
+
+/* Hide the auto-generated <hr> above the footnotes section */
+hr.footnotes-sep {
+  display: none;
+}
+
 .footnotes {
-  margin-top: 3em;
+  margin-top: 2.5em;
   padding-top: 1em;
   border-top: 1px solid var(--border);
   font-size: 0.85em;
   color: var(--text-dim);
 }
 
-.footnotes ol { padding-left: 1.25em; }
+.footnotes ol { padding-left: 1.25em; margin: 0; }
 .footnotes li { margin-bottom: 0.5em; }
+.footnotes p  { text-indent: 0; text-align: left; margin: 0; }
 
-sup a {
+sup a,
+.footnote-ref a {
   text-decoration: none;
   font-size: 0.75em;
   vertical-align: super;
   color: var(--accent);
+  font-family: var(--font-mono);
 }
 
 /* ============================================================
-   POST HEADER  (used by post.njk)
+   POST HEADER
    ============================================================ */
 .post-header {
   margin-bottom: 2.5em;
   border-bottom: 1px solid var(--border);
   padding-bottom: 1em;
+  max-width: var(--text-width);
 }
 
 .post-header h1 {
@@ -343,6 +539,12 @@ sup a {
 /* ============================================================
    HOME PAGE — POST LIST
    ============================================================ */
+.home-main {
+  max-width: var(--text-width);
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .post-list {
   list-style: none;
   padding: 0;
@@ -384,13 +586,14 @@ sup a {
 /* ============================================================
    RESPONSIVE
    ============================================================ */
-@media (max-width: 600px) {
+@media (max-width: 700px) {
   html { font-size: 16px; }
+  body { padding: 0 1.25rem; }
 
   h1 { font-size: 1.6rem; }
 
   .post-list li {
     flex-direction: column;
-    gap: 0.15rem;
+    gap: 0.1rem;
   }
 }

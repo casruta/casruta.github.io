@@ -1,6 +1,15 @@
+import markdownIt from "markdown-it";
+import markdownItFootnote from "markdown-it-footnote";
+
 export default function (eleventyConfig) {
-  // Copy CSS to _site without processing
+  // Copy CSS and JS to _site without processing
   eleventyConfig.addPassthroughCopy("src/css");
+  eleventyConfig.addPassthroughCopy("src/js");
+
+  // Configure markdown-it with footnote support
+  const md = markdownIt({ html: true, linkify: true, typographer: true })
+    .use(markdownItFootnote);
+  eleventyConfig.setLibrary("md", md);
 
   // Format a Date object as "February 20, 2026"
   eleventyConfig.addFilter("readableDate", (dateObj) =>
@@ -25,8 +34,6 @@ export default function (eleventyConfig) {
     templateFormats: ["njk", "md"],
     markdownTemplateEngine: "njk",
     htmlTemplateEngine: "njk",
-    // If your site lives at username.github.io/my-blog/ change this to "/my-blog/"
-    // If it lives at the root (custom domain or username.github.io) leave it as "/"
     pathPrefix: "/",
   };
 }
