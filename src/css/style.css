@@ -529,6 +529,14 @@ sup a,
   margin-bottom: 0.3em;
 }
 
+.post-subtitle {
+  font-size: 1.05rem;
+  color: var(--text-dim);
+  font-style: italic;
+  margin: 0 0 0.75em;
+  text-indent: 0;
+}
+
 .post-meta {
   font-size: 0.82rem;
   color: var(--text-dim);
@@ -554,7 +562,7 @@ sup a,
 .post-list li {
   display: flex;
   gap: 1.5rem;
-  align-items: baseline;
+  align-items: flex-start;
   padding: 0.55rem 0;
   border-bottom: 1px solid var(--border);
 }
@@ -565,10 +573,25 @@ sup a,
 
 .post-list time {
   flex-shrink: 0;
+  padding-top: 0.15em;
   color: var(--text-dim);
   font-size: 0.8rem;
   font-family: var(--font-mono);
   letter-spacing: 0.02em;
+}
+
+.post-list-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.post-list-subtitle {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  font-style: italic;
+  text-indent: 0;
+  margin: 0;
 }
 
 .post-list a {
