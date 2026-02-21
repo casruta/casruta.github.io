@@ -3,18 +3,22 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{{ title }} | My Blog</title>
+    <title>{{ title }} | casruta</title>
     <link rel="stylesheet" href="/css/style.css" />
   </head>
   <body>
     <header>
-      <a href="/">My Blog</a>
+      <a class="site-title" href="/">casruta</a>
+      <nav>
+        <a href="/">Writing</a>
+        <a href="/about/">About</a>
+      </nav>
     </header>
     <main>
       {{ content | safe }}
     </main>
     <footer>
-      <p>&copy; {{ page.date.getFullYear() }} My Blog</p>
+      <p>&copy; {{ page.date.getFullYear() }} Kacper Ruta</p>
     </footer>
   </body>
 </html>

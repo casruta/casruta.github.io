@@ -1,62 +1,348 @@
+/* ============================================================
+   BASE RESET
+   ============================================================ */
 *, *::before, *::after {
   box-sizing: border-box;
 }
 
+/* ============================================================
+   DESIGN TOKENS  — Gwern-inspired dark palette
+   ============================================================ */
 :root {
-  --text: #222;
-  --bg: #fff;
-  --accent: #0057b8;
-  --muted: #666;
-  --max-width: 680px;
+  --bg:          #1c1b19;   /* deep warm black */
+  --bg-alt:      #242320;   /* slightly lighter, for code/quote blocks */
+  --text:        #c8c0b0;   /* warm off-white, easy on the eyes */
+  --text-dim:    #7a7570;   /* dates, captions, muted annotations */
+  --accent:      #8ab0c8;   /* steel blue — links */
+  --accent-h:    #b0ccde;   /* hovered links */
+  --border:      #302e2a;   /* subtle dividers */
+  --border-h:    #504e48;   /* stronger divider on hover */
+  --max-width:   720px;
+  --font-serif:  Georgia, "Linux Libertine", "Times New Roman", serif;
+  --font-mono:   "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+}
+
+/* ============================================================
+   DOCUMENT
+   ============================================================ */
+html {
+  font-size: 18px;
+  scroll-behavior: smooth;
 }
 
 body {
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 1.125rem;
-  line-height: 1.7;
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  line-height: 1.8;
   color: var(--text);
   background: var(--bg);
   margin: 0;
-  padding: 0 1rem;
+  padding: 0 1.25rem;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
 
-header {
+/* ============================================================
+   LAYOUT SHELLS
+   ============================================================ */
+header,
+main,
+footer {
   max-width: var(--max-width);
-  margin: 2rem auto 1rem;
-  border-bottom: 1px solid #ddd;
-  padding-bottom: 0.5rem;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-header a {
+/* ============================================================
+   SITE HEADER
+   ============================================================ */
+header {
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+header .site-title {
+  font-size: 1.05rem;
   font-weight: bold;
-  font-size: 1.25rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   color: var(--text);
   text-decoration: none;
 }
 
+header .site-title:hover {
+  color: var(--accent-h);
+}
+
+header nav a {
+  font-size: 0.85rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  text-decoration: none;
+  margin-left: 1.25rem;
+}
+
+header nav a:hover {
+  color: var(--accent-h);
+}
+
+/* ============================================================
+   MAIN CONTENT AREA
+   ============================================================ */
 main {
-  max-width: var(--max-width);
-  margin: 2rem auto;
+  margin-top: 2.5rem;
+  margin-bottom: 4rem;
 }
 
+/* ============================================================
+   SITE FOOTER
+   ============================================================ */
 footer {
-  max-width: var(--max-width);
-  margin: 3rem auto 2rem;
-  color: var(--muted);
-  font-size: 0.875rem;
-  border-top: 1px solid #ddd;
-  padding-top: 0.5rem;
+  margin-bottom: 2.5rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
+  color: var(--text-dim);
+  font-size: 0.8rem;
+  letter-spacing: 0.02em;
 }
 
+/* ============================================================
+   TYPOGRAPHY — HEADINGS
+   ============================================================ */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+  color: var(--text);
+  line-height: 1.3;
+  font-weight: bold;
+  margin-top: 2.2em;
+  margin-bottom: 0.6em;
+}
+
+h1 { font-size: 1.9rem; margin-top: 0; }
+h2 { font-size: 1.35rem; font-variant: small-caps; letter-spacing: 0.04em; }
+h3 { font-size: 1.1rem;  font-variant: small-caps; letter-spacing: 0.03em; }
+h4 { font-size: 1rem;    font-style: italic; font-weight: normal; }
+
+/* ============================================================
+   LINKS
+   ============================================================ */
 a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--accent) 40%, transparent);
+  text-underline-offset: 2px;
+  transition: color 0.15s, text-decoration-color 0.15s;
+}
+
+a:hover {
+  color: var(--accent-h);
+  text-decoration-color: var(--accent-h);
+}
+
+a:visited {
+  color: color-mix(in srgb, var(--accent) 75%, var(--text-dim));
+}
+
+/* ============================================================
+   PARAGRAPHS & BODY TEXT
+   ============================================================ */
+p {
+  margin-top: 0;
+  margin-bottom: 1.1em;
+  hyphens: auto;
+}
+
+/* Drop cap on the first paragraph of a post */
+.post-content > p:first-of-type::first-letter {
+  float: left;
+  font-size: 3.4em;
+  line-height: 0.8;
+  padding-right: 0.1em;
+  padding-top: 0.05em;
+  color: var(--text);
+  font-weight: bold;
+}
+
+/* ============================================================
+   BLOCKQUOTES
+   ============================================================ */
+blockquote {
+  margin: 1.5em 0;
+  padding: 0.75em 1.25em;
+  border-left: 3px solid var(--border-h);
+  background: var(--bg-alt);
+  color: var(--text-dim);
+  font-style: italic;
+  border-radius: 0 4px 4px 0;
+}
+
+blockquote p { margin-bottom: 0; }
+
+/* ============================================================
+   CODE
+   ============================================================ */
+code {
+  font-family: var(--font-mono);
+  font-size: 0.87em;
+  background: var(--bg-alt);
+  padding: 0.15em 0.35em;
+  border-radius: 3px;
+  color: #c8a87a; /* warm amber for inline code */
+}
+
+pre {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 1.1em 1.3em;
+  overflow-x: auto;
+  line-height: 1.55;
+  margin: 1.5em 0;
+}
+
+pre code {
+  background: none;
+  padding: 0;
+  border-radius: 0;
+  color: #b8c8a8; /* muted green for code blocks */
+  font-size: 0.85em;
+}
+
+/* ============================================================
+   HORIZONTAL RULE
+   ============================================================ */
+hr {
+  border: none;
+  text-align: center;
+  margin: 2.5em 0;
+  color: var(--text-dim);
+}
+
+hr::before {
+  content: "· · ·";
+  letter-spacing: 0.5em;
+  font-size: 1rem;
+}
+
+/* ============================================================
+   LISTS
+   ============================================================ */
+ul, ol {
+  padding-left: 1.5em;
+  margin-bottom: 1.1em;
+}
+
+li { margin-bottom: 0.3em; }
+
+li > ul,
+li > ol {
+  margin-top: 0.3em;
+  margin-bottom: 0;
+}
+
+/* ============================================================
+   TABLES
+   ============================================================ */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9em;
+  margin: 1.5em 0;
+}
+
+th {
+  text-align: left;
+  border-bottom: 2px solid var(--border-h);
+  padding: 0.4em 0.75em;
+  color: var(--text);
+  font-variant: small-caps;
+  letter-spacing: 0.03em;
+}
+
+td {
+  padding: 0.4em 0.75em;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-dim);
+}
+
+tr:last-child td { border-bottom: none; }
+
+/* ============================================================
+   IMAGES & FIGURES
+   ============================================================ */
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 3px;
+  display: block;
+  margin: 1.5em auto;
+}
+
+figure {
+  margin: 2em 0;
+  text-align: center;
+}
+
+figcaption {
+  font-size: 0.82em;
+  color: var(--text-dim);
+  margin-top: 0.5em;
+  font-style: italic;
+}
+
+/* ============================================================
+   FOOTNOTES  (Eleventy renders <sup> links and a <section>)
+   ============================================================ */
+.footnotes {
+  margin-top: 3em;
+  padding-top: 1em;
+  border-top: 1px solid var(--border);
+  font-size: 0.85em;
+  color: var(--text-dim);
+}
+
+.footnotes ol { padding-left: 1.25em; }
+.footnotes li { margin-bottom: 0.5em; }
+
+sup a {
+  text-decoration: none;
+  font-size: 0.75em;
+  vertical-align: super;
   color: var(--accent);
 }
 
-h1, h2, h3 {
-  line-height: 1.3;
+/* ============================================================
+   POST HEADER  (used by post.njk)
+   ============================================================ */
+.post-header {
+  margin-bottom: 2.5em;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 1em;
 }
 
-/* Home page post list */
+.post-header h1 {
+  font-size: 2rem;
+  margin-bottom: 0.3em;
+}
+
+.post-meta {
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  letter-spacing: 0.03em;
+  font-family: var(--font-mono);
+}
+
+/* ============================================================
+   HOME PAGE — POST LIST
+   ============================================================ */
 .post-list {
   list-style: none;
   padding: 0;
@@ -65,39 +351,46 @@ h1, h2, h3 {
 
 .post-list li {
   display: flex;
-  gap: 1.25rem;
+  gap: 1.5rem;
   align-items: baseline;
-  padding: 0.5rem 0;
-  border-bottom: 1px solid #eee;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.post-list li:last-child {
+  border-bottom: none;
 }
 
 .post-list time {
-  color: var(--muted);
-  font-size: 0.875rem;
-  white-space: nowrap;
-  font-family: monospace;
+  flex-shrink: 0;
+  color: var(--text-dim);
+  font-size: 0.8rem;
+  font-family: var(--font-mono);
+  letter-spacing: 0.02em;
 }
 
-/* Post content */
-pre {
-  background: #f4f4f4;
-  padding: 1rem;
-  overflow-x: auto;
-  border-radius: 4px;
+.post-list a {
+  color: var(--text);
+  text-decoration: none;
+  font-size: 1rem;
 }
 
-code {
-  font-size: 0.9em;
+.post-list a:hover {
+  color: var(--accent-h);
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
-img {
-  max-width: 100%;
-  height: auto;
-}
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 600px) {
+  html { font-size: 16px; }
 
-blockquote {
-  border-left: 3px solid #ddd;
-  margin-left: 0;
-  padding-left: 1rem;
-  color: var(--muted);
+  h1 { font-size: 1.6rem; }
+
+  .post-list li {
+    flex-direction: column;
+    gap: 0.15rem;
+  }
 }
