@@ -1,7 +1,5 @@
 # casruta.github.io
 
-Personal blog built with [Eleventy](https://www.11ty.dev/). Live at [https://casruta.github.io](https://casruta.github.io).
-
 ## Adding a post
 
 Create a new `.md` file in `src/posts/` with this front matter:
