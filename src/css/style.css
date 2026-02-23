@@ -41,7 +41,7 @@ html {
 
 body {
   font-family: var(--font-serif);
-  font-size: 1rem;
+  font-size: .5rem;
   line-height: 1.2;
   color: var(--text);
   background: var(--bg);
@@ -84,7 +84,7 @@ header {
 }
 
 header .site-title {
-  font-size: .5rem;
+  font-size: 1rem;
   font-weight: bold;
   letter-spacing: 0.04em;
   text-transform: uppercase;
