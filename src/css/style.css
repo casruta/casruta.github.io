@@ -34,14 +34,14 @@
    DOCUMENT
    ============================================================ */
 html {
-  font-size: 10px;
+  font-size: 12px;
   scroll-behavior: smooth;
   scroll-padding-top: 2rem;
 }
 
 body {
   font-family: var(--font-mono);
-  font-size: 1rem;
+  font-size: .75rem;
   line-height: 1.2;
   color: var(--text);
   background: var(--bg);
