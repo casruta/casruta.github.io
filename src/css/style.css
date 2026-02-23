@@ -34,7 +34,7 @@
    DOCUMENT
    ============================================================ */
 html {
-  font-size: 12px;
+  font-size: 10px;
   scroll-behavior: smooth;
   scroll-padding-top: 2rem;
 }
@@ -84,7 +84,7 @@ header {
 }
 
 header .site-title {
-  font-size: 1.05rem;
+  font-size: .5rem;
   font-weight: bold;
   letter-spacing: 0.04em;
   text-transform: uppercase;
