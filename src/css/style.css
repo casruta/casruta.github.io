@@ -223,7 +223,7 @@ hr + p {
 }
 
 .abstract p {
-  font-style: italic;
+  font-style: bold;
   color: var(--text-dim);
   text-indent: 0;
   margin-bottom: 0;
