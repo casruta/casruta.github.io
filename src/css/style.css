@@ -26,7 +26,7 @@
   --page-width:  calc(var(--text-width) + var(--note-gap) + var(--note-width) + 6rem);
 
   /* Fonts — Linux Libertine first (local), EB Garamond as web fallback */
-  --font-serif:  "Consolas", "Linux Libertine", "Libertinus Serif", "EB Garamond", Georgia, serif;
+  --font-serif: "Consolas", "SF Mono", "Courier New", monospace;
   --font-mono:   "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
 }
 
