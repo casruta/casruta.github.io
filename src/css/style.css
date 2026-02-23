@@ -19,7 +19,7 @@
   --border-h:    #38362f;   /* stronger divider */
 
   /* Layout */
-  --text-width:  650px;
+  --text-width:  520px;
   --note-width:  150px;
   --note-gap:    2rem;
   /* Wide page = text + gap + notes + outer padding */
@@ -84,7 +84,7 @@ header {
 }
 
 header .site-title {
-  font-size: 0.7rem;
+  font-size: 1.1rem;
   font-weight: bold;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -136,7 +136,7 @@ h1, h2, h3, h4, h5, h6 {
 h1 { font-size: 1.9rem; margin-top: 0; }
 h2 { font-size: 1.3rem;  font-variant: small-caps; letter-spacing: 0.05em; }
 h3 { font-size: 1.05rem; font-variant: small-caps; letter-spacing: 0.04em; }
-h4 { font-size: 1rem;    font-style: italic; font-weight: normal; margin-top: 1.5em; }
+h4 { font-size: 1rem;    font-style: normal; font-weight: normal; margin-top: 1.5em; }
 
 /* Heading anchor § link */
 .heading-anchor {
@@ -232,7 +232,7 @@ hr + p {
 .epigraph {
   margin: 1.5em 0 2em 1.5em;
   color: var(--text-dim);
-  font-style: italic;
+  font-style: normal;
 }
 
 .epigraph p {
@@ -260,7 +260,7 @@ blockquote {
   border-left: 3px solid var(--border-h);
   background: var(--bg-alt);
   color: var(--text-dim);
-  font-style: italic;
+  font-style: normal;
   border-radius: 0 4px 4px 0;
 }
 
@@ -485,7 +485,7 @@ figcaption {
   font-size: 0.82em;
   color: var(--text-dim);
   margin-top: 0.5em;
-  font-style: italic;
+  font-style: normal;
 }
 
 /* ============================================================
@@ -536,7 +536,7 @@ sup a,
 .post-subtitle {
   font-size: 1.05rem;
   color: var(--text-dim);
-  font-style: italic;
+  font-style: normal;
   margin: 0 0 0.75em;
   text-indent: 0;
 }
@@ -593,7 +593,7 @@ sup a,
 .post-list-subtitle {
   font-size: 0.85rem;
   color: var(--text-dim);
-  font-style: italic;
+  font-style: normal;
   text-indent: 0;
   margin: 0;
 }
