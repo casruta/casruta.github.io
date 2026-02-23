@@ -317,6 +317,10 @@ blockquote p {
 /* ============================================================
    POST LAYOUT — WIDE GRID WITH SIDENOTES
    ============================================================ */
+.post-content {
+  font-size: 12px;
+}
+
 @media (min-width: 960px) {
   .post-content {
     display: grid;
