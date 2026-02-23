@@ -20,7 +20,7 @@
 
   /* Layout */
   --text-width:  650px;
-  --note-width:  210px;
+  --note-width:  150px;
   --note-gap:    5rem;
   /* Wide page = text + gap + notes + outer padding */
   --page-width:  calc(var(--text-width) + var(--note-gap) + var(--note-width) + 6rem);
