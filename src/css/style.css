@@ -12,7 +12,7 @@
   --bg:          #0f0e0d;   /* near-black, slight warm tint */
   --bg-alt:      #171614;   /* code/quote backgrounds */
   --text:        #d4ccc0;   /* warm cream */
-  --text-dim:    #6a6460;   /* muted annotations, dates */
+  --text-dim:    #d4ccc0;   /* muted annotations, dates */
   --accent:      #c8bfb4;   /* links — warm cream, slightly lighter */
   --accent-h:    #e0d8d0;   /* hovered links */
   --border:      #1e1c1a;   /* subtle dividers */
