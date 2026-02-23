@@ -34,7 +34,7 @@
    DOCUMENT
    ============================================================ */
 html {
-  font-size: 18px;
+  font-size: 10px;
   scroll-behavior: smooth;
   scroll-padding-top: 2rem;
 }
@@ -42,7 +42,7 @@ html {
 body {
   font-family: var(--font-serif);
   font-size: 1rem;
-  line-height: 1.8;
+  line-height: 1.2;
   color: var(--text);
   background: var(--bg);
   margin: 0 auto;
