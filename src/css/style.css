@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
+
 /* ============================================================
    BASE RESET
    ============================================================ */
@@ -26,8 +28,8 @@
   --page-width:  calc(var(--text-width) + var(--note-gap) + var(--note-width) + 6rem);
 
 /* Fonts */
---font-serif: "Linux Libertine", "EB Garamond", Georgia, serif;
---font-mono:  "Consolas", "SFMono-Regular", "Liberation Mono", Menlo, monospace;
+--font-serif: "Space Mono", monospace;
+--font-mono:  "Space Mono", monospace;
 }
 
 /* ============================================================
