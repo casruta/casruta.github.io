@@ -558,6 +558,16 @@ sup a,
   text-indent: 0;
 }
 
+.post-tags {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  letter-spacing: 0.03em;
+  text-indent: 0;
+  text-transform: none;
+  margin: 0 0 0.5em;
+}
+
 .post-meta {
   font-size: 0.82rem;
   color: var(--text-dim);

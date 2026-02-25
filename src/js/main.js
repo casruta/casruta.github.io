@@ -132,10 +132,7 @@
 
     if (tags.length === 0) return;
 
-    // Hide the source element from the post header
-    tagsParagraph.style.display = 'none';
-
-    // Build the fixed panel
+    // Build the fixed panel (tags stay visible in the post header too)
     var panel = document.createElement('nav');
     panel.className = 'hashtag-panel';
     panel.setAttribute('aria-label', 'Post tags');

@@ -3,8 +3,10 @@ title: AI, Data, and Meta
 date: 2026-02-24
 tags: post
 layout: post.njk
+hashtags:
+  - AI
+  - DataAnalysis
 ---
-#AI #DataAnalysis 
 
 ## Data
 
