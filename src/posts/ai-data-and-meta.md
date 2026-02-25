@@ -17,7 +17,7 @@ I make sure to highlight that government data is not inherently high quality and
 ### Claude.MD 
 I use several agents for different tasks.  For example to read there is an exclusive agent that does not know how to write which limits the amount of tokens I'm being charged for the task I'm working on. 
 
-as for the data segregated higher reliability and low reliability For instance math physics engineering replicated experiments work in code and government data is considered high reliability Whereas historical narratives expert predictions institutional consensus and politically charged topics are considered low reliability. 
+As for the data segregated higher reliability and low reliability For instance math physics engineering replicated experiments work in code and government data is considered high reliability Whereas historical narratives expert predictions institutional consensus and politically charged topics are considered low reliability. 
 
 In order to prevent Claude from reading the whole repo, depending on the task, I feed it the document it should focus on and review the code before I push it to Github. 
 
