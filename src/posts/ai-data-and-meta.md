@@ -8,42 +8,42 @@ hashtags:
   - DataAnalysis
 ---
 
-## Data
+Data 
+I find my data using government provincial and federal datasets which are then sifted through various LLMs to see whether the data is known to include any errors. 
 
-I source my data from provincial and federal government datasets. I then process these datasets using various Large Language Models to identify any known errors.
+I use the OCR tool "Marker" to convert PDFs to clean markdown to reduce my decrease the chance for the model to hallucinate, thereby converting all the PDF docs into neat markdown docs. I can then edit the individual markdown files manually, or get rid of unnecessary columns myself. The less unnecessary information the model has to work around, the cheaper the analysis. 
 
-I utilize the Optical Character Recognition tool [Marker](https://github.com/VikParuchuri/marker) to convert PDF documents into clean Markdown format. This process minimizes the risk of model hallucinations. I subsequently manually edit these Markdown files to remove unnecessary columns. Eliminating extraneous information reduces the cognitive load on the model and lowers analysis costs.
+I make sure to highlight that government data is not inherently high quality and high reliability and contain things like suppressed cells revised vintages and methodology changes between collection years. here the model needs to realize that certain ministries names and terminology can be altered from 1 quarter / year / w.e to another. 
+### Claude.MD 
+I use several agents for different tasks.  For example to read there is an exclusive agent that does not know how to write which limits the amount of tokens I'm being charged for the task I'm working on. 
 
-I explicitly note that government data is not inherently high quality or highly reliable. These datasets often contain suppressed cells, revised vintages, and methodology changes between collection periods. The model must account for the fact that ministry names and terminology frequently change across different quarters and years.
+as for the data segregated higher reliability and low reliability For instance math physics engineering replicated experiments work in code and government data is considered high reliability Whereas historical narratives expert predictions institutional consensus and politically charged topics are considered low reliability. 
 
-## Claude.md
+In order to prevent Claude from reading the whole repo, depending on the task, I feed it the document it should focus on and review the code before I push it to Github. 
 
-I employ multiple agents for distinct tasks. For example, I use a dedicated reading agent that lacks writing capabilities. This strategy effectively limits the token usage and associated costs for specific tasks.
+### Indexing & Tree Sitter: 
+Created a structured map (AST) for Claude to understand and remember the code structure from previous sessions. Instead of burning tokens re-reading the entire file, it reviews only the branch or w/e which changed -- this is then implemented to work when Claude codes, as opposed to running it in real time. 
 
-Data is carefully segregated into high reliability and low reliability categories. Subjects like mathematics, physics, engineering, replicated experiments, working code, and government data represent high reliability domains. Conversely, historical narratives, expert predictions, institutional consensus, and politically charged topics represent low reliability domains.
+For data, I've creased a PDF Indexer, which reads the PDFs I feed it, extract all the tables and text, and stores everything locally in a SQLite Database enabling me then to query that data instantly without opening and reading through the entire PDF again. 
 
-To prevent Claude from analyzing the entire repository, I isolate the specific documents required for the immediate task. I then thoroughly review the generated code before pushing it to GitHub.
+My goal is to use the MCP server to make Claude not read the entire PDF first -- preserving tokens. Claude.MD file, which I run in my main folder so that its global, is then forcing Claude to always use the indexer first, and then only read the PDF upon being prompted to do so. To avoid hallucinating data, I include a line telling Claude to always cite the table ID, page number, and document name. 
 
-## Indexing
+The PDF indexer is located here: https://github.com/casruta/PDF-Indexer-, and I am currently looking for an alternative to have Claude scrape the numerical data in the tables before reading any of the text. As of right now, it takes around 2-3 minutes to all numerical data from a 64 page Suncor quarterly performance review. This is obviously 2-5x quicker than any other manual method, but considering that we'll be analyzing 20+ similar documents, its rather pathetic. 
 
-I created a Python program to summarize my data and generate an index. Models use this index to efficiently scrub data in future sessions. Indexing my work saves significant time and computational resources.
+A similar codebase indexer can be found here https://github.com/casruta/Codebase-Indexer-
 
-## Model Use
+### Model Use 
+- Opus for debugging / complex problems with data & analysis 
+- Sonnet for data cleaning and EDA 
+- Haiku and Perplexity's Sonnet for questions about the data from external sources
 
-As of February 24, 2026, my model usage is structured as follows:
+Before publishing, I use Perplexity with Sonnet to poke holes in the data and suggest potential improvements. With the previously mentioned indexer, the odds of the LLM hallucinating the numbers is near zero, at this point.
+### Stylistic Preferences
+For Visualizing the I typically use tableau Or I use Python libraries to visualize them in my IDE -- my preference is generally seaborn since I don't care about the graphs being interactive. There's no uniform theme.py doc -- so the model reconfigures everything from scratch in very project leading to some visual discrepancies'. 
 
-- **Claude 3 Opus:** Debugging and resolving complex data analysis problems.
-- **Claude 3 Sonnet:** Data cleaning and Exploratory Data Analysis.
-- **Claude 3 Haiku and Perplexity Sonnet:** Querying external sources regarding the data.
+### Reading the Data 
+the data is first and foremost read by me and placed into a separate folder where I will later ask the agent to convert everything into a CSV. 
 
-Prior to publishing, I leverage Perplexity with Sonnet to rigorously critique the data and identify potential improvements.
+the data is cleaned and so are the tables null values are redacted, and data is combined whenever possible (and depending on the task). 
 
-## Stylistic Preferences
 
-For data visualization, I typically use Tableau or Python libraries within my Integrated Development Environment. My primary preference is Seaborn, as interactive graphs are not a requirement. I currently lack a uniform theme document. Consequently, the model reconfigures visual elements from scratch for every project, which occasionally leads to stylistic discrepancies.
-
-## Reading the Data
-
-I initially read the data myself and organize it into a dedicated folder. Subsequently, I instruct the AI agent to convert all files into a Comma Separated Values format.
-
-The data and associated tables undergo a rigorous cleaning process. Null values are redacted, and datasets are combined whenever structurally possible based on the specific task requirements.
