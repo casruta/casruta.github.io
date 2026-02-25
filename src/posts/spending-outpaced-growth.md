@@ -5,6 +5,11 @@ subtitle: Alberta's education budget grew 2.7× faster than its population over 
 date: 2026-02-20
 tags: post
 layout: post.njk
+hashtags:
+  - alberta
+  - education
+  - data-analysis
+  - public-policy
 ---
 
 <div class="abstract">

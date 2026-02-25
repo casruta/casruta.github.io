@@ -3,6 +3,10 @@ title: Hello World
 date: 2026-02-20
 tags: post
 layout: post.njk
+hashtags:
+  - typography
+  - design
+  - demo
 ---
 
 <div class="abstract">

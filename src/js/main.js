@@ -120,28 +120,20 @@
   }
 
   // ── Floating hashtag panel ─────────────────────────────────────────────────
-  // Scans paragraphs inside .post-content for a line composed entirely of
-  // #hashtag tokens. Hides that paragraph and builds a fixed panel on the right.
+  // Reads hashtags from the dedicated .post-tags element rendered by post.njk,
+  // hides that element, and builds a fixed panel on the right.
   function buildHashtagPanel() {
-    var content = document.querySelector('.post-content');
-    if (!content) return;
+    var tagsParagraph = document.querySelector('.post-tags');
+    if (!tagsParagraph) return;
 
-    var hashtagParagraph = null;
-    var paragraphs = content.querySelectorAll('p');
-
-    paragraphs.forEach(function (p) {
-      var words = p.textContent.trim().split(/\s+/);
-      if (words.length > 0 && words.every(function (w) { return /^#\S+$/.test(w); })) {
-        hashtagParagraph = p;
-      }
+    var tags = tagsParagraph.textContent.trim().split(/\s+/).filter(function (w) {
+      return /^#\S+$/.test(w);
     });
 
-    if (!hashtagParagraph) return;
+    if (tags.length === 0) return;
 
-    var tags = hashtagParagraph.textContent.trim().split(/\s+/);
-
-    // Hide the source paragraph from the post body
-    hashtagParagraph.style.display = 'none';
+    // Hide the source element from the post header
+    tagsParagraph.style.display = 'none';
 
     // Build the fixed panel
     var panel = document.createElement('nav');
