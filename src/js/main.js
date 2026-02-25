@@ -119,10 +119,50 @@
     }
   }
 
+  // ── Floating hashtag panel ─────────────────────────────────────────────────
+  // Scans paragraphs inside .post-content for a line composed entirely of
+  // #hashtag tokens. Hides that paragraph and builds a fixed panel on the right.
+  function buildHashtagPanel() {
+    var content = document.querySelector('.post-content');
+    if (!content) return;
+
+    var hashtagParagraph = null;
+    var paragraphs = content.querySelectorAll('p');
+
+    paragraphs.forEach(function (p) {
+      var words = p.textContent.trim().split(/\s+/);
+      if (words.length > 0 && words.every(function (w) { return /^#\S+$/.test(w); })) {
+        hashtagParagraph = p;
+      }
+    });
+
+    if (!hashtagParagraph) return;
+
+    var tags = hashtagParagraph.textContent.trim().split(/\s+/);
+
+    // Hide the source paragraph from the post body
+    hashtagParagraph.style.display = 'none';
+
+    // Build the fixed panel
+    var panel = document.createElement('nav');
+    panel.className = 'hashtag-panel';
+    panel.setAttribute('aria-label', 'Post tags');
+
+    tags.forEach(function (tag) {
+      var span = document.createElement('span');
+      span.className = 'hashtag-item';
+      span.textContent = tag;
+      panel.appendChild(span);
+    });
+
+    document.body.appendChild(panel);
+  }
+
   // ── Init ──────────────────────────────────────────────────────────────────
   document.addEventListener('DOMContentLoaded', function () {
     addHeadingAnchors();
     convertFootnotesToSidenotes();
     buildTOC();
+    buildHashtagPanel();
   });
 })();
