@@ -1,6 +1,7 @@
 ---
-title: Spending Outpaced Growth
+title: Alberta's Spending Outpaced Growth 
 subtitle: Alberta's education budget grew 2.7× faster than its population over 13 years
+#Alberta 
 date: 2026-02-20
 tags: post
 layout: post.njk
