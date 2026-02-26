@@ -36,7 +36,7 @@
    DOCUMENT
    ============================================================ */
 html {
-  font-size: 12px;
+  font-size: 19px;
   scroll-behavior: smooth;
   scroll-padding-top: 2rem;
 }
@@ -44,12 +44,13 @@ html {
 body {
   font-family: var(--font-serif);
   font-size: 1rem;
-  line-height: 1.6;
+  line-height: 1.75;
   color: var(--text);
   background: var(--bg);
   margin: 0 auto;
   max-width: var(--page-width);
   padding: 0 3rem 0 calc(140px + 2rem);
+  word-spacing: 0.03em;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
 }
@@ -199,21 +200,8 @@ a:visited {
    ============================================================ */
 p {
   margin-top: 0;
-  margin-bottom: 0;
+  margin-bottom: 1.15em;
   text-align: left;
-  text-indent: 1.5em;
-}
-
-/* No indent after headings, block-level elements, or at start */
-h1 + p, h2 + p, h3 + p, h4 + p,
-.post-content > p:first-child,
-.abstract p,
-blockquote p,
-li > p,
-.toc + p,
-figure + p,
-hr + p {
-  text-indent: 0;
 }
 
 /* Drop cap on the first paragraph of a post */
@@ -241,7 +229,6 @@ hr + p {
 .abstract p {
   font-style: bold;
   color: var(--text-dim);
-  text-indent: 0;
   margin-bottom: 0;
 }
 
@@ -252,7 +239,6 @@ hr + p {
 }
 
 .epigraph p {
-  text-indent: 0;
   margin-bottom: 0.2em;
 }
 
@@ -281,7 +267,6 @@ blockquote {
 }
 
 blockquote p {
-  text-indent: 0;
   margin-bottom: 0;
 }
 
@@ -371,7 +356,6 @@ blockquote p {
 
 .sidenote p {
   text-align: left;
-  text-indent: 0;
   margin-bottom: 0;
   hyphens: none;
 }
@@ -524,7 +508,7 @@ hr.footnotes-sep {
 
 .footnotes ol { padding-left: 1.25em; margin: 0; }
 .footnotes li { margin-bottom: 0.5em; }
-.footnotes p  { text-indent: 0; text-align: left; margin: 0; }
+.footnotes p  { text-align: left; margin: 0; }
 
 sup a,
 .footnote-ref a {
@@ -555,7 +539,6 @@ sup a,
   color: var(--text-dim);
   font-style: normal;
   margin: 0 0 0.75em;
-  text-indent: 0;
 }
 
 .post-tags {
@@ -563,7 +546,6 @@ sup a,
   color: var(--text-dim);
   font-family: var(--font-mono);
   letter-spacing: 0.03em;
-  text-indent: 0;
   text-transform: none;
   margin: 0 0 0.5em;
 }
@@ -621,7 +603,6 @@ sup a,
   font-size: 0.85rem;
   color: var(--text-dim);
   font-style: normal;
-  text-indent: 0;
   margin: 0;
 }
 
@@ -641,7 +622,7 @@ sup a,
    RESPONSIVE
    ============================================================ */
 @media (max-width: 700px) {
-  html { font-size: 16px; }
+  html { font-size: 17px; }
   body { padding: 0 1.25rem; }
 
   header nav {
