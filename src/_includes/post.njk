@@ -12,6 +12,7 @@ layout: base.njk
     {% endif %}
     <div class="post-meta">
       <time datetime="{{ page.date | htmlDateString }}">{{ page.date | readableDate }}</time>
+      <span class="read-time">· {{ content | readTime }}</span>
     </div>
   </header>
   <div class="post-content">

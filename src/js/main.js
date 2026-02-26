@@ -147,11 +147,116 @@
     document.body.appendChild(panel);
   }
 
+  // ── Reading progress bar ─────────────────────────────────────────────────
+  function initProgressBar() {
+    var bar = document.querySelector('.progress-bar');
+    if (!bar || !document.querySelector('.post-content')) return;
+
+    window.addEventListener('scroll', function () {
+      var scrollTop = window.scrollY;
+      var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      var pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      bar.style.width = Math.min(100, pct) + '%';
+    }, { passive: true });
+  }
+
+  // ── Back-to-top button ──────────────────────────────────────────────────
+  function initBackToTop() {
+    var btn = document.querySelector('.back-to-top');
+    if (!btn) return;
+
+    window.addEventListener('scroll', function () {
+      btn.classList.toggle('visible', window.scrollY > window.innerHeight);
+    }, { passive: true });
+
+    btn.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
+  // ── Copy code button ───────────────────────────────────────────────────
+  function initCopyButtons() {
+    document.querySelectorAll('pre').forEach(function (pre) {
+      var btn = document.createElement('button');
+      btn.className = 'copy-btn';
+      btn.textContent = 'Copy';
+      btn.setAttribute('aria-label', 'Copy code to clipboard');
+
+      btn.addEventListener('click', function () {
+        var code = pre.querySelector('code');
+        var text = code ? code.textContent : pre.textContent;
+        navigator.clipboard.writeText(text).then(function () {
+          btn.textContent = 'Copied!';
+          btn.classList.add('copied');
+          setTimeout(function () {
+            btn.textContent = 'Copy';
+            btn.classList.remove('copied');
+          }, 1500);
+        });
+      });
+
+      pre.style.position = 'relative';
+      pre.appendChild(btn);
+    });
+  }
+
+  // ── Active TOC highlighting ─────────────────────────────────────────────
+  function initTOCHighlight() {
+    var toc = document.querySelector('.toc');
+    if (!toc) return;
+
+    var links = Array.from(toc.querySelectorAll('a'));
+    if (links.length === 0) return;
+
+    var headingEls = links.map(function (a) {
+      return document.querySelector(a.getAttribute('href'));
+    }).filter(Boolean);
+
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          links.forEach(function (l) { l.classList.remove('toc-active'); });
+          var active = toc.querySelector('a[href="#' + entry.target.id + '"]');
+          if (active) active.classList.add('toc-active');
+        }
+      });
+    }, { rootMargin: '0px 0px -70% 0px', threshold: 0 });
+
+    headingEls.forEach(function (h) { observer.observe(h); });
+  }
+
+  // ── Scroll fade-in animations ───────────────────────────────────────────
+  function initFadeIn() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    var content = document.querySelector('.post-content');
+    if (!content) return;
+
+    var targets = content.querySelectorAll('h2, h3, figure, blockquote, .abstract');
+    targets.forEach(function (el) { el.classList.add('fade-target'); });
+
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('fade-in');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    targets.forEach(function (el) { observer.observe(el); });
+  }
+
   // ── Init ──────────────────────────────────────────────────────────────────
   document.addEventListener('DOMContentLoaded', function () {
     addHeadingAnchors();
     convertFootnotesToSidenotes();
     buildTOC();
     buildHashtagPanel();
+    initProgressBar();
+    initBackToTop();
+    initCopyButtons();
+    initTOCHighlight();
+    initFadeIn();
   });
 })();
