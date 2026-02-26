@@ -21,7 +21,7 @@
   --border-h:    #38362f;   /* stronger divider */
 
   /* Layout */
-  --text-width:  598px;
+  --text-width:  748px;
   --note-width:  150px;
   --note-gap:    2rem;
   /* Wide page = text + gap + notes + outer padding */
@@ -36,7 +36,7 @@
    DOCUMENT
    ============================================================ */
 html {
-  font-size: 12px;
+  font-size: 19px;
   scroll-behavior: smooth;
   scroll-padding-top: 2rem;
 }
@@ -44,12 +44,13 @@ html {
 body {
   font-family: var(--font-serif);
   font-size: 1rem;
-  line-height: 1.6;
+  line-height: 1.75;
   color: var(--text);
   background: var(--bg);
   margin: 0 auto;
   max-width: var(--page-width);
   padding: 0 3rem 0 calc(140px + 2rem);
+  word-spacing: 0.03em;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
 }
@@ -199,22 +200,8 @@ a:visited {
    ============================================================ */
 p {
   margin-top: 0;
-  margin-bottom: 0;
-  text-align: justify;
-  hyphens: auto;
-  text-indent: 1.5em;
-}
-
-/* No indent after headings, block-level elements, or at start */
-h1 + p, h2 + p, h3 + p, h4 + p,
-.post-content > p:first-child,
-.abstract p,
-blockquote p,
-li > p,
-.toc + p,
-figure + p,
-hr + p {
-  text-indent: 0;
+  margin-bottom: 1.15em;
+  text-align: left;
 }
 
 /* Drop cap on the first paragraph of a post */
@@ -242,7 +229,6 @@ hr + p {
 .abstract p {
   font-style: bold;
   color: var(--text-dim);
-  text-indent: 0;
   margin-bottom: 0;
 }
 
@@ -253,7 +239,6 @@ hr + p {
 }
 
 .epigraph p {
-  text-indent: 0;
   margin-bottom: 0.2em;
 }
 
@@ -282,7 +267,6 @@ blockquote {
 }
 
 blockquote p {
-  text-indent: 0;
   margin-bottom: 0;
 }
 
@@ -336,6 +320,7 @@ blockquote p {
    ============================================================ */
 .post-content {
   font-size: 1rem;
+  max-width: var(--text-width);
 }
 
 @media (min-width: 960px) {
@@ -371,7 +356,6 @@ blockquote p {
 
 .sidenote p {
   text-align: left;
-  text-indent: 0;
   margin-bottom: 0;
   hyphens: none;
 }
@@ -524,7 +508,7 @@ hr.footnotes-sep {
 
 .footnotes ol { padding-left: 1.25em; margin: 0; }
 .footnotes li { margin-bottom: 0.5em; }
-.footnotes p  { text-indent: 0; text-align: left; margin: 0; }
+.footnotes p  { text-align: left; margin: 0; }
 
 sup a,
 .footnote-ref a {
@@ -555,7 +539,6 @@ sup a,
   color: var(--text-dim);
   font-style: normal;
   margin: 0 0 0.75em;
-  text-indent: 0;
 }
 
 .post-tags {
@@ -563,7 +546,6 @@ sup a,
   color: var(--text-dim);
   font-family: var(--font-mono);
   letter-spacing: 0.03em;
-  text-indent: 0;
   text-transform: none;
   margin: 0 0 0.5em;
 }
@@ -621,7 +603,6 @@ sup a,
   font-size: 0.85rem;
   color: var(--text-dim);
   font-style: normal;
-  text-indent: 0;
   margin: 0;
 }
 
@@ -641,7 +622,7 @@ sup a,
    RESPONSIVE
    ============================================================ */
 @media (max-width: 700px) {
-  html { font-size: 16px; }
+  html { font-size: 17px; }
   body { padding: 0 1.25rem; }
 
   header nav {
@@ -676,6 +657,11 @@ sup a,
   display: none;
 }
 
+@keyframes hashtag-slide-in {
+  from { opacity: 0; transform: translateX(12px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
 @media (min-width: 1100px) {
   .hashtag-panel {
     display: flex;
@@ -698,40 +684,32 @@ sup a,
     background: var(--bg-alt);
     border: 1px solid var(--border);
     border-radius: 3px;
-    padding: 0.2em 0.5em;
+    padding: 0.3em 0.6em;
     line-height: 1.4;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    cursor: default;
-    transition: color 0.15s, border-color 0.15s;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s, background 0.2s, transform 0.15s;
+    text-align: left;
+    animation: hashtag-slide-in 0.35s ease both;
   }
 
   .hashtag-item:hover {
     color: var(--accent-h);
-    border-color: var(--border-h);
+    border-color: var(--accent);
+    background: var(--border);
+    transform: translateX(-3px);
   }
-}
 
-/* ============================================================
-   SKIP LINK
-   ============================================================ */
-.skip-link {
-  position: absolute;
-  top: -100%;
-  left: 1rem;
-  background: var(--accent);
-  color: var(--bg);
-  padding: 0.5em 1em;
-  border-radius: 0 0 4px 4px;
-  z-index: 200;
-  font-size: 0.85rem;
-  text-decoration: none;
-  transition: top 0.15s;
-}
+  .hashtag-item:active {
+    transform: scale(0.96);
+  }
 
-.skip-link:focus {
-  top: 0;
+  .hashtag-item.hashtag-copied {
+    color: #8ab88a;
+    border-color: #8ab88a;
+  }
 }
 
 /* ============================================================
@@ -766,40 +744,6 @@ sup a,
   z-index: 300;
   transition: width 0.1s linear;
   pointer-events: none;
-}
-
-/* ============================================================
-   BACK-TO-TOP BUTTON
-   ============================================================ */
-.back-to-top {
-  position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  width: 2.4rem;
-  height: 2.4rem;
-  border: 1px solid var(--border-h);
-  border-radius: 50%;
-  background: var(--bg-alt);
-  color: var(--text-dim);
-  font-size: 1.1rem;
-  cursor: pointer;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.25s, visibility 0.25s, color 0.15s, border-color 0.15s;
-  z-index: 150;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.back-to-top.visible {
-  opacity: 1;
-  visibility: visible;
-}
-
-.back-to-top:hover {
-  color: var(--accent-h);
-  border-color: var(--accent);
 }
 
 /* ============================================================
