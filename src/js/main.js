@@ -137,11 +137,27 @@
     panel.className = 'hashtag-panel';
     panel.setAttribute('aria-label', 'Post tags');
 
-    tags.forEach(function (tag) {
-      var span = document.createElement('span');
-      span.className = 'hashtag-item';
-      span.textContent = tag;
-      panel.appendChild(span);
+    tags.forEach(function (tag, i) {
+      var btn = document.createElement('button');
+      btn.className = 'hashtag-item';
+      btn.textContent = tag;
+      btn.setAttribute('type', 'button');
+      btn.setAttribute('aria-label', 'Copy ' + tag);
+      btn.style.animationDelay = (i * 0.06) + 's';
+
+      btn.addEventListener('click', function () {
+        navigator.clipboard.writeText(tag).then(function () {
+          btn.classList.add('hashtag-copied');
+          var orig = btn.textContent;
+          btn.textContent = 'copied!';
+          setTimeout(function () {
+            btn.textContent = orig;
+            btn.classList.remove('hashtag-copied');
+          }, 1200);
+        });
+      });
+
+      panel.appendChild(btn);
     });
 
     document.body.appendChild(panel);
@@ -158,20 +174,6 @@
       var pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
       bar.style.width = Math.min(100, pct) + '%';
     }, { passive: true });
-  }
-
-  // ── Back-to-top button ──────────────────────────────────────────────────
-  function initBackToTop() {
-    var btn = document.querySelector('.back-to-top');
-    if (!btn) return;
-
-    window.addEventListener('scroll', function () {
-      btn.classList.toggle('visible', window.scrollY > window.innerHeight);
-    }, { passive: true });
-
-    btn.addEventListener('click', function () {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
   }
 
   // ── Copy code button ───────────────────────────────────────────────────
@@ -254,7 +256,6 @@
     buildTOC();
     buildHashtagPanel();
     initProgressBar();
-    initBackToTop();
     initCopyButtons();
     initTOCHighlight();
     initFadeIn();

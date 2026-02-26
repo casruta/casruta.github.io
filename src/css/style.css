@@ -336,6 +336,7 @@ blockquote p {
    ============================================================ */
 .post-content {
   font-size: 1rem;
+  max-width: var(--text-width);
 }
 
 @media (min-width: 960px) {
@@ -676,6 +677,11 @@ sup a,
   display: none;
 }
 
+@keyframes hashtag-slide-in {
+  from { opacity: 0; transform: translateX(12px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
 @media (min-width: 1100px) {
   .hashtag-panel {
     display: flex;
@@ -698,40 +704,32 @@ sup a,
     background: var(--bg-alt);
     border: 1px solid var(--border);
     border-radius: 3px;
-    padding: 0.2em 0.5em;
+    padding: 0.3em 0.6em;
     line-height: 1.4;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    cursor: default;
-    transition: color 0.15s, border-color 0.15s;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s, background 0.2s, transform 0.15s;
+    text-align: left;
+    animation: hashtag-slide-in 0.35s ease both;
   }
 
   .hashtag-item:hover {
     color: var(--accent-h);
-    border-color: var(--border-h);
+    border-color: var(--accent);
+    background: var(--border);
+    transform: translateX(-3px);
   }
-}
 
-/* ============================================================
-   SKIP LINK
-   ============================================================ */
-.skip-link {
-  position: absolute;
-  top: -100%;
-  left: 1rem;
-  background: var(--accent);
-  color: var(--bg);
-  padding: 0.5em 1em;
-  border-radius: 0 0 4px 4px;
-  z-index: 200;
-  font-size: 0.85rem;
-  text-decoration: none;
-  transition: top 0.15s;
-}
+  .hashtag-item:active {
+    transform: scale(0.96);
+  }
 
-.skip-link:focus {
-  top: 0;
+  .hashtag-item.hashtag-copied {
+    color: #8ab88a;
+    border-color: #8ab88a;
+  }
 }
 
 /* ============================================================
@@ -766,40 +764,6 @@ sup a,
   z-index: 300;
   transition: width 0.1s linear;
   pointer-events: none;
-}
-
-/* ============================================================
-   BACK-TO-TOP BUTTON
-   ============================================================ */
-.back-to-top {
-  position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  width: 2.4rem;
-  height: 2.4rem;
-  border: 1px solid var(--border-h);
-  border-radius: 50%;
-  background: var(--bg-alt);
-  color: var(--text-dim);
-  font-size: 1.1rem;
-  cursor: pointer;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.25s, visibility 0.25s, color 0.15s, border-color 0.15s;
-  z-index: 150;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.back-to-top.visible {
-  opacity: 1;
-  visibility: visible;
-}
-
-.back-to-top:hover {
-  color: var(--accent-h);
-  border-color: var(--accent);
 }
 
 /* ============================================================
