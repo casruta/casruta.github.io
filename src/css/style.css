@@ -21,7 +21,7 @@
   --border-h:    #38362f;   /* stronger divider */
 
   /* Layout */
-  --text-width:  598px;
+  --text-width:  748px;
   --note-width:  150px;
   --note-gap:    2rem;
   /* Wide page = text + gap + notes + outer padding */
@@ -200,8 +200,7 @@ a:visited {
 p {
   margin-top: 0;
   margin-bottom: 0;
-  text-align: justify;
-  hyphens: auto;
+  text-align: left;
   text-indent: 1.5em;
 }
 
