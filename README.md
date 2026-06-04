@@ -2,16 +2,18 @@
 
 ## Adding a post
 
-Create a new `.md` file in `src/posts/` with this front matter:
+Drop a `.md` file into `src/posts/`. Only a `title` is required:
 
 ```markdown
 ---
 title: Post Title
-date: YYYY-MM-DD
-tags: post
-layout: base.njk
+date: 2025-06-01
 ---
+
+Your content here.
 ```
+
+`layout` and `tags` are applied automatically. `date` defaults to the file's creation date if omitted.
 
 Push to `main` — the site redeploys automatically via GitHub Actions.
 
@@ -20,4 +22,5 @@ Push to `main` — the site redeploys automatically via GitHub Actions.
 ```bash
 npm install
 npm start   # http://localhost:8080
+npm test    # build + integration tests
 ```

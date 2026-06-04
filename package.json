@@ -5,7 +5,8 @@
   "description": "A minimal Eleventy blog",
   "scripts": {
     "start": "eleventy --serve",
-    "build": "eleventy"
+    "build": "eleventy",
+    "test": "node --test test/*.test.js"
   },
   "type": "module",
   "devDependencies": {
