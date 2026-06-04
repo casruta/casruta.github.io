@@ -48,11 +48,11 @@ describe("Blog build", () => {
   });
 
   describe("2-column structure", () => {
-    it("CSS contains the sidenote grid", () => {
+    it("CSS contains the two-column post layout", () => {
       const css = readFileSync(join(SITE, "css", "style.css"), "utf-8");
       assert.ok(
-        css.includes("grid-template-columns"),
-        "grid-template-columns rule missing"
+        css.includes("column-count: 2"),
+        "two-column (column-count: 2) rule missing"
       );
     });
   });

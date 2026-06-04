@@ -28,6 +28,11 @@
   // Only runs on wide screens. Converts markdown-it-footnote output into
   // sidenote <aside> elements placed next to their reference paragraphs.
   function convertFootnotesToSidenotes() {
+    // Disabled: the two-column scholarly layout has no margin for sidenotes,
+    // so footnotes stay in their section at the bottom (spanning both columns).
+    return;
+
+    /* eslint-disable no-unreachable */
     var content = document.querySelector('.post-content');
     var fnSection = document.querySelector('.footnotes');
     if (!content || !fnSection) return;
