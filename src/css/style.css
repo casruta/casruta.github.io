@@ -310,29 +310,46 @@ blockquote p {
 }
 
 /* ============================================================
-   POST LAYOUT — WIDE GRID WITH SIDENOTES
+   POST LAYOUT — TWO-COLUMN (SCHOLARLY PAPER STYLE)
    ============================================================ */
 .post-content {
   font-size: 1rem;
   max-width: var(--text-width);
+  margin: 0 auto;          /* centered on the page */
 }
 
-@media (min-width: 960px) {
+@media (min-width: 768px) {
   .post-content {
-    display: grid;
-    grid-template-columns: minmax(0, var(--text-width)) var(--note-width);
-    column-gap: var(--note-gap);
-    max-width: calc(var(--text-width) + var(--note-gap) + var(--note-width));
+    column-count: 2;
+    column-gap: 2.5rem;
+    column-rule: 1px solid var(--border);
+    text-align: justify;
+    hyphens: auto;
   }
 
-  .post-content > * {
-    grid-column: 1;
-    min-width: 0;
+  /* Keep block elements from splitting across the column break */
+  .post-content pre,
+  .post-content blockquote,
+  .post-content table,
+  .post-content figure,
+  .post-content img,
+  .post-content ul,
+  .post-content ol {
+    break-inside: avoid;
   }
 
-  .sidenote {
-    grid-column: 2;
-    align-self: start;
+  /* Don't strand a heading at the foot of a column */
+  .post-content h2,
+  .post-content h3,
+  .post-content h4 {
+    break-after: avoid;
+    break-inside: avoid;
+  }
+
+  /* Meta sections span the full width above/below the columns */
+  .post-content .toc,
+  .post-content .footnotes {
+    column-span: all;
   }
 }
 
@@ -517,10 +534,11 @@ sup a,
    POST HEADER
    ============================================================ */
 .post-header {
-  margin-bottom: 2.5em;
+  margin: 0 auto 2.5em;          /* centered above the columns */
   border-bottom: 1px solid var(--border);
   padding-bottom: 1em;
   max-width: var(--text-width);
+  text-align: center;            /* scholarly title block */
 }
 
 .post-header h1 {
