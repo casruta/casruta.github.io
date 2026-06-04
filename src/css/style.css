@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,700;1,8..60,400;1,8..60,500&family=Space+Mono:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,700;1,8..60,400;1,8..60,500&display=swap');
 
 /* ============================================================
    BASE RESET
@@ -29,9 +29,10 @@
   /* Wide page = content + outer padding (3rem each side) */
   --page-width:    calc(var(--content-width) + 6rem);
 
-/* Fonts */
---font-serif: "Source Serif 4", Georgia, serif;
---font-mono:  "Space Mono", monospace;
+/* Fonts — gwern.net typefaces */
+--font-serif: "Source Serif 4", Georgia, serif;     /* body + headings */
+--font-sans:  "Source Sans 3", system-ui, sans-serif; /* UI chrome, metadata */
+--font-mono:  "IBM Plex Mono", monospace;            /* code only */
 }
 
 /* ============================================================
@@ -87,6 +88,7 @@ header {
 }
 
 header .site-title {
+  font-family: var(--font-sans);
   font-size: 1.1rem;
   font-weight: bold;
   letter-spacing: 0.04em;
@@ -106,6 +108,7 @@ header nav {
 }
 
 header nav a {
+  font-family: var(--font-sans);
   font-size: 0.85rem;
   letter-spacing: 0.03em;
   text-transform: uppercase;
@@ -125,6 +128,7 @@ footer {
   padding-top: 0.75rem;
   border-top: 1px solid var(--border);
   color: var(--text-dim);
+  font-family: var(--font-sans);
   font-size: 0.8rem;
   letter-spacing: 0.02em;
 }
@@ -133,7 +137,7 @@ footer {
    TYPOGRAPHY — HEADINGS
    ============================================================ */
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-mono);
+  font-family: var(--font-serif);
   color: var(--text);
   line-height: 1.3;
   font-weight: bold;
@@ -356,7 +360,7 @@ blockquote p {
   vertical-align: super;
   line-height: 0;
   margin-right: 0.3em;
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
 }
 
 /* On narrow screens, hide sidenotes (footnotes shown at bottom instead) */
@@ -506,7 +510,7 @@ sup a,
   font-size: 0.75em;
   vertical-align: super;
   color: var(--accent);
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
 }
 
 /* ============================================================
@@ -534,7 +538,7 @@ sup a,
 .post-tags {
   font-size: 0.8rem;
   color: var(--text-dim);
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   letter-spacing: 0.03em;
   text-transform: none;
   margin: 0 0 0.5em;
@@ -544,7 +548,7 @@ sup a,
   font-size: 0.82rem;
   color: var(--text-dim);
   letter-spacing: 0.03em;
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
 }
 
 /* ============================================================
@@ -577,7 +581,7 @@ sup a,
   padding-top: 0.15em;
   color: var(--text-dim);
   font-size: 0.8rem;
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   letter-spacing: 0.02em;
 }
 
@@ -654,7 +658,7 @@ sup a,
   }
 
   .hashtag-item {
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: 0.75rem;
     letter-spacing: 0.03em;
     color: var(--text-dim);
@@ -735,7 +739,7 @@ sup a,
   border: 1px solid var(--border);
   border-radius: 3px;
   padding: 0.2em 0.5em;
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: 0.7rem;
   cursor: pointer;
   opacity: 0;
