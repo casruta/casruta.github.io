@@ -20,13 +20,13 @@
 
   /* Layout */
   --text-width:    748px;
-  --post-width:    823px;   /* wider reading area for posts (text + 75px) */
+  --post-width:    1235px;  /* wide reading area for posts (1.5x) */
   --note-width:    150px;
   --note-gap:      2rem;
   /* Content = reading column + gap + sidenote margin */
   --content-width: calc(var(--text-width) + var(--note-gap) + var(--note-width));
-  /* Wide page = content + outer padding (3rem each side) */
-  --page-width:    calc(var(--content-width) + 6rem);
+  /* Wide page sized to fit the post width + outer padding (3rem each side) */
+  --page-width:    calc(var(--post-width) + 6rem);
 
 /* Fonts */
 --font-serif: "Source Serif 4", Georgia, serif;     /* body + headings */
