@@ -255,6 +255,62 @@
     targets.forEach(function (el) { observer.observe(el); });
   }
 
+  // ── Image lightbox ────────────────────────────────────────────────────────
+  // Click any chart/image in a post to enlarge it in a full-screen overlay.
+  function initLightbox() {
+    var images = document.querySelectorAll('.post-content img');
+    if (images.length === 0) return;
+
+    var overlay = document.createElement('div');
+    overlay.className = 'lightbox';
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-modal', 'true');
+    overlay.setAttribute('aria-hidden', 'true');
+
+    var fullImg = document.createElement('img');
+    fullImg.className = 'lightbox-img';
+    fullImg.alt = '';
+    overlay.appendChild(fullImg);
+    document.body.appendChild(overlay);
+
+    function open(src, alt) {
+      fullImg.src = src;
+      fullImg.alt = alt || '';
+      overlay.classList.add('is-open');
+      overlay.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function close() {
+      overlay.classList.remove('is-open');
+      overlay.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    images.forEach(function (img) {
+      img.classList.add('zoomable');
+      img.setAttribute('tabindex', '0');
+      img.setAttribute('role', 'button');
+      img.setAttribute('aria-label', 'Enlarge image' + (img.alt ? ': ' + img.alt : ''));
+
+      function activate() {
+        open(img.currentSrc || img.src, img.alt);
+      }
+      img.addEventListener('click', activate);
+      img.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          activate();
+        }
+      });
+    });
+
+    overlay.addEventListener('click', close);
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && overlay.classList.contains('is-open')) close();
+    });
+  }
+
   // ── Init ──────────────────────────────────────────────────────────────────
   document.addEventListener('DOMContentLoaded', function () {
     addHeadingAnchors();
@@ -265,5 +321,6 @@
     initCopyButtons();
     initTOCHighlight();
     initFadeIn();
+    initLightbox();
   });
 })();

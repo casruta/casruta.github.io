@@ -32,7 +32,7 @@
 --font-serif: "Source Serif 4", Georgia, serif;     /* body + headings */
 --font-sans:  "Source Sans 3", system-ui, sans-serif; /* UI chrome, metadata */
 --font-mono:  "IBM Plex Mono", monospace;            /* code only */
---font-gothic: "UnifrakturCook", "UnifrakturMaguntia", cursive; /* Germanic blackletter — menu */
+--font-gothic: "Pirata One", "UnifrakturCook", cursive; /* dramatic Germanic blackletter — menu */
 }
 
 /* ============================================================
@@ -500,6 +500,50 @@ figcaption {
   color: var(--text-dim);
   margin-top: 0.5em;
   font-style: normal;
+}
+
+/* ============================================================
+   IMAGE LIGHTBOX — click a chart to enlarge
+   ============================================================ */
+.post-content img.zoomable {
+  cursor: zoom-in;
+  transition: opacity 0.15s;
+}
+
+.post-content img.zoomable:hover {
+  opacity: 0.85;
+}
+
+.lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 400;
+  background: rgba(0, 0, 0, 0.92);
+  cursor: zoom-out;
+  padding: 2.5vh 2.5vw;
+  /* centre the enlarged image */
+  align-items: center;
+  justify-content: center;
+}
+
+.lightbox.is-open {
+  display: flex;
+  animation: lightbox-fade 0.2s ease;
+}
+
+@keyframes lightbox-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.lightbox-img {
+  max-width: 95vw;
+  max-height: 95vh;
+  width: auto;
+  height: auto;
+  border-radius: 4px;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
 }
 
 /* ============================================================
