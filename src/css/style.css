@@ -33,7 +33,7 @@
 --font-serif: "Source Serif 4", Georgia, serif;     /* body + headings */
 --font-sans:  "Source Sans 3", system-ui, sans-serif; /* UI chrome, metadata */
 --font-mono:  "IBM Plex Mono", monospace;            /* code only */
---font-gothic: "UnifrakturMaguntia", cursive;        /* menu / nav */
+--font-gothic: "UnifrakturMaguntia", cursive;        /* site title */
 }
 
 /* ============================================================
@@ -92,8 +92,8 @@ header .site-title {
   font-family: var(--font-gothic);
   font-size: 1.4rem;
   font-weight: normal;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  letter-spacing: normal;
+  text-transform: none;
   color: var(--text);
   text-decoration: none;
 }
@@ -109,10 +109,10 @@ header nav {
 }
 
 header nav a {
-  font-family: var(--font-gothic);
-  font-size: 1.05rem;
-  letter-spacing: normal;
-  text-transform: none;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
   color: var(--text-dim);
   text-decoration: none;
 }
