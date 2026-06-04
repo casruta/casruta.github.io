@@ -32,7 +32,7 @@
 --font-serif: "Source Serif 4", Georgia, serif;     /* body + headings */
 --font-sans:  "Source Sans 3", system-ui, sans-serif; /* UI chrome, metadata */
 --font-mono:  "IBM Plex Mono", monospace;            /* code only */
---font-gothic: "New Rocker", "UnifrakturCook", cursive; /* rounded Schwabacher blackletter — menu */
+--font-gothic: "UnifrakturMaguntia", cursive; /* Germanic blackletter (textura) — menu */
 }
 
 /* ============================================================
