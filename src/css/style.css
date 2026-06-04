@@ -20,6 +20,7 @@
 
   /* Layout */
   --text-width:    748px;
+  --post-width:    823px;   /* wider reading area for posts (text + 75px) */
   --note-width:    150px;
   --note-gap:      2rem;
   /* Content = reading column + gap + sidenote margin */
@@ -272,9 +273,11 @@ blockquote p {
   border: 1px solid var(--border);
   border-radius: 4px;
   padding: 0.85em 1.4em;
-  margin: 0 0 2.2em;
+  margin: 0 auto 2.5em;          /* centered single column above the body */
+  max-width: var(--post-width);
   font-size: 0.875rem;
   line-height: 1.6;
+  text-align: left;
 }
 
 .toc .toc-title {
@@ -314,7 +317,7 @@ blockquote p {
    ============================================================ */
 .post-content {
   font-size: 1rem;
-  max-width: var(--text-width);
+  max-width: var(--post-width);
   margin: 0 auto;          /* centered on the page */
 }
 
@@ -346,8 +349,7 @@ blockquote p {
     break-inside: avoid;
   }
 
-  /* Meta sections span the full width above/below the columns */
-  .post-content .toc,
+  /* Footnotes span the full width below the columns */
   .post-content .footnotes {
     column-span: all;
   }
@@ -537,7 +539,7 @@ sup a,
   margin: 0 auto 2.5em;          /* centered above the columns */
   border-bottom: 1px solid var(--border);
   padding-bottom: 1em;
-  max-width: var(--text-width);
+  max-width: var(--post-width);
   text-align: center;            /* scholarly title block */
 }
 
