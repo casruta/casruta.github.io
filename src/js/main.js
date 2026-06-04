@@ -115,10 +115,11 @@
 
     toc.appendChild(list);
 
-    // Insert just before the first h2 (after intro paragraphs / abstract)
-    var firstH2 = content.querySelector('h2');
-    if (firstH2) {
-      content.insertBefore(toc, firstH2);
+    // Place the TOC as a full-width single column between the header and the
+    // two-column body — not inside the column flow.
+    var parent = content.parentNode;
+    if (parent) {
+      parent.insertBefore(toc, content);
     } else {
       content.insertBefore(toc, content.firstElementChild);
     }
