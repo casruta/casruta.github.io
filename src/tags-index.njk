@@ -1,0 +1,19 @@
+---
+layout: base.njk
+title: Tags
+permalink: /tags/
+---
+
+<div class="home-main">
+  <h1>Tags</h1>
+  <p class="tag-page-meta">Browse everything by topic.</p>
+
+  <ul class="tag-index">
+    {% for tag in collections.hashtags %}
+      <li>
+        <a href="/tags/{{ tag.slug }}/">#{{ tag.name }}</a>
+        <span class="tag-count">{{ tag.posts.length }}</span>
+      </li>
+    {% endfor %}
+  </ul>
+</div>
