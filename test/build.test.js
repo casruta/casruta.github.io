@@ -86,12 +86,17 @@ describe("Blog build", () => {
     }
   });
 
-  describe("2-column structure", () => {
-    it("CSS contains the two-column post layout", () => {
+  describe("Single-column structure", () => {
+    it("CSS uses a single-column post layout with germanic fonts", () => {
       const css = readFileSync(join(SITE, "css", "style.css"), "utf-8");
       assert.ok(
-        css.includes("column-count: 2"),
-        "two-column (column-count: 2) rule missing"
+        !css.includes("column-count: 2"),
+        "two-column rule should be removed"
+      );
+      assert.ok(css.includes('"Grenze"'), "Grenze body font missing");
+      assert.ok(
+        css.includes('"Grenze Gotisch"'),
+        "Grenze Gotisch heading font missing"
       );
     });
   });
