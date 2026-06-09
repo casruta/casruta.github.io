@@ -19,9 +19,9 @@ eleventyComputed:
   <ul class="post-list">
     {% for post in tag.posts %}
       <li>
-        {% if post.data.heroImage %}
+        {% if post.data.thumbnail %}
           <a class="post-list-thumb" href="{{ post.url }}">
-            <img src="{{ post.data.heroImage }}" alt="" loading="lazy" />
+            <img src="{{ post.data.thumbnail }}" alt="" loading="lazy" />
           </a>
         {% endif %}
         <div class="post-list-text">
