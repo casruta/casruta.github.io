@@ -126,47 +126,54 @@
   }
 
   // ── Floating hashtag panel ─────────────────────────────────────────────────
-  // Reads hashtags from the dedicated .post-tags element rendered by post.njk,
-  // hides that element, and builds a fixed panel on the right.
+  // Mirrors the hashtag links from the .post-tags element rendered by post.njk
+  // into a fixed panel on the right; each item links to its /tags/ page.
   function buildHashtagPanel() {
     var tagsParagraph = document.querySelector('.post-tags');
     if (!tagsParagraph) return;
 
-    var tags = tagsParagraph.textContent.trim().split(/\s+/).filter(function (w) {
-      return /^#\S+$/.test(w);
-    });
-
-    if (tags.length === 0) return;
+    var tagLinks = tagsParagraph.querySelectorAll('a');
+    if (tagLinks.length === 0) return;
 
     // Build the fixed panel (tags stay visible in the post header too)
     var panel = document.createElement('nav');
     panel.className = 'hashtag-panel';
     panel.setAttribute('aria-label', 'Post tags');
 
-    tags.forEach(function (tag, i) {
-      var btn = document.createElement('button');
-      btn.className = 'hashtag-item';
-      btn.textContent = tag;
-      btn.setAttribute('type', 'button');
-      btn.setAttribute('aria-label', 'Copy ' + tag);
-      btn.style.animationDelay = (i * 0.06) + 's';
-
-      btn.addEventListener('click', function () {
-        navigator.clipboard.writeText(tag).then(function () {
-          btn.classList.add('hashtag-copied');
-          var orig = btn.textContent;
-          btn.textContent = 'copied!';
-          setTimeout(function () {
-            btn.textContent = orig;
-            btn.classList.remove('hashtag-copied');
-          }, 1200);
-        });
-      });
-
-      panel.appendChild(btn);
+    tagLinks.forEach(function (link, i) {
+      var a = document.createElement('a');
+      a.className = 'hashtag-item';
+      a.textContent = link.textContent;
+      a.href = link.href;
+      a.style.animationDelay = (i * 0.06) + 's';
+      panel.appendChild(a);
     });
 
     document.body.appendChild(panel);
+  }
+
+  // ── Home page post filter ─────────────────────────────────────────────────
+  // Live-filters the post list by title, subtitle, or #hashtag.
+  function initPostFilter() {
+    var input = document.querySelector('.post-filter');
+    if (!input) return;
+
+    var items = Array.from(document.querySelectorAll('.post-list li'));
+    var empty = document.querySelector('.post-filter-empty');
+
+    input.addEventListener('input', function () {
+      var query = input.value.trim().toLowerCase();
+      var visible = 0;
+
+      items.forEach(function (li) {
+        var haystack = (li.getAttribute('data-search') || li.textContent).toLowerCase();
+        var match = !query || haystack.indexOf(query) !== -1;
+        li.hidden = !match;
+        if (match) visible++;
+      });
+
+      if (empty) empty.hidden = visible > 0;
+    });
   }
 
   // ── Reading progress bar ─────────────────────────────────────────────────
@@ -258,7 +265,7 @@
   // ── Image lightbox ────────────────────────────────────────────────────────
   // Click any chart/image in a post to enlarge it in a full-screen overlay.
   function initLightbox() {
-    var images = document.querySelectorAll('.post-content img');
+    var images = document.querySelectorAll('.post-content img, .post-hero img');
     if (images.length === 0) return;
 
     var overlay = document.createElement('div');
@@ -317,6 +324,7 @@
     convertFootnotesToSidenotes();
     buildTOC();
     buildHashtagPanel();
+    initPostFilter();
     initProgressBar();
     initCopyButtons();
     initTOCHighlight();

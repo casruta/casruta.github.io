@@ -28,6 +28,45 @@ describe("Blog build", () => {
       const html = readFileSync(join(SITE, "index.html"), "utf-8");
       assert.ok(html.includes("post-list"), "post-list class missing");
     });
+
+    it("contains the post filter with searchable metadata", () => {
+      const html = readFileSync(join(SITE, "index.html"), "utf-8");
+      assert.ok(html.includes("post-filter"), "filter input missing");
+      assert.ok(html.includes('data-search="'), "data-search attributes missing");
+      assert.ok(html.includes("#inflation"), "hashtags missing from search data");
+    });
+  });
+
+  describe("Hashtag pages", () => {
+    it("generates a page per hashtag listing its posts", () => {
+      const path = join(SITE, "tags", "inflation", "index.html");
+      assert.ok(existsSync(path), "tags/inflation/index.html missing");
+      const html = readFileSync(path, "utf-8");
+      assert.ok(
+        html.includes("Spending Outpaced Growth"),
+        "tagged post not listed on its tag page"
+      );
+    });
+
+    it("generates a tags index listing all hashtags", () => {
+      const path = join(SITE, "tags", "index.html");
+      assert.ok(existsSync(path), "tags/index.html missing");
+      const html = readFileSync(path, "utf-8");
+      for (const tag of ["#inflation", "#alberta", "#typography"]) {
+        assert.ok(html.includes(tag), `${tag} missing from tags index`);
+      }
+    });
+
+    it("links post header hashtags to their tag pages", () => {
+      const html = readFileSync(
+        join(SITE, "posts", "spending-outpaced-growth", "index.html"),
+        "utf-8"
+      );
+      assert.ok(
+        html.includes('href="/tags/inflation/"'),
+        "post hashtag not linked to tag page"
+      );
+    });
   });
 
   describe("Posts render", () => {
@@ -59,10 +98,18 @@ describe("Blog build", () => {
 
   describe("Drop-in workflow", () => {
     const tempPost = join(ROOT, "src", "posts", "__test_dropin.md");
+    const tempImage = join(ROOT, "src", "posts", "__test_dropin.png");
     const tempOutput = join(SITE, "posts", "__test_dropin", "index.html");
+
+    // Tiny valid 1×1 PNG
+    const pngBytes = Buffer.from(
+      "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==",
+      "base64"
+    );
 
     after(() => {
       if (existsSync(tempPost)) unlinkSync(tempPost);
+      if (existsSync(tempImage)) unlinkSync(tempImage);
       build();
     });
 
@@ -83,6 +130,33 @@ describe("Blog build", () => {
       assert.ok(
         home.includes("Dropin Test"),
         "drop-in post not listed on home page"
+      );
+    });
+
+    it("a sibling image with the same basename becomes the header image", () => {
+      writeFileSync(
+        tempPost,
+        "---\ntitle: Dropin Test\ndate: 2099-01-01\n---\n\nThis is a drop-in test post.\n",
+        "utf-8"
+      );
+      writeFileSync(tempImage, pngBytes);
+      build();
+
+      const html = readFileSync(tempOutput, "utf-8");
+      assert.ok(html.includes("post-hero"), "post-hero figure missing");
+      assert.ok(
+        html.includes("/posts/__test_dropin.png"),
+        "hero image URL missing from post"
+      );
+      assert.ok(
+        existsSync(join(SITE, "posts", "__test_dropin.png")),
+        "image not copied to output"
+      );
+
+      const home = readFileSync(join(SITE, "index.html"), "utf-8");
+      assert.ok(
+        home.includes("post-list-thumb"),
+        "thumbnail missing from home page list"
       );
     });
   });

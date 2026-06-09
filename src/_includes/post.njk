@@ -8,13 +8,18 @@ layout: base.njk
       <p class="post-subtitle">{{ subtitle }}</p>
     {% endif %}
     {% if hashtags %}
-      <p class="post-tags">{% for tag in hashtags %}#{{ tag }}{% if not loop.last %} {% endif %}{% endfor %}</p>
+      <p class="post-tags">{% for tag in hashtags %}<a href="/tags/{{ tag | slugifyTag }}/">#{{ tag }}</a>{% if not loop.last %} {% endif %}{% endfor %}</p>
     {% endif %}
     <div class="post-meta">
       <time datetime="{{ page.date | htmlDateString }}">{{ page.date | readableDate }}</time>
       <span class="read-time">· {{ content | readTime }}</span>
     </div>
   </header>
+  {% if heroImage %}
+    <figure class="post-hero">
+      <img src="{{ heroImage }}" alt="{{ title }}" />
+    </figure>
+  {% endif %}
   <div class="post-content">
     {{ content | safe }}
   </div>

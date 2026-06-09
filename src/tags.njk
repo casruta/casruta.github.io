@@ -1,0 +1,40 @@
+---
+layout: base.njk
+pagination:
+  data: collections.hashtags
+  size: 1
+  alias: tag
+permalink: "/tags/{{ tag.slug }}/"
+eleventyComputed:
+  title: "#{{ tag.name }}"
+---
+
+<div class="home-main">
+  <h1 class="tag-page-title">#{{ tag.name }}</h1>
+  <p class="tag-page-meta">
+    {{ tag.posts.length }} post{% if tag.posts.length != 1 %}s{% endif %} ·
+    <a href="/tags/">all tags</a>
+  </p>
+
+  <ul class="post-list">
+    {% for post in tag.posts %}
+      <li>
+        {% if post.data.heroImage %}
+          <a class="post-list-thumb" href="{{ post.url }}">
+            <img src="{{ post.data.heroImage }}" alt="" loading="lazy" />
+          </a>
+        {% endif %}
+        <div class="post-list-text">
+          <a href="{{ post.url }}">{{ post.data.title }}</a>
+          {% if post.data.subtitle %}
+            <p class="post-list-subtitle">{{ post.data.subtitle }}</p>
+          {% endif %}
+          <p class="post-list-meta">
+            <time datetime="{{ post.date | htmlDateString }}">{{ post.date | readableDate }}</time>
+            {% for t in post.data.hashtags %}<a class="tag-chip" href="/tags/{{ t | slugifyTag }}/">#{{ t }}</a>{% endfor %}
+          </p>
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+</div>
