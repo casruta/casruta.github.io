@@ -29,7 +29,8 @@
   --page-width:    calc(var(--post-width) + 6rem);
 
 /* Fonts */
---font-serif: "Source Serif 4", Georgia, serif;     /* body + headings */
+--font-serif: "Grenze", Georgia, serif;               /* body — gothic-influenced text face */
+--font-display: "Grenze Gotisch", "UnifrakturMaguntia", cursive; /* headings — blackletter */
 --font-sans:  "Source Sans 3", system-ui, sans-serif; /* UI chrome, metadata */
 --font-mono:  "IBM Plex Mono", monospace;            /* code only */
 --font-gothic: "UnifrakturMaguntia", cursive; /* Germanic blackletter (textura) — menu */
@@ -138,18 +139,18 @@ footer {
    TYPOGRAPHY — HEADINGS
    ============================================================ */
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-serif);
+  font-family: var(--font-display);
   color: var(--text);
   line-height: 1.3;
-  font-weight: bold;
+  font-weight: 500;
   margin-top: 2.2em;
   margin-bottom: 0.5em;
 }
 
-h1 { font-size: 1.9rem; margin-top: 0; }
-h2 { font-size: 1.3rem;  font-variant: small-caps; letter-spacing: 0.05em; }
-h3 { font-size: 1.05rem; font-variant: small-caps; letter-spacing: 0.04em; }
-h4 { font-size: 1rem;    font-style: normal; font-weight: normal; margin-top: 1.5em; }
+h1 { font-size: 2.1rem; margin-top: 0; }
+h2 { font-size: 1.5rem; }
+h3 { font-size: 1.2rem; }
+h4 { font-size: 1.05rem; font-style: normal; font-weight: 400; margin-top: 1.5em; }
 
 /* Heading anchor § link */
 .heading-anchor {
@@ -274,7 +275,7 @@ blockquote p {
   border-radius: 4px;
   padding: 0.85em 1.4em;
   margin: 0 auto 2.5em;          /* centered single column above the body */
-  max-width: var(--post-width);
+  max-width: var(--text-width);
   font-size: 0.875rem;
   line-height: 1.6;
   text-align: left;
@@ -313,46 +314,14 @@ blockquote p {
 }
 
 /* ============================================================
-   POST LAYOUT — TWO-COLUMN (SCHOLARLY PAPER STYLE)
+   POST LAYOUT — SINGLE COLUMN
    ============================================================ */
 .post-content {
   font-size: 1rem;
-  max-width: var(--post-width);
+  max-width: var(--text-width);
   margin: 0 auto;          /* centered on the page */
-}
-
-@media (min-width: 768px) {
-  .post-content {
-    column-count: 2;
-    column-gap: 2.5rem;
-    column-rule: 1px solid var(--border);
-    text-align: justify;
-    hyphens: auto;
-  }
-
-  /* Keep block elements from splitting across the column break */
-  .post-content pre,
-  .post-content blockquote,
-  .post-content table,
-  .post-content figure,
-  .post-content img,
-  .post-content ul,
-  .post-content ol {
-    break-inside: avoid;
-  }
-
-  /* Don't strand a heading at the foot of a column */
-  .post-content h2,
-  .post-content h3,
-  .post-content h4 {
-    break-after: avoid;
-    break-inside: avoid;
-  }
-
-  /* Footnotes span the full width below the columns */
-  .post-content .footnotes {
-    column-span: all;
-  }
+  text-align: justify;
+  hyphens: auto;
 }
 
 /* ============================================================
@@ -580,10 +549,10 @@ sup a,
    POST HEADER
    ============================================================ */
 .post-header {
-  margin: 0 auto 2.5em;          /* centered above the columns */
+  margin: 0 auto 2.5em;          /* centered above the body */
   border-bottom: 1px solid var(--border);
   padding-bottom: 1em;
-  max-width: var(--post-width);
+  max-width: var(--text-width);
   text-align: center;            /* scholarly title block */
 }
 
@@ -623,7 +592,7 @@ sup a,
    POST HERO IMAGE — single column between header and body
    ============================================================ */
 .post-hero {
-  max-width: var(--post-width);
+  max-width: var(--text-width);
   margin: 0 auto 2.5em;
 }
 
