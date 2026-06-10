@@ -33,7 +33,7 @@
 --font-display: "Playfair Display", Georgia, serif;   /* headings — high-contrast editorial */
 --font-sans:  "Source Sans 3", system-ui, sans-serif; /* UI chrome, metadata */
 --font-mono:  "IBM Plex Mono", monospace;            /* code only */
---font-gothic: "UnifrakturCook", cursive; /* heavy Fraktur — menu */
+--font-gothic: "Ruslan Display", cursive; /* Church Slavonic ustav lettering — menu */
 }
 
 /* ============================================================
