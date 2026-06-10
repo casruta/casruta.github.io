@@ -3,10 +3,9 @@ export default {
   title: "casruta",
   author: "Kacper Ruta",
   social: {
-    twitter: "https://x.com/casruta",
+    twitter: "https://x.com/CasparKozlowski",
     goodreads: "https://www.goodreads.com/user/show/casruta",
     rym: "https://rateyourmusic.com/~casruta",
   },
-  // X/Twitter handle (without @) for the embedded timeline
-  twitterHandle: "casruta",
+  twitterHandle: "CasparKozlowski",
 };
