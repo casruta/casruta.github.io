@@ -185,14 +185,23 @@ describe("Blog build", () => {
     });
   });
 
-  describe("Social sidebar", () => {
-    it("renders social icons and X timeline embed", () => {
+  describe("Social sidebar and X feed", () => {
+    it("renders social icons on every page", () => {
       const html = readFileSync(join(SITE, "index.html"), "utf-8");
       assert.ok(html.includes("social-sidebar"), "social sidebar missing");
       assert.ok(html.includes("social-icon"), "social icons missing");
+    });
+
+    it("renders the X timeline on the home page", () => {
+      const html = readFileSync(join(SITE, "index.html"), "utf-8");
+      assert.ok(html.includes("home-feed"), "home feed column missing");
       assert.ok(
         html.includes("twitter-timeline"),
         "X timeline embed missing"
+      );
+      assert.ok(
+        html.includes("CasparKozlowski"),
+        "Twitter handle missing from embed"
       );
     });
   });
