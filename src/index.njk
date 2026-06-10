@@ -3,42 +3,55 @@ layout: base.njk
 title: Home
 ---
 
-<div class="home-main">
-  <h1>Posts</h1>
-  <p class="home-intro">The writing portfolio of Kacper Ruta — essays, op-eds, and data-driven social commentary.</p>
+<div class="home-grid">
+  <div class="home-main">
+    <h1>Posts</h1>
+    <p class="home-intro">The writing portfolio of Kacper Ruta — essays, op-eds, and data-driven social commentary.</p>
 
-  {% if collections.post.length == 0 %}
-    <p>No posts yet.</p>
-  {% else %}
-    <input
-      class="post-filter"
-      type="search"
-      placeholder="Filter by title, subtitle, or #hashtag…"
-      aria-label="Filter posts"
-    />
-    <ul class="post-list">
-      {% for post in collections.post | reverse %}
-        <li data-search="{{ post.data.title }} {{ post.data.subtitle }}{% for t in post.data.hashtags %} #{{ t }}{% endfor %}">
-          {% if post.data.thumbnail %}
-            <a class="post-list-thumb" href="{{ post.url }}">
-              <img src="{{ post.data.thumbnail }}" alt="" loading="lazy" />
-            </a>
-          {% endif %}
-          <div class="post-list-text">
-            <a href="{{ post.url }}">{{ post.data.title }}</a>
-            {% if post.data.subtitle %}
-              <p class="post-list-subtitle">{{ post.data.subtitle }}</p>
+    {% if collections.post.length == 0 %}
+      <p>No posts yet.</p>
+    {% else %}
+      <input
+        class="post-filter"
+        type="search"
+        placeholder="Filter by title, subtitle, or #hashtag…"
+        aria-label="Filter posts"
+      />
+      <ul class="post-list">
+        {% for post in collections.post | reverse %}
+          <li data-search="{{ post.data.title }} {{ post.data.subtitle }}{% for t in post.data.hashtags %} #{{ t }}{% endfor %}">
+            {% if post.data.thumbnail %}
+              <a class="post-list-thumb" href="{{ post.url }}">
+                <img src="{{ post.data.thumbnail }}" alt="" loading="lazy" />
+              </a>
             {% endif %}
-            <p class="post-list-meta">
-              <time datetime="{{ post.date | htmlDateString }}">
-                {{ post.date | readableDate }}
-              </time>
-              {% for t in post.data.hashtags %}<a class="tag-chip" href="/tags/{{ t | slugifyTag }}/">#{{ t }}</a>{% endfor %}
-            </p>
-          </div>
-        </li>
-      {% endfor %}
-    </ul>
-    <p class="post-filter-empty" hidden>No posts match.</p>
-  {% endif %}
+            <div class="post-list-text">
+              <a href="{{ post.url }}">{{ post.data.title }}</a>
+              {% if post.data.subtitle %}
+                <p class="post-list-subtitle">{{ post.data.subtitle }}</p>
+              {% endif %}
+              <p class="post-list-meta">
+                <time datetime="{{ post.date | htmlDateString }}">
+                  {{ post.date | readableDate }}
+                </time>
+                {% for t in post.data.hashtags %}<a class="tag-chip" href="/tags/{{ t | slugifyTag }}/">#{{ t }}</a>{% endfor %}
+              </p>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+      <p class="post-filter-empty" hidden>No posts match.</p>
+    {% endif %}
+  </div>
+
+  <aside class="home-feed" aria-label="Latest posts on X">
+    <p class="home-feed-title">Latest on X</p>
+    <a class="twitter-timeline"
+       data-theme="dark"
+       data-chrome="noheader nofooter noborders transparent"
+       data-tweet-limit="8"
+       href="{{ site.social.twitter }}">
+      Posts by @{{ site.twitterHandle }}
+    </a>
+  </aside>
 </div>
