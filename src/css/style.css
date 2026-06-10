@@ -29,8 +29,8 @@
   --page-width:    calc(var(--post-width) + 6rem);
 
 /* Fonts */
---font-serif: "Alegreya", Georgia, serif;             /* body — Free Press-style editorial serif */
---font-display: "Alegreya", Georgia, serif;           /* headings — bold calligraphic serif (GT Sectra equivalent) */
+--font-serif: "Lora", Georgia, serif;                 /* body */
+--font-display: "Playfair Display", Georgia, serif;   /* headings — high-contrast editorial */
 --font-sans:  "Source Sans 3", system-ui, sans-serif; /* UI chrome, metadata */
 --font-mono:  "IBM Plex Mono", monospace;            /* code only */
 --font-gothic: "UnifrakturMaguntia", cursive; /* Germanic blackletter (textura) — menu */
@@ -972,4 +972,96 @@ pre:hover .copy-btn {
 .fade-target.fade-in {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* ============================================================
+   SOCIAL SIDEBAR — fixed right column with icons + X timeline
+   ============================================================ */
+.social-sidebar {
+  display: none;
+}
+
+@media (min-width: 1100px) {
+  .social-sidebar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+    position: fixed;
+    right: 1.25rem;
+    top: 2.5rem;
+    width: 280px;
+    max-height: calc(100vh - 4rem);
+    overflow-y: auto;
+    z-index: 80;
+  }
+
+  /* Push hashtag panel below the social sidebar on post pages */
+  .hashtag-panel {
+    top: auto !important;
+    bottom: 2rem;
+    max-height: calc(50vh - 2rem);
+  }
+}
+
+.social-icons {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  width: 100%;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.social-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  color: var(--text-dim);
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  text-decoration: none;
+  transition: color 0.2s, border-color 0.2s, transform 0.15s;
+}
+
+.social-icon:hover {
+  color: var(--accent-h);
+  border-color: var(--accent);
+  transform: scale(1.1);
+}
+
+.twitter-feed {
+  width: 100%;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+/* Style the Twitter iframe background to match the dark theme */
+.twitter-feed iframe {
+  border-radius: 6px;
+}
+
+/* ============================================================
+   RESPONSIVE — show social icons inline on narrow screens
+   ============================================================ */
+@media (max-width: 1099px) {
+  .social-sidebar {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 2rem auto 0;
+    max-width: var(--text-width);
+  }
+
+  .social-icons {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .twitter-feed {
+    display: none;
+  }
 }

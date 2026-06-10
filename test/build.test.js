@@ -171,13 +171,29 @@ describe("Blog build", () => {
   });
 
   describe("Single-column structure", () => {
-    it("CSS uses a single-column layout with the editorial serif", () => {
+    it("CSS uses a single-column layout with editorial fonts", () => {
       const css = readFileSync(join(SITE, "css", "style.css"), "utf-8");
       assert.ok(
         !css.includes("column-count: 2"),
         "two-column rule should be removed"
       );
-      assert.ok(css.includes('"Alegreya"'), "Alegreya font missing");
+      assert.ok(css.includes('"Lora"'), "Lora body font missing");
+      assert.ok(
+        css.includes('"Playfair Display"'),
+        "Playfair Display heading font missing"
+      );
+    });
+  });
+
+  describe("Social sidebar", () => {
+    it("renders social icons and X timeline embed", () => {
+      const html = readFileSync(join(SITE, "index.html"), "utf-8");
+      assert.ok(html.includes("social-sidebar"), "social sidebar missing");
+      assert.ok(html.includes("social-icon"), "social icons missing");
+      assert.ok(
+        html.includes("twitter-timeline"),
+        "X timeline embed missing"
+      );
     });
   });
 
