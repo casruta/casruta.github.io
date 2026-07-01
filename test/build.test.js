@@ -106,6 +106,17 @@ describe("Blog build", () => {
       assert.match(titles[0], /Hello World/);
     });
 
+    it('"AI" matches only the AI post, not "gain" in another subtitle', () => {
+      type("AI");
+      const titles = visibleTitles();
+      assert.equal(titles.length, 1, "expected only the AI article");
+      assert.match(titles[0], /AI, Data, and Meta/);
+      assert.ok(
+        !titles.some((t) => /Spending Outpaced Growth/.test(t)),
+        "the Alberta post (contains 'gain') must be hidden"
+      );
+    });
+
     it("shows the empty message when nothing matches", () => {
       type("zzz-no-such-post");
       assert.equal(visibleTitles().length, 0);

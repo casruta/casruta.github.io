@@ -153,7 +153,14 @@
   }
 
   // ── Home page post filter ─────────────────────────────────────────────────
-  // Live-filters the post list by title, subtitle, or #hashtag.
+  // Live-filters the post list by title, subtitle, or #hashtag. Each search
+  // term must be a PREFIX of a whole word in the post (not just any substring),
+  // so "AI" matches the tag/word "AI" but not "gain" — and every term must
+  // match, so multi-word queries narrow the list. Case-insensitive.
+  function words(str) {
+    return (str || '').toLowerCase().match(/[a-z0-9]+/g) || [];
+  }
+
   function initPostFilter() {
     var input = document.querySelector('.post-filter');
     if (!input) return;
@@ -162,12 +169,14 @@
     var empty = document.querySelector('.post-filter-empty');
 
     input.addEventListener('input', function () {
-      var query = input.value.trim().toLowerCase();
+      var terms = words(input.value);
       var visible = 0;
 
       items.forEach(function (li) {
-        var haystack = (li.getAttribute('data-search') || li.textContent).toLowerCase();
-        var match = !query || haystack.indexOf(query) !== -1;
+        var tokens = words(li.getAttribute('data-search') || li.textContent);
+        var match = terms.every(function (term) {
+          return tokens.some(function (tok) { return tok.indexOf(term) === 0; });
+        });
         li.hidden = !match;
         if (match) visible++;
       });
