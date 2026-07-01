@@ -3,6 +3,15 @@ layout: base.njk
 title: Home
 ---
 
+{% if collections.post.length > 0 %}
+  <input
+    class="post-filter post-filter-top"
+    type="search"
+    placeholder="Filter by title or #hashtag… (press / to focus)"
+    aria-label="Filter posts"
+  />
+{% endif %}
+
 <div class="home-grid">
   <div class="home-main">
     <h1>Posts</h1>
@@ -28,12 +37,6 @@ title: Home
         </div>
       </a>
 
-      <input
-        class="post-filter"
-        type="search"
-        placeholder="Filter by title or #hashtag… (press / to focus)"
-        aria-label="Filter posts"
-      />
       <ul class="post-list">
         {% for post in collections.post | reverse %}
           <li data-search="{{ post.data.title }}{% for t in post.data.hashtags %} #{{ t }}{% endfor %}">
