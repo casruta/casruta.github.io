@@ -170,12 +170,16 @@ describe("Blog build", () => {
     }
   });
 
-  describe("Single-column structure", () => {
-    it("CSS uses a single-column layout with editorial fonts", () => {
+  describe("Two-column academic layout", () => {
+    it("CSS uses a two-column post body with editorial fonts", () => {
       const css = readFileSync(join(SITE, "css", "style.css"), "utf-8");
       assert.ok(
-        !css.includes("column-count: 2"),
-        "two-column rule should be removed"
+        css.includes("column-count: 2"),
+        "two-column (column-count: 2) rule missing"
+      );
+      assert.ok(
+        css.includes("column-span: all"),
+        "full-width spanning rule (abstract/table) missing"
       );
       assert.ok(css.includes('"Lora"'), "Lora body font missing");
       assert.ok(

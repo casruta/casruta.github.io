@@ -20,7 +20,9 @@
 
   /* Layout */
   --text-width:    748px;
-  --post-width:    1235px;  /* wide reading area for posts (1.5x) */
+  /* Ultra-wide post canvas — academic-paper feel. Responsive so the fixed
+     right-edge social icons never collide (always ≥4rem outer margin). */
+  --post-width:    min(1560px, calc(100vw - 8rem));
   --note-width:    150px;
   --note-gap:      2rem;
   /* Content = reading column + gap + sidenote margin */
@@ -314,14 +316,55 @@ blockquote p {
 }
 
 /* ============================================================
-   POST LAYOUT — SINGLE COLUMN
+   POST LAYOUT — TWO-COLUMN (ACADEMIC PAPER)
    ============================================================ */
 .post-content {
-  font-size: 1rem;
-  max-width: var(--text-width);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  max-width: var(--post-width);
   margin: 0 auto;          /* centered on the page */
   text-align: justify;
   hyphens: auto;
+}
+
+@media (min-width: 768px) {
+  .post-content {
+    column-count: 2;
+    column-gap: 3.5rem;
+    column-rule: 1px solid var(--border);
+  }
+
+  /* Keep block elements from splitting across the column break */
+  .post-content pre,
+  .post-content blockquote,
+  .post-content figure,
+  .post-content img,
+  .post-content ul,
+  .post-content ol {
+    break-inside: avoid;
+  }
+
+  /* Don't strand a heading at the foot of a column */
+  .post-content h2,
+  .post-content h3,
+  .post-content h4 {
+    break-after: avoid;
+    break-inside: avoid;
+  }
+
+  /* Full-width elements span both columns, like a paper's abstract,
+     wide tables, and reference list. */
+  .post-content .abstract,
+  .post-content table,
+  .post-content .footnotes {
+    column-span: all;
+  }
+
+  /* A spanning table needs breathing room from the columns above/below */
+  .post-content table {
+    margin-top: 1.5em;
+    margin-bottom: 1.5em;
+  }
 }
 
 /* ============================================================
@@ -552,8 +595,8 @@ sup a,
   margin: 0 auto 2.5em;          /* centered above the body */
   border-bottom: 1px solid var(--border);
   padding-bottom: 1em;
-  max-width: var(--text-width);
-  text-align: center;            /* scholarly title block */
+  max-width: var(--post-width);
+  text-align: center;            /* scholarly title block spans the page */
 }
 
 .post-header h1 {
@@ -592,7 +635,7 @@ sup a,
    POST HERO IMAGE — single column between header and body
    ============================================================ */
 .post-hero {
-  max-width: var(--text-width);
+  max-width: var(--post-width);
   margin: 0 auto 2.5em;
 }
 
@@ -806,6 +849,13 @@ sup a,
 
   h1 { font-size: 1.6rem; }
 
+  /* Single column, edge-to-edge on phones (drop the wide-screen reserve) */
+  .post-content,
+  .post-header,
+  .post-hero {
+    max-width: 100%;
+  }
+
   .post-list li {
     flex-direction: column;
     gap: 0.5rem;
@@ -846,8 +896,10 @@ sup a,
 }
 
 @media (min-width: 1100px) {
+  /* Kept hidden: the ultra-wide two-column body leaves no right margin for
+     a floating panel, and the tags already appear in the post header. */
   .hashtag-panel {
-    display: flex;
+    display: none;
     flex-direction: column;
     gap: 0.5rem;
     position: fixed;
