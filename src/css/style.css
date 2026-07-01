@@ -75,10 +75,12 @@ header .masthead {
 }
 
 header .site-title {
-  /* Blackletter nameplate in Title Case, like the NYT logo */
+  /* Blackletter nameplate in Title Case, like the NYT logo. The face has a
+     single weight, so thicken the real glyph strokes instead of faux-bold. */
   font-family: var(--font-gothic);
-  font-size: 2rem;
+  font-size: 2.15rem;
   font-weight: 400;
+  -webkit-text-stroke: 0.032em currentColor;
   letter-spacing: 0.01em;
   text-transform: none;
   color: var(--text);
@@ -96,12 +98,13 @@ header nav {
 }
 
 header nav a {
-  /* NYT-style section nav: small uppercase Franklin */
-  font-family: var(--font-sans);
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  /* Nav in the nameplate blackletter, Title Case (all-caps blackletter
+     is unreadable) */
+  font-family: var(--font-gothic);
+  font-size: 1.1rem;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  text-transform: none;
   color: var(--text-dim);
   text-decoration: none;
 }
@@ -130,7 +133,7 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
   color: var(--text);
   line-height: 1.25;
-  font-weight: 400; /* blackletter has a single weight; avoid faux-bold */
+  font-weight: 700;
   margin-top: 2.2em;
   margin-bottom: 0.5em;
 }
@@ -851,7 +854,7 @@ sup a,
 
 .featured-title {
   font-family: var(--font-display);
-  font-weight: 400;
+  font-weight: 700;
   font-size: 1.35rem;
   line-height: 1.25;
   margin: 0 0 0.35em;
@@ -941,7 +944,7 @@ sup a,
   color: var(--text);
   text-decoration: none;
   font-family: var(--font-display);
-  font-weight: 400;
+  font-weight: 700;
 }
 
 .read-next a:hover {
@@ -1069,7 +1072,7 @@ sup a,
 
 .author-card-name {
   font-family: var(--font-display);
-  font-weight: 400;
+  font-weight: 700;
   font-size: 1.05rem;
   margin: 0 0 0.3em;
 }

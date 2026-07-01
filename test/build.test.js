@@ -242,12 +242,26 @@ describe("Blog build", () => {
       const t = readFileSync(join(SITE, "css", "tokens.css"), "utf-8");
       assert.match(
         t,
-        /--font-heading:\s*"UnifrakturMaguntia"/,
-        "headings must use the nameplate blackletter"
+        /--font-heading:\s*"Domine"/,
+        "content headings must use the NYT-style Domine"
+      );
+      assert.match(
+        t,
+        /--font-gothic:\s*"UnifrakturMaguntia"/,
+        "nameplate/nav blackletter missing"
       );
       assert.ok(t.includes("Georgia"), "body font missing");
       assert.ok(t.includes('"Libre Franklin"'), "sans/label font missing");
       assert.ok(t.includes("--font-body"), "--font-body token missing");
+    });
+
+    it("nav links use the nameplate blackletter", () => {
+      const css = readFileSync(join(SITE, "css", "style.css"), "utf-8");
+      assert.match(
+        css,
+        /header nav a \{[^}]*font-family: var\(--font-gothic\)/,
+        "nav must use the gothic font"
+      );
     });
 
     it("post column is half the layout canvas (600px)", () => {
