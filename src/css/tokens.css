@@ -1,0 +1,56 @@
+/* ============================================================
+   DESIGN TOKENS — single source of truth for the whole site.
+
+   Two type families and five brand colours live here and nowhere
+   else. Change a value in this file and every page updates. Every
+   other stylesheet references these variables — it never hard-codes
+   a colour or a font name.
+   ============================================================ */
+:root {
+  /* ---- Brand palette ---------------------------------------- */
+  --color-background: #efeae2;  /* page background — warm cream       */
+  --color-text:       #2a1f14;  /* body + headings — dark espresso    */
+  --color-primary:    #2a1f14;  /* primary UI / strong marks          */
+  --color-accent:     #8b6f4e;  /* links, highlights — warm brown     */
+  --color-surface:    #c9b896;  /* cards, code, quotes — tan          */
+
+  /* ---- Type: exactly two families --------------------------- */
+  --font-heading: "Playfair Display", Georgia, "Times New Roman", serif;
+  --font-body:    "Lora", Georgia, "Times New Roman", serif;
+
+  /* ============================================================
+     Everything below is DERIVED from the tokens above — no new
+     brand values. Existing rules reference these aliases, so the
+     whole site collapses onto the two fonts and five colours.
+     ============================================================ */
+
+  /* Semantic colours (derived with color-mix from the palette) */
+  --bg:       var(--color-background);
+  --bg-alt:   var(--color-surface);
+  --text:     var(--color-text);
+  --text-dim: color-mix(in srgb, var(--color-text) 66%, var(--color-background));
+  --accent:   var(--color-accent);
+  --accent-h: color-mix(in srgb, var(--color-accent) 65%, var(--color-text));
+  --border:   color-mix(in srgb, var(--color-text) 16%, var(--color-background));
+  --border-h: color-mix(in srgb, var(--color-text) 34%, var(--color-background));
+
+  /* Font aliases — every element resolves to the heading/body pair.
+     UI chrome, metadata and the masthead all map onto the two
+     families; --font-mono is a functional system fallback used only
+     for code blocks (no third web font is loaded). */
+  --font-serif:   var(--font-body);
+  --font-display: var(--font-heading);
+  --font-sans:    var(--font-body);
+  --font-gothic:  var(--font-heading);
+  --font-mono:    ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+
+  /* ---- Layout ----------------------------------------------- */
+  --text-width:    748px;
+  /* Wide single-column canvas. Responsive so the fixed right-edge
+     social icons never collide (always ≥4rem outer margin). */
+  --post-width:    min(1200px, calc(100vw - 8rem));
+  --note-width:    150px;
+  --note-gap:      2rem;
+  --content-width: calc(var(--text-width) + var(--note-gap) + var(--note-width));
+  --page-width:    calc(var(--post-width) + 6rem);
+}

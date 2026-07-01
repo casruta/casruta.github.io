@@ -5,38 +5,8 @@
   box-sizing: border-box;
 }
 
-/* ============================================================
-   DESIGN TOKENS  — Gwern colorway
-   ============================================================ */
-:root {
-  --bg:          #0f0e0d;   /* near-black, slight warm tint */
-  --bg-alt:      #171614;   /* code/quote backgrounds */
-  --text:        #d4ccc0;   /* warm cream */
-  --text-dim:    #d4ccc0;   /* muted annotations, dates */
-  --accent:      #c8bfb4;   /* links — warm cream, slightly lighter */
-  --accent-h:    #e0d8d0;   /* hovered links */
-  --border:      #1e1c1a;   /* subtle dividers */
-  --border-h:    #38362f;   /* stronger divider */
-
-  /* Layout */
-  --text-width:    748px;
-  /* Wide single-column canvas. Responsive so the fixed right-edge social
-     icons never collide (always ≥4rem outer margin). */
-  --post-width:    min(1200px, calc(100vw - 8rem));
-  --note-width:    150px;
-  --note-gap:      2rem;
-  /* Content = reading column + gap + sidenote margin */
-  --content-width: calc(var(--text-width) + var(--note-gap) + var(--note-width));
-  /* Wide page sized to fit the post width + outer padding (3rem each side) */
-  --page-width:    calc(var(--post-width) + 6rem);
-
-/* Fonts */
---font-serif: "Lora", Georgia, serif;                 /* body */
---font-display: "Playfair Display", Georgia, serif;   /* headings — high-contrast editorial */
---font-sans:  "Source Sans 3", system-ui, sans-serif; /* UI chrome, metadata */
---font-mono:  "IBM Plex Mono", monospace;            /* code only */
---font-gothic: "Ruslan Display", cursive; /* Church Slavonic ustav lettering — menu */
-}
+/* Design tokens (colours, fonts, layout) live in tokens.css, which is
+   loaded before this file. This stylesheet only consumes those variables. */
 
 /* ============================================================
    DOCUMENT
@@ -370,7 +340,7 @@ code {
   background: var(--bg-alt);
   padding: 0.15em 0.35em;
   border-radius: 3px;
-  color: #c8a87a;
+  color: var(--text);
 }
 
 pre {
@@ -387,7 +357,7 @@ pre code {
   background: none;
   padding: 0;
   border-radius: 0;
-  color: #b8c8a8;
+  color: var(--text);
   font-size: 0.85em;
 }
 
