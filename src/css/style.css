@@ -594,6 +594,12 @@ sup a,
   transition: border-color 0.2s;
 }
 
+/* Search bar at the very top of the home page, between header and content */
+.post-filter-top {
+  max-width: var(--layout-width);
+  margin: 0 auto 2.5rem;
+}
+
 .post-filter::placeholder {
   color: var(--text-dim);
   opacity: 0.7;
