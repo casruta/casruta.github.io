@@ -60,6 +60,20 @@ header {
   gap: 0.5rem;
 }
 
+header .masthead {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.masthead-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--border);
+}
+
 header .site-title {
   /* Blackletter nameplate in Title Case, like the NYT logo */
   font-family: var(--font-gothic);

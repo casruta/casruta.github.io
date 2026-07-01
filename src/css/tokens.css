@@ -52,11 +52,13 @@
 
   /* ---- Layout ----------------------------------------------- */
   --text-width:    748px;
-  /* Wide single-column canvas. Responsive so the fixed right-edge
+  /* Page shell / home grid canvas. Responsive so the fixed right-edge
      social icons never collide (always ≥4rem outer margin). */
-  --post-width:    min(1200px, calc(100vw - 8rem));
+  --layout-width:  min(1200px, calc(100vw - 8rem));
+  /* Post reading column — half the layout canvas */
+  --post-width:    min(600px, calc(100vw - 4rem));
   --note-width:    150px;
   --note-gap:      2rem;
   --content-width: calc(var(--text-width) + var(--note-gap) + var(--note-width));
-  --page-width:    calc(var(--post-width) + 6rem);
+  --page-width:    calc(var(--layout-width) + 6rem);
 }
