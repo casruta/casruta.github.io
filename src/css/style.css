@@ -130,7 +130,7 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
   color: var(--text);
   line-height: 1.25;
-  font-weight: 700;
+  font-weight: 400; /* blackletter has a single weight; avoid faux-bold */
   margin-top: 2.2em;
   margin-bottom: 0.5em;
 }
@@ -845,7 +845,7 @@ sup a,
 
 .featured-title {
   font-family: var(--font-display);
-  font-weight: 700;
+  font-weight: 400;
   font-size: 1.35rem;
   line-height: 1.25;
   margin: 0 0 0.35em;
@@ -935,7 +935,7 @@ sup a,
   color: var(--text);
   text-decoration: none;
   font-family: var(--font-display);
-  font-weight: 700;
+  font-weight: 400;
 }
 
 .read-next a:hover {
@@ -1063,7 +1063,7 @@ sup a,
 
 .author-card-name {
   font-family: var(--font-display);
-  font-weight: 700;
+  font-weight: 400;
   font-size: 1.05rem;
   margin: 0 0 0.3em;
 }
