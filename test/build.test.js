@@ -238,12 +238,15 @@ describe("Blog build", () => {
   });
 
   describe("Design tokens", () => {
-    it("tokens.css defines the NYT-style type voices", () => {
+    it("tokens.css defines the type voices", () => {
       const t = readFileSync(join(SITE, "css", "tokens.css"), "utf-8");
-      assert.ok(t.includes('"Domine"'), "headline font missing");
+      assert.match(
+        t,
+        /--font-heading:\s*"UnifrakturMaguntia"/,
+        "headings must use the nameplate blackletter"
+      );
       assert.ok(t.includes("Georgia"), "body font missing");
       assert.ok(t.includes('"Libre Franklin"'), "sans/label font missing");
-      assert.ok(t.includes("--font-heading"), "--font-heading token missing");
       assert.ok(t.includes("--font-body"), "--font-body token missing");
     });
 

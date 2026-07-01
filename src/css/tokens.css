@@ -20,10 +20,10 @@
   --color-surface:    #f7f7f7;  /* cards, code, quotes — light grey   */
 
   /* ---- Type voices ------------------------------------------- */
-  --font-heading: "Domine", Georgia, "Times New Roman", serif;         /* headlines — Cheltenham-like */
+  --font-heading: "UnifrakturMaguntia", cursive;                       /* headlines — blackletter, same as the nameplate */
   --font-body:    Georgia, "Times New Roman", serif;                   /* body — NYT web voice, system font */
   --font-sans:    "Libre Franklin", Helvetica, Arial, sans-serif;      /* labels, bylines, nav — Franklin Gothic revival */
-  --font-gothic:  "UnifrakturMaguntia", cursive;                       /* nameplate only */
+  --font-gothic:  "UnifrakturMaguntia", cursive;                       /* nameplate */
 
   /* ============================================================
      Everything below is DERIVED from the tokens above — no new
