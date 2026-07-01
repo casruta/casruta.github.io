@@ -29,7 +29,12 @@ export default {
     // Frontmatter `image:` overrides; `image: false` disables.
     heroImage: (data) => {
       if (data.image === false) return false;
-      if (data.image) return data.image;
+      if (data.image) {
+        // Normalize bare filenames (image: foo.png) to the /posts/ output
+        // path; leave absolute paths and full URLs untouched.
+        if (/^(\/|https?:\/\/)/.test(data.image)) return data.image;
+        return `/posts/${data.image}`;
+      }
 
       const inputPath = data.page.inputPath;
       const dir = dirname(inputPath);

@@ -24,63 +24,6 @@
     });
   }
 
-  // ── Footnote → Sidenote conversion ───────────────────────────────────────
-  // Only runs on wide screens. Converts markdown-it-footnote output into
-  // sidenote <aside> elements placed next to their reference paragraphs.
-  function convertFootnotesToSidenotes() {
-    // Disabled: the two-column scholarly layout has no margin for sidenotes,
-    // so footnotes stay in their section at the bottom (spanning both columns).
-    return;
-
-    /* eslint-disable no-unreachable */
-    var content = document.querySelector('.post-content');
-    var fnSection = document.querySelector('.footnotes');
-    if (!content || !fnSection) return;
-    if (window.innerWidth < 960) return;
-
-    var refs = content.querySelectorAll('sup.footnote-ref');
-    if (refs.length === 0) return;
-
-    refs.forEach(function (sup) {
-      var link = sup.querySelector('a');
-      if (!link) return;
-
-      var fnId = link.getAttribute('href').replace(/^#/, '');
-      var fnItem = document.getElementById(fnId);
-      if (!fnItem) return;
-
-      // Clone footnote and strip the back-reference link
-      var clone = fnItem.cloneNode(true);
-      var backref = clone.querySelector('.footnote-backref');
-      if (backref) backref.parentNode.removeChild(backref);
-
-      // Extract inner HTML (strip outer <p> wrapper if present)
-      var inner = clone.innerHTML.trim();
-      inner = inner.replace(/^<p>/, '').replace(/<\/p>$/, '').trim();
-
-      // Derive the number from the link text, e.g. "[1]" → "1"
-      var num = link.textContent.replace(/[\[\]]/g, '').trim();
-
-      // Build sidenote element
-      var aside = document.createElement('aside');
-      aside.className = 'sidenote';
-      aside.innerHTML =
-        '<span class="sidenote-number">' + num + '</span>' + inner;
-
-      // Insert the sidenote as the next sibling after the parent paragraph
-      var parent = sup.closest('p') || sup.parentElement;
-      if (parent && parent.parentNode) {
-        parent.parentNode.insertBefore(aside, parent.nextSibling);
-      }
-
-      // Replace the bracketed link text with just the number
-      link.textContent = num;
-    });
-
-    // Hide the original footnote section on wide screens
-    fnSection.style.display = 'none';
-  }
-
   // ── Table of Contents ─────────────────────────────────────────────────────
   function buildTOC() {
     var content = document.querySelector('.post-content');
@@ -123,33 +66,6 @@
     } else {
       content.insertBefore(toc, content.firstElementChild);
     }
-  }
-
-  // ── Floating hashtag panel ─────────────────────────────────────────────────
-  // Mirrors the hashtag links from the .post-tags element rendered by post.njk
-  // into a fixed panel on the right; each item links to its /tags/ page.
-  function buildHashtagPanel() {
-    var tagsParagraph = document.querySelector('.post-tags');
-    if (!tagsParagraph) return;
-
-    var tagLinks = tagsParagraph.querySelectorAll('a');
-    if (tagLinks.length === 0) return;
-
-    // Build the fixed panel (tags stay visible in the post header too)
-    var panel = document.createElement('nav');
-    panel.className = 'hashtag-panel';
-    panel.setAttribute('aria-label', 'Post tags');
-
-    tagLinks.forEach(function (link, i) {
-      var a = document.createElement('a');
-      a.className = 'hashtag-item';
-      a.textContent = link.textContent;
-      a.href = link.href;
-      a.style.animationDelay = (i * 0.06) + 's';
-      panel.appendChild(a);
-    });
-
-    document.body.appendChild(panel);
   }
 
   // ── Home page post filter ─────────────────────────────────────────────────
@@ -296,20 +212,26 @@
     fullImg.className = 'lightbox-img';
     fullImg.alt = '';
     overlay.appendChild(fullImg);
+    overlay.setAttribute('tabindex', '-1');
     document.body.appendChild(overlay);
 
+    var lastFocused = null;
+
     function open(src, alt) {
+      lastFocused = document.activeElement;
       fullImg.src = src;
       fullImg.alt = alt || '';
       overlay.classList.add('is-open');
       overlay.setAttribute('aria-hidden', 'false');
       document.body.style.overflow = 'hidden';
+      overlay.focus();
     }
 
     function close() {
       overlay.classList.remove('is-open');
       overlay.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
+      if (lastFocused && lastFocused.focus) lastFocused.focus();
     }
 
     images.forEach(function (img) {
@@ -339,9 +261,7 @@
   // ── Init ──────────────────────────────────────────────────────────────────
   document.addEventListener('DOMContentLoaded', function () {
     addHeadingAnchors();
-    convertFootnotesToSidenotes();
     buildTOC();
-    buildHashtagPanel();
     initPostFilter();
     initProgressBar();
     initCopyButtons();

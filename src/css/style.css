@@ -298,40 +298,6 @@ blockquote p {
 }
 
 /* ============================================================
-   SIDENOTES
-   ============================================================ */
-.sidenote {
-  font-size: 0.8rem;
-  line-height: 1.55;
-  color: var(--text-dim);
-  border-left: 1px solid var(--border-h);
-  padding-left: 0.8rem;
-  margin-top: 0.15rem;
-}
-
-.sidenote p {
-  text-align: left;
-  margin-bottom: 0;
-  hyphens: none;
-}
-
-.sidenote-number {
-  color: var(--accent);
-  font-size: 0.75em;
-  vertical-align: super;
-  line-height: 0;
-  margin-right: 0.3em;
-  font-family: var(--font-sans);
-}
-
-/* On narrow screens, hide sidenotes (footnotes shown at bottom instead) */
-@media (max-width: 959px) {
-  .sidenote {
-    display: none;
-  }
-}
-
-/* ============================================================
    CODE
    ============================================================ */
 code {
@@ -461,7 +427,7 @@ figcaption {
   position: fixed;
   inset: 0;
   z-index: 400;
-  background: rgba(0, 0, 0, 0.92);
+  background: var(--overlay-bg);
   cursor: zoom-out;
   padding: 2.5vh 2.5vw;
   /* centre the enlarged image */
@@ -485,11 +451,11 @@ figcaption {
   width: auto;
   height: auto;
   border-radius: 4px;
-  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
+  box-shadow: var(--shadow-lg);
 }
 
 /* ============================================================
-   FOOTNOTES  (shown on narrow screens; replaced by sidenotes on wide)
+   FOOTNOTES
    ============================================================ */
 
 /* Hide the auto-generated <hr> above the footnotes section */
@@ -640,6 +606,13 @@ sup a,
   align-items: flex-start;
   padding: 0.85rem 0;
   border-bottom: 1px solid var(--border);
+}
+
+/* The search filter hides items via the `hidden` attribute; without this
+   rule the `display: flex` above would override the UA's [hidden] style
+   and filtered-out posts would stay visible. */
+.post-list li[hidden] {
+  display: none !important;
 }
 
 .post-list li:last-child {
@@ -812,68 +785,6 @@ sup a,
 }
 
 /* ============================================================
-   HASHTAG PANEL — fixed, right side, mirrors left nav
-   ============================================================ */
-
-/* Hidden by default; shown only on wide viewports below */
-.hashtag-panel {
-  display: none;
-}
-
-@keyframes hashtag-slide-in {
-  from { opacity: 0; transform: translateX(12px); }
-  to   { opacity: 1; transform: translateX(0); }
-}
-
-@media (min-width: 1100px) {
-  /* Kept hidden: the ultra-wide two-column body leaves no right margin for
-     a floating panel, and the tags already appear in the post header. */
-  .hashtag-panel {
-    display: none;
-    flex-direction: column;
-    gap: 0.5rem;
-    position: fixed;
-    right: 1rem;
-    top: 2.5rem;
-    width: 140px;
-    max-height: calc(100vh - 4rem);
-    overflow-y: auto;
-    z-index: 90;
-  }
-
-  .hashtag-item {
-    font-family: var(--font-sans);
-    font-size: 0.75rem;
-    letter-spacing: 0.03em;
-    color: var(--text-dim);
-    background: var(--bg-alt);
-    border: 1px solid var(--border);
-    border-radius: 3px;
-    padding: 0.3em 0.6em;
-    line-height: 1.4;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    cursor: pointer;
-    text-decoration: none;
-    transition: color 0.2s, border-color 0.2s, background 0.2s, transform 0.15s;
-    text-align: left;
-    animation: hashtag-slide-in 0.35s ease both;
-  }
-
-  .hashtag-item:hover {
-    color: var(--accent-h);
-    border-color: var(--accent);
-    background: var(--border);
-    transform: translateX(-3px);
-  }
-
-  .hashtag-item:active {
-    transform: scale(0.96);
-  }
-}
-
-/* ============================================================
    FOCUS-VISIBLE
    ============================================================ */
 :focus-visible {
@@ -936,8 +847,8 @@ pre:hover .copy-btn {
 }
 
 .copy-btn.copied {
-  color: #8ab88a;
-  border-color: #8ab88a;
+  color: var(--color-success);
+  border-color: var(--color-success);
 }
 
 /* ============================================================

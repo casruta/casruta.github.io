@@ -30,6 +30,14 @@ describe("Blog build", () => {
       assert.ok(html.includes("post-list"), "post-list class missing");
     });
 
+    it("keeps content visible without JavaScript (noscript fallback)", () => {
+      const html = readFileSync(join(SITE, "index.html"), "utf-8");
+      assert.ok(
+        html.includes("<noscript>") && html.includes(".fade-target"),
+        "noscript fallback for scroll-reveal missing"
+      );
+    });
+
     it("contains the post filter with searchable metadata", () => {
       const html = readFileSync(join(SITE, "index.html"), "utf-8");
       assert.ok(html.includes("post-filter"), "filter input missing");
@@ -91,6 +99,18 @@ describe("Blog build", () => {
         window.document.querySelectorAll(".post-list li:not([hidden])")
       ).map((li) => li.querySelector(".post-list-text a").textContent.trim());
     }
+
+    it("CSS actually hides [hidden] list items (display:flex override)", () => {
+      // Regression: the filter sets the hidden attribute, but the author rule
+      // `.post-list li { display: flex }` beats the UA `[hidden]` style unless
+      // this explicit rule exists — without it, "hidden" posts stay visible.
+      const css = readFileSync(join(SITE, "css", "style.css"), "utf-8");
+      assert.match(
+        css,
+        /\.post-list li\[hidden\]\s*\{\s*display:\s*none\s*!important/,
+        "missing .post-list li[hidden]{display:none!important} rule"
+      );
+    });
 
     it("filters by hashtag", () => {
       type("#inflation");
