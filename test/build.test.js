@@ -227,17 +227,18 @@ describe("Blog build", () => {
   });
 
   describe("Design tokens", () => {
-    it("tokens.css defines exactly the two brand fonts", () => {
+    it("tokens.css defines the NYT-style type voices", () => {
       const t = readFileSync(join(SITE, "css", "tokens.css"), "utf-8");
-      assert.ok(t.includes('"Playfair Display"'), "heading font missing");
-      assert.ok(t.includes('"Lora"'), "body font missing");
+      assert.ok(t.includes('"Domine"'), "headline font missing");
+      assert.ok(t.includes("Georgia"), "body font missing");
+      assert.ok(t.includes('"Libre Franklin"'), "sans/label font missing");
       assert.ok(t.includes("--font-heading"), "--font-heading token missing");
       assert.ok(t.includes("--font-body"), "--font-body token missing");
     });
 
-    it("tokens.css defines the brand palette", () => {
+    it("tokens.css defines the NYT-style palette", () => {
       const t = readFileSync(join(SITE, "css", "tokens.css"), "utf-8").toLowerCase();
-      for (const hex of ["#efeae2", "#2a1f14", "#8b6f4e", "#c9b896"]) {
+      for (const hex of ["#ffffff", "#121212", "#326891", "#f7f7f7"]) {
         assert.ok(t.includes(hex), `palette colour ${hex} missing`);
       }
     });

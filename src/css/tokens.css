@@ -1,53 +1,54 @@
 /* ============================================================
    DESIGN TOKENS — single source of truth for the whole site.
 
-   Two type families and five brand colours live here and nowhere
-   else. Change a value in this file and every page updates. Every
-   other stylesheet references these variables — it never hard-codes
-   a colour or a font name.
+   The brand palette and type voices live here and nowhere else.
+   Change a value in this file and every page updates. Every other
+   stylesheet references these variables — it never hard-codes a
+   colour or a font name.
+
+   Scheme: NYT-style newspaper — white page, near-black text, thin
+   grey rules, restrained navy links; Cheltenham-style serif
+   headlines (Domine), Georgia body, Franklin Gothic sans for
+   labels/bylines/nav (Libre Franklin), blackletter nameplate.
    ============================================================ */
 :root {
   /* ---- Brand palette ---------------------------------------- */
-  --color-background: #efeae2;  /* page background — warm cream       */
-  --color-text:       #2a1f14;  /* body + headings — dark espresso    */
-  --color-primary:    #2a1f14;  /* primary UI / strong marks          */
-  --color-accent:     #8b6f4e;  /* links, highlights — warm brown     */
-  --color-surface:    #c9b896;  /* cards, code, quotes — tan          */
+  --color-background: #ffffff;  /* page background — white            */
+  --color-text:       #121212;  /* body + headings — NYT text black   */
+  --color-primary:    #121212;  /* primary UI / strong marks          */
+  --color-accent:     #326891;  /* links, highlights — NYT navy blue  */
+  --color-surface:    #f7f7f7;  /* cards, code, quotes — light grey   */
 
-  /* ---- Type: exactly two families --------------------------- */
-  --font-heading: "Playfair Display", Georgia, "Times New Roman", serif;
-  --font-body:    "Lora", Georgia, "Times New Roman", serif;
+  /* ---- Type voices ------------------------------------------- */
+  --font-heading: "Domine", Georgia, "Times New Roman", serif;         /* headlines — Cheltenham-like */
+  --font-body:    Georgia, "Times New Roman", serif;                   /* body — NYT web voice, system font */
+  --font-sans:    "Libre Franklin", Helvetica, Arial, sans-serif;      /* labels, bylines, nav — Franklin Gothic revival */
+  --font-gothic:  "UnifrakturMaguntia", cursive;                       /* nameplate only */
 
   /* ============================================================
      Everything below is DERIVED from the tokens above — no new
-     brand values. Existing rules reference these aliases, so the
-     whole site collapses onto the two fonts and five colours.
+     brand values. Existing rules reference these aliases.
      ============================================================ */
 
   /* Semantic colours (derived with color-mix from the palette) */
   --bg:       var(--color-background);
   --bg-alt:   var(--color-surface);
   --text:     var(--color-text);
-  --text-dim: color-mix(in srgb, var(--color-text) 66%, var(--color-background));
+  --text-dim: color-mix(in srgb, var(--color-text) 68%, var(--color-background));
   --accent:   var(--color-accent);
-  --accent-h: color-mix(in srgb, var(--color-accent) 65%, var(--color-text));
-  --border:   color-mix(in srgb, var(--color-text) 16%, var(--color-background));
-  --border-h: color-mix(in srgb, var(--color-text) 34%, var(--color-background));
+  --accent-h: color-mix(in srgb, var(--color-accent) 70%, var(--color-text));
+  --border:   color-mix(in srgb, var(--color-text) 12%, var(--color-background));
+  --border-h: color-mix(in srgb, var(--color-text) 28%, var(--color-background));
 
-  /* Font aliases — every element resolves to the heading/body pair.
-     UI chrome, metadata and the masthead all map onto the two
-     families; --font-mono is a functional system fallback used only
-     for code blocks (no third web font is loaded). */
+  /* Font aliases used throughout style.css */
   --font-serif:   var(--font-body);
   --font-display: var(--font-heading);
-  --font-sans:    var(--font-body);
-  --font-gothic:  var(--font-heading);
   --font-mono:    ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
 
   /* Functional colours that sit outside the brand palette */
-  --color-success: #6f8a5e;                       /* "copied" confirmations */
+  --color-success: #4d7c43;                       /* "copied" confirmations */
   --overlay-bg:    rgba(0, 0, 0, 0.92);           /* lightbox backdrop */
-  --shadow-lg:     0 8px 40px rgba(0, 0, 0, 0.6); /* lightbox image shadow */
+  --shadow-lg:     0 8px 40px rgba(0, 0, 0, 0.35); /* lightbox image shadow */
 
   /* ---- Layout ----------------------------------------------- */
   --text-width:    748px;
