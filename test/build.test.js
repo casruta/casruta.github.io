@@ -25,6 +25,17 @@ describe("Blog build", () => {
       assert.ok(html.includes("About"), "About link missing");
     });
 
+    it("has the circular masthead icon slot beside the title", () => {
+      const html = readFileSync(join(SITE, "index.html"), "utf-8");
+      assert.ok(html.includes("masthead-icon"), "masthead icon missing");
+      const css = readFileSync(join(SITE, "css", "style.css"), "utf-8");
+      assert.match(
+        css,
+        /\.masthead-icon\s*\{[^}]*border-radius:\s*50%/,
+        "icon is not circular"
+      );
+    });
+
     it("contains a post list", () => {
       const html = readFileSync(join(SITE, "index.html"), "utf-8");
       assert.ok(html.includes("post-list"), "post-list class missing");
@@ -234,6 +245,15 @@ describe("Blog build", () => {
       assert.ok(t.includes('"Libre Franklin"'), "sans/label font missing");
       assert.ok(t.includes("--font-heading"), "--font-heading token missing");
       assert.ok(t.includes("--font-body"), "--font-body token missing");
+    });
+
+    it("post column is half the layout canvas (600px)", () => {
+      const t = readFileSync(join(SITE, "css", "tokens.css"), "utf-8");
+      assert.ok(
+        t.includes("--post-width:    min(600px"),
+        "halved post width missing"
+      );
+      assert.ok(t.includes("--layout-width"), "layout width token missing");
     });
 
     it("tokens.css defines the NYT-style palette", () => {

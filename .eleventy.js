@@ -15,6 +15,9 @@ export default function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/css");
   eleventyConfig.addPassthroughCopy("src/js");
   eleventyConfig.addPassthroughCopy("src/favicon.svg");
+  // Masthead portrait — dropped in as src/masthead-icon.png (glob so a
+  // missing file doesn't fail the build before it's uploaded)
+  eleventyConfig.addPassthroughCopy("src/masthead-icon.{png,jpg,webp}");
 
   // Atom feed at /feed.xml (linked from <head> in base.njk)
   eleventyConfig.addPlugin(feedPlugin, {
