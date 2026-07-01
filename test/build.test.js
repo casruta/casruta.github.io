@@ -170,17 +170,40 @@ describe("Blog build", () => {
     }
   });
 
+  describe("Design tokens", () => {
+    it("tokens.css defines exactly the two brand fonts", () => {
+      const t = readFileSync(join(SITE, "css", "tokens.css"), "utf-8");
+      assert.ok(t.includes('"Playfair Display"'), "heading font missing");
+      assert.ok(t.includes('"Lora"'), "body font missing");
+      assert.ok(t.includes("--font-heading"), "--font-heading token missing");
+      assert.ok(t.includes("--font-body"), "--font-body token missing");
+    });
+
+    it("tokens.css defines the brand palette", () => {
+      const t = readFileSync(join(SITE, "css", "tokens.css"), "utf-8").toLowerCase();
+      for (const hex of ["#efeae2", "#2a1f14", "#8b6f4e", "#c9b896"]) {
+        assert.ok(t.includes(hex), `palette colour ${hex} missing`);
+      }
+    });
+
+    it("every page loads the tokens stylesheet before style.css", () => {
+      const html = readFileSync(join(SITE, "index.html"), "utf-8");
+      const tokensAt = html.indexOf("/css/tokens.css");
+      const styleAt = html.indexOf("/css/style.css");
+      assert.ok(tokensAt !== -1, "tokens.css not linked");
+      assert.ok(
+        tokensAt < styleAt,
+        "tokens.css must load before style.css"
+      );
+    });
+  });
+
   describe("Wide single-column layout + scroll reveal", () => {
-    it("CSS is single-column (no two-column rule) with editorial fonts", () => {
+    it("CSS is single-column (no two-column rule)", () => {
       const css = readFileSync(join(SITE, "css", "style.css"), "utf-8");
       assert.ok(
         !css.includes("column-count: 2"),
         "two-column rule should be removed"
-      );
-      assert.ok(css.includes('"Lora"'), "Lora body font missing");
-      assert.ok(
-        css.includes('"Playfair Display"'),
-        "Playfair Display heading font missing"
       );
     });
 
