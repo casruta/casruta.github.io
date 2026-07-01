@@ -1,0 +1,29 @@
+---
+layout: base.njk
+title: Archive
+permalink: /archive/
+---
+
+<div class="home-main">
+  <h1>Archive</h1>
+  <p class="home-intro">Everything, by year.</p>
+
+  {% for group in collections.postsByYear %}
+    <section class="archive-year">
+      <h2>{{ group.year }}</h2>
+      <ul class="post-list">
+        {% for post in group.posts %}
+          <li>
+            <div class="post-list-text">
+              <a href="{{ post.url }}">{{ post.data.title }}</a>
+              <p class="post-list-meta">
+                <time datetime="{{ post.date | htmlDateString }}">{{ post.date | readableDate }}</time>
+                {% for t in post.data.hashtags %}<a class="tag-chip" href="/tags/{{ t | slugifyTag }}/">#{{ t }}</a>{% endfor %}
+              </p>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    </section>
+  {% endfor %}
+</div>

@@ -298,40 +298,6 @@ blockquote p {
 }
 
 /* ============================================================
-   SIDENOTES
-   ============================================================ */
-.sidenote {
-  font-size: 0.8rem;
-  line-height: 1.55;
-  color: var(--text-dim);
-  border-left: 1px solid var(--border-h);
-  padding-left: 0.8rem;
-  margin-top: 0.15rem;
-}
-
-.sidenote p {
-  text-align: left;
-  margin-bottom: 0;
-  hyphens: none;
-}
-
-.sidenote-number {
-  color: var(--accent);
-  font-size: 0.75em;
-  vertical-align: super;
-  line-height: 0;
-  margin-right: 0.3em;
-  font-family: var(--font-sans);
-}
-
-/* On narrow screens, hide sidenotes (footnotes shown at bottom instead) */
-@media (max-width: 959px) {
-  .sidenote {
-    display: none;
-  }
-}
-
-/* ============================================================
    CODE
    ============================================================ */
 code {
@@ -461,7 +427,7 @@ figcaption {
   position: fixed;
   inset: 0;
   z-index: 400;
-  background: rgba(0, 0, 0, 0.92);
+  background: var(--overlay-bg);
   cursor: zoom-out;
   padding: 2.5vh 2.5vw;
   /* centre the enlarged image */
@@ -485,11 +451,11 @@ figcaption {
   width: auto;
   height: auto;
   border-radius: 4px;
-  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
+  box-shadow: var(--shadow-lg);
 }
 
 /* ============================================================
-   FOOTNOTES  (shown on narrow screens; replaced by sidenotes on wide)
+   FOOTNOTES
    ============================================================ */
 
 /* Hide the auto-generated <hr> above the footnotes section */
@@ -640,6 +606,13 @@ sup a,
   align-items: flex-start;
   padding: 0.85rem 0;
   border-bottom: 1px solid var(--border);
+}
+
+/* The search filter hides items via the `hidden` attribute; without this
+   rule the `display: flex` above would override the UA's [hidden] style
+   and filtered-out posts would stay visible. */
+.post-list li[hidden] {
+  display: none !important;
 }
 
 .post-list li:last-child {
@@ -812,65 +785,289 @@ sup a,
 }
 
 /* ============================================================
-   HASHTAG PANEL — fixed, right side, mirrors left nav
+   FEATURED LEAD STORY (home)
    ============================================================ */
-
-/* Hidden by default; shown only on wide viewports below */
-.hashtag-panel {
-  display: none;
+.featured[hidden] {
+  display: none !important;
 }
 
-@keyframes hashtag-slide-in {
-  from { opacity: 0; transform: translateX(12px); }
-  to   { opacity: 1; transform: translateX(0); }
+.featured {
+  display: block;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  margin: 0 0 1.5rem;
+  text-decoration: none;
+  color: var(--text);
+  background: var(--bg-alt);
+  transition: border-color 0.2s;
 }
 
-@media (min-width: 1100px) {
-  /* Kept hidden: the ultra-wide two-column body leaves no right margin for
-     a floating panel, and the tags already appear in the post header. */
-  .hashtag-panel {
-    display: none;
-    flex-direction: column;
-    gap: 0.5rem;
-    position: fixed;
-    right: 1rem;
-    top: 2.5rem;
-    width: 140px;
-    max-height: calc(100vh - 4rem);
-    overflow-y: auto;
-    z-index: 90;
-  }
+.featured:hover {
+  border-color: var(--accent);
+}
 
-  .hashtag-item {
-    font-family: var(--font-sans);
-    font-size: 0.75rem;
-    letter-spacing: 0.03em;
-    color: var(--text-dim);
-    background: var(--bg-alt);
-    border: 1px solid var(--border);
-    border-radius: 3px;
-    padding: 0.3em 0.6em;
-    line-height: 1.4;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    cursor: pointer;
-    text-decoration: none;
-    transition: color 0.2s, border-color 0.2s, background 0.2s, transform 0.15s;
-    text-align: left;
-    animation: hashtag-slide-in 0.35s ease both;
-  }
+.featured-thumb {
+  display: block;
+  width: 100%;
+  max-height: 260px;
+  object-fit: cover;
+}
 
-  .hashtag-item:hover {
-    color: var(--accent-h);
-    border-color: var(--accent);
-    background: var(--border);
-    transform: translateX(-3px);
-  }
+.featured-text {
+  padding: 1rem 1.25rem 1.1rem;
+}
 
-  .hashtag-item:active {
-    transform: scale(0.96);
-  }
+.featured-kicker {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 0.4em;
+}
+
+.featured-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.35rem;
+  line-height: 1.25;
+  margin: 0 0 0.35em;
+}
+
+.featured-sub {
+  color: var(--text-dim);
+  font-size: 0.92rem;
+  margin: 0 0 0.5em;
+}
+
+.featured-meta {
+  font-family: var(--font-sans);
+  font-size: 0.76rem;
+  color: var(--text-dim);
+  margin: 0;
+}
+
+/* ============================================================
+   NEWSLETTER BOX (home sidebar)
+   ============================================================ */
+.newsletter-box {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg-alt);
+  padding: 0.9rem 1.1rem 1.1rem;
+  margin-bottom: 1.5rem;
+}
+
+.newsletter-blurb {
+  font-size: 0.88rem;
+  color: var(--text-dim);
+  margin: 0 0 0.75em;
+}
+
+.newsletter-btn {
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  letter-spacing: 0.02em;
+  color: var(--bg);
+  background: var(--text);
+  border-radius: 4px;
+  padding: 0.45em 1em;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.newsletter-btn:hover {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+/* ============================================================
+   READ NEXT
+   ============================================================ */
+.read-next {
+  margin-bottom: 2rem;
+}
+
+.read-next-title {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin: 0 0 0.6rem;
+}
+
+.read-next ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.read-next li {
+  padding: 0.4rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.read-next li:last-child {
+  border-bottom: none;
+}
+
+.read-next a {
+  color: var(--text);
+  text-decoration: none;
+  font-family: var(--font-display);
+  font-weight: 700;
+}
+
+.read-next a:hover {
+  color: var(--accent-h);
+  text-decoration: underline;
+}
+
+.read-next-sub {
+  display: block;
+  color: var(--text-dim);
+  font-size: 0.85rem;
+}
+
+/* ============================================================
+   FOOTNOTE PREVIEW TOOLTIP
+   ============================================================ */
+.footnote-tip {
+  position: absolute;
+  z-index: 200;
+  max-width: 340px;
+  background: var(--bg);
+  border: 1px solid var(--border-h);
+  border-radius: 6px;
+  box-shadow: var(--shadow-lg);
+  padding: 0.7em 0.9em;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+.footnote-tip p {
+  margin: 0;
+  text-align: left;
+}
+
+/* ============================================================
+   BACK TO TOP
+   ============================================================ */
+.back-to-top {
+  position: fixed;
+  right: 1.1rem;
+  bottom: 1.25rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 1.1rem;
+  color: var(--text-dim);
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  z-index: 100;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.back-to-top:hover {
+  color: var(--accent-h);
+  border-color: var(--accent);
+}
+
+/* ============================================================
+   ARCHIVE
+   ============================================================ */
+.archive-year h2 {
+  font-size: 1.2rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.3em;
+}
+
+/* ============================================================
+   SHARE ROW + POST FOOTER
+   ============================================================ */
+.share-row {
+  display: flex;
+  gap: 0.6rem;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.post-footer .share-row {
+  justify-content: flex-start;
+  margin: 0 0 2rem;
+}
+
+.share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+  color: var(--text-dim);
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.35em 0.8em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.share-btn:hover {
+  color: var(--accent-h);
+  border-color: var(--accent);
+}
+
+.share-btn.copied {
+  color: var(--color-success);
+  border-color: var(--color-success);
+}
+
+.post-footer {
+  max-width: var(--post-width);
+  margin: 3rem auto 0;
+  border-top: 1px solid var(--border);
+  padding-top: 2rem;
+}
+
+.author-card {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1.1em 1.4em;
+  margin-bottom: 2rem;
+}
+
+.author-card-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.05rem;
+  margin: 0 0 0.3em;
+}
+
+.author-card-bio {
+  color: var(--text-dim);
+  font-size: 0.9rem;
+  margin: 0 0 0.6em;
+}
+
+.author-card-links {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.comments {
+  margin-top: 2rem;
 }
 
 /* ============================================================
@@ -936,8 +1133,8 @@ pre:hover .copy-btn {
 }
 
 .copy-btn.copied {
-  color: #8ab88a;
-  border-color: #8ab88a;
+  color: var(--color-success);
+  border-color: var(--color-success);
 }
 
 /* ============================================================

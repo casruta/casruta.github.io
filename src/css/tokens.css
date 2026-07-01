@@ -44,6 +44,11 @@
   --font-gothic:  var(--font-heading);
   --font-mono:    ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
 
+  /* Functional colours that sit outside the brand palette */
+  --color-success: #6f8a5e;                       /* "copied" confirmations */
+  --overlay-bg:    rgba(0, 0, 0, 0.92);           /* lightbox backdrop */
+  --shadow-lg:     0 8px 40px rgba(0, 0, 0, 0.6); /* lightbox image shadow */
+
   /* ---- Layout ----------------------------------------------- */
   --text-width:    748px;
   /* Wide single-column canvas. Responsive so the fixed right-edge

@@ -30,6 +30,29 @@ describe("Blog build", () => {
       assert.ok(html.includes("post-list"), "post-list class missing");
     });
 
+    it("features the newest post as a lead card", () => {
+      const html = readFileSync(join(SITE, "index.html"), "utf-8");
+      assert.ok(html.includes('class="featured"'), "featured card missing");
+      assert.ok(
+        html.includes("Spending Outpaced Growth"),
+        "newest post should be featured"
+      );
+    });
+
+    it("shows the newsletter box", () => {
+      const html = readFileSync(join(SITE, "index.html"), "utf-8");
+      assert.ok(html.includes("newsletter-box"), "newsletter box missing");
+      assert.ok(html.includes("Subscribe"), "subscribe link missing");
+    });
+
+    it("keeps content visible without JavaScript (noscript fallback)", () => {
+      const html = readFileSync(join(SITE, "index.html"), "utf-8");
+      assert.ok(
+        html.includes("<noscript>") && html.includes(".fade-target"),
+        "noscript fallback for scroll-reveal missing"
+      );
+    });
+
     it("contains the post filter with searchable metadata", () => {
       const html = readFileSync(join(SITE, "index.html"), "utf-8");
       assert.ok(html.includes("post-filter"), "filter input missing");
@@ -91,6 +114,18 @@ describe("Blog build", () => {
         window.document.querySelectorAll(".post-list li:not([hidden])")
       ).map((li) => li.querySelector(".post-list-text a").textContent.trim());
     }
+
+    it("CSS actually hides [hidden] list items (display:flex override)", () => {
+      // Regression: the filter sets the hidden attribute, but the author rule
+      // `.post-list li { display: flex }` beats the UA `[hidden]` style unless
+      // this explicit rule exists — without it, "hidden" posts stay visible.
+      const css = readFileSync(join(SITE, "css", "style.css"), "utf-8");
+      assert.match(
+        css,
+        /\.post-list li\[hidden\]\s*\{\s*display:\s*none\s*!important/,
+        "missing .post-list li[hidden]{display:none!important} rule"
+      );
+    });
 
     it("filters by hashtag", () => {
       type("#inflation");
@@ -271,6 +306,58 @@ describe("Blog build", () => {
     });
   });
 
+  describe("Publication infrastructure", () => {
+    it("generates a valid Atom feed", () => {
+      const path = join(SITE, "feed.xml");
+      assert.ok(existsSync(path), "feed.xml missing");
+      const xml = readFileSync(path, "utf-8");
+      assert.ok(xml.includes("<feed"), "not an Atom feed");
+      assert.ok(
+        xml.includes("Spending Outpaced Growth"),
+        "posts missing from feed"
+      );
+    });
+
+    it("generates sitemap.xml and robots.txt", () => {
+      assert.ok(existsSync(join(SITE, "sitemap.xml")), "sitemap missing");
+      const robots = readFileSync(join(SITE, "robots.txt"), "utf-8");
+      assert.ok(robots.includes("Sitemap:"), "robots.txt missing sitemap ref");
+    });
+
+    it("builds a 404 page and favicon", () => {
+      assert.ok(existsSync(join(SITE, "404.html")), "404 page missing");
+      assert.ok(existsSync(join(SITE, "favicon.svg")), "favicon missing");
+    });
+
+    it("adds SEO and social-card meta to posts", () => {
+      const html = readFileSync(
+        join(SITE, "posts", "spending-outpaced-growth", "index.html"),
+        "utf-8"
+      );
+      assert.ok(html.includes('name="description"'), "meta description missing");
+      assert.ok(html.includes('rel="canonical"'), "canonical missing");
+      assert.ok(html.includes('property="og:title"'), "og:title missing");
+      assert.ok(html.includes('property="og:image"'), "og:image missing");
+      assert.ok(html.includes('name="twitter:card"'), "twitter card missing");
+    });
+
+    it("renders share buttons and author card on posts", () => {
+      const html = readFileSync(
+        join(SITE, "posts", "spending-outpaced-growth", "index.html"),
+        "utf-8"
+      );
+      assert.ok(html.includes("share-btn"), "share buttons missing");
+      assert.ok(html.includes("twitter.com/intent/tweet"), "X share intent missing");
+      assert.ok(html.includes("author-card"), "author card missing");
+    });
+
+    it("builds the archive page grouped by year", () => {
+      const html = readFileSync(join(SITE, "archive", "index.html"), "utf-8");
+      assert.ok(html.includes("archive-year"), "year grouping missing");
+      assert.ok(html.includes("2026"), "year heading missing");
+    });
+  });
+
   describe("Drop-in workflow", () => {
     const tempPost = join(ROOT, "src", "posts", "__test_dropin.md");
     const tempImage = join(ROOT, "src", "posts", "__test_dropin.png");
@@ -332,6 +419,24 @@ describe("Blog build", () => {
       assert.ok(
         home.includes("post-list-thumb"),
         "thumbnail missing from home page list"
+      );
+    });
+
+    it("shows related posts when hashtags overlap", () => {
+      // Shares the "typography" tag with Hello World → should appear as
+      // "Read next" on the drop-in post.
+      writeFileSync(
+        tempPost,
+        "---\ntitle: Dropin Test\ndate: 2099-01-01\nhashtags:\n  - typography\n---\n\nRelated-posts test.\n",
+        "utf-8"
+      );
+      build();
+
+      const html = readFileSync(tempOutput, "utf-8");
+      assert.ok(html.includes("read-next"), "Read next section missing");
+      assert.ok(
+        html.includes("Hello World"),
+        "post sharing a hashtag not suggested"
       );
     });
   });

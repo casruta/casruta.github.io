@@ -11,10 +11,27 @@ title: Home
     {% if collections.post.length == 0 %}
       <p>No posts yet.</p>
     {% else %}
+      {% set lead = (collections.post | reverse) | first %}
+      <a class="featured" href="{{ lead.url }}">
+        {% if lead.data.thumbnail %}
+          <img class="featured-thumb" src="{{ lead.data.thumbnail }}" alt="" loading="lazy" />
+        {% endif %}
+        <div class="featured-text">
+          <p class="featured-kicker">Latest</p>
+          <p class="featured-title">{{ lead.data.title }}</p>
+          {% if lead.data.subtitle %}
+            <p class="featured-sub">{{ lead.data.subtitle }}</p>
+          {% endif %}
+          <p class="featured-meta">
+            {{ lead.date | readableDate }} · {{ lead.templateContent | readTime }}
+          </p>
+        </div>
+      </a>
+
       <input
         class="post-filter"
         type="search"
-        placeholder="Filter by title, subtitle, or #hashtag…"
+        placeholder="Filter by title or #hashtag… (press / to focus)"
         aria-label="Filter posts"
       />
       <ul class="post-list">
@@ -44,10 +61,16 @@ title: Home
     {% endif %}
   </div>
 
-  <aside class="home-feed" aria-label="Latest posts on X">
+  <aside class="home-feed" aria-label="Newsletter and latest posts on X">
+    <div class="newsletter-box">
+      <p class="home-feed-title">Newsletter</p>
+      <p class="newsletter-blurb">Get new essays straight to your inbox.</p>
+      <a class="newsletter-btn" href="{{ site.newsletter or ('mailto:' + site.email + '?subject=Subscribe%20me%20to%20the%20newsletter') }}">Subscribe</a>
+    </div>
+
     <p class="home-feed-title">Latest on X</p>
     <a class="twitter-timeline"
-       data-theme="dark"
+       data-theme="light"
        data-chrome="noheader nofooter noborders transparent"
        data-tweet-limit="8"
        href="{{ site.social.twitter }}">
