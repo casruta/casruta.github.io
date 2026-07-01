@@ -19,7 +19,7 @@ title: Home
       />
       <ul class="post-list">
         {% for post in collections.post | reverse %}
-          <li data-search="{{ post.data.title }} {{ post.data.subtitle }}{% for t in post.data.hashtags %} #{{ t }}{% endfor %}">
+          <li data-search="{{ post.data.title }}{% for t in post.data.hashtags %} #{{ t }}{% endfor %}">
             {% if post.data.thumbnail %}
               <a class="post-list-thumb" href="{{ post.url }}">
                 <img src="{{ post.data.thumbnail }}" alt="" loading="lazy" />
