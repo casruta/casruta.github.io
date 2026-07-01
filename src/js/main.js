@@ -153,10 +153,11 @@
   }
 
   // ── Home page post filter ─────────────────────────────────────────────────
-  // Live-filters the post list by title, subtitle, or #hashtag. Each search
-  // term must be a PREFIX of a whole word in the post (not just any substring),
-  // so "AI" matches the tag/word "AI" but not "gain" — and every term must
-  // match, so multi-word queries narrow the list. Case-insensitive.
+  // Live-filters the post list by its title and #hashtags only (see the
+  // data-search attribute in index.njk — the subtitle is deliberately not
+  // searched). Each search term must be a PREFIX of a whole word, so "AI"
+  // matches the tag/word "AI" but not "gain"; every term must match, so
+  // multi-word queries narrow the list. Case-insensitive.
   function words(str) {
     return (str || '').toLowerCase().match(/[a-z0-9]+/g) || [];
   }

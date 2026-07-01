@@ -117,6 +117,16 @@ describe("Blog build", () => {
       );
     });
 
+    it("does not match words that appear only in the subtitle", () => {
+      // "budget" is in the Alberta subtitle but not its title or tags.
+      type("budget");
+      assert.equal(
+        visibleTitles().length,
+        0,
+        "subtitle-only words should not match (title + tags only)"
+      );
+    });
+
     it("shows the empty message when nothing matches", () => {
       type("zzz-no-such-post");
       assert.equal(visibleTitles().length, 0);
