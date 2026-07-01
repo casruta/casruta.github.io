@@ -11,9 +11,12 @@ layout: base.njk
       <p class="post-tags">{% for tag in hashtags %}<a href="/tags/{{ tag | slugifyTag }}/">#{{ tag }}</a>{% if not loop.last %} {% endif %}{% endfor %}</p>
     {% endif %}
     <div class="post-meta">
+      <span>By {{ site.author }}</span>
+      <span>·</span>
       <time datetime="{{ page.date | htmlDateString }}">{{ page.date | readableDate }}</time>
       <span class="read-time">· {{ content | readTime }}</span>
     </div>
+    {% include "share.njk" %}
   </header>
   {% if heroImage %}
     <figure class="post-hero">
@@ -23,4 +26,56 @@ layout: base.njk
   <div class="post-content">
     {{ content | safe }}
   </div>
+
+  <footer class="post-footer">
+    {% include "share.njk" %}
+
+    {% set related = collections.post | related(page.url, hashtags) %}
+    {% if related.length %}
+      <section class="read-next" aria-label="Related posts">
+        <p class="read-next-title">Read next</p>
+        <ul>
+          {% for p in related %}
+            <li>
+              <a href="{{ p.url }}">{{ p.data.title }}</a>
+              {% if p.data.subtitle %}<span class="read-next-sub">{{ p.data.subtitle }}</span>{% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+      </section>
+    {% endif %}
+
+    <div class="author-card">
+      <p class="author-card-name">{{ site.author }}</p>
+      <p class="author-card-bio">{{ site.bio }}</p>
+      <p class="author-card-links">
+        <a href="{{ site.social.twitter }}" target="_blank" rel="noopener noreferrer">X</a>
+        <a href="{{ site.social.goodreads }}" target="_blank" rel="noopener noreferrer">Goodreads</a>
+        <a href="{{ site.social.rym }}" target="_blank" rel="noopener noreferrer">RateYourMusic</a>
+        <a href="/feed.xml">RSS</a>
+      </p>
+    </div>
+
+    {% if site.comments.repo %}
+      <section class="comments" aria-label="Comments">
+        <script
+          src="https://giscus.app/client.js"
+          data-repo="{{ site.comments.repo }}"
+          data-repo-id="{{ site.comments.repoId }}"
+          data-category="{{ site.comments.category }}"
+          data-category-id="{{ site.comments.categoryId }}"
+          data-mapping="pathname"
+          data-strict="0"
+          data-reactions-enabled="1"
+          data-emit-metadata="0"
+          data-input-position="top"
+          data-theme="light"
+          data-lang="en"
+          data-loading="lazy"
+          crossorigin="anonymous"
+          async
+        ></script>
+      </section>
+    {% endif %}
+  </footer>
 </article>

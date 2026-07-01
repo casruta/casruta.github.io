@@ -84,10 +84,15 @@
 
     var items = Array.from(document.querySelectorAll('.post-list li'));
     var empty = document.querySelector('.post-filter-empty');
+    var featured = document.querySelector('.featured');
 
     input.addEventListener('input', function () {
       var terms = words(input.value);
       var visible = 0;
+
+      // Hide the featured card while a query is active — the list is the
+      // filtered view.
+      if (featured) featured.hidden = terms.length > 0;
 
       items.forEach(function (li) {
         var tokens = words(li.getAttribute('data-search') || li.textContent);
@@ -99,6 +104,38 @@
       });
 
       if (empty) empty.hidden = visible > 0;
+    });
+  }
+
+  // ── "/" focuses the search box ────────────────────────────────────────────
+  function initSearchShortcut() {
+    var input = document.querySelector('.post-filter');
+    if (!input) return;
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== '/') return;
+      var t = document.activeElement;
+      if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+      e.preventDefault();
+      input.focus();
+    });
+  }
+
+  // ── Share: copy link ──────────────────────────────────────────────────────
+  function initShareCopy() {
+    document.querySelectorAll('.share-copy').forEach(function (btn) {
+      var original = btn.innerHTML;
+      btn.addEventListener('click', function () {
+        var url = btn.getAttribute('data-url') || window.location.href;
+        navigator.clipboard.writeText(url).then(function () {
+          btn.classList.add('copied');
+          btn.textContent = 'Copied!';
+          setTimeout(function () {
+            btn.innerHTML = original;
+            btn.classList.remove('copied');
+          }, 1500);
+        });
+      });
     });
   }
 
@@ -196,6 +233,72 @@
     targets.forEach(function (el) { observer.observe(el); });
   }
 
+  // ── Footnote hover previews ───────────────────────────────────────────────
+  // Hovering (or focusing) a footnote reference shows the note's text in a
+  // small tooltip, so readers don't lose their place jumping to the bottom.
+  function initFootnotePreviews() {
+    var refs = document.querySelectorAll('.post-content sup.footnote-ref a');
+    if (refs.length === 0) return;
+
+    var tip = document.createElement('div');
+    tip.className = 'footnote-tip';
+    tip.setAttribute('role', 'tooltip');
+    tip.hidden = true;
+    document.body.appendChild(tip);
+
+    function show(ref) {
+      var id = (ref.getAttribute('href') || '').replace(/^#/, '');
+      var note = document.getElementById(id);
+      if (!note) return;
+
+      var clone = note.cloneNode(true);
+      var backref = clone.querySelector('.footnote-backref');
+      if (backref) backref.parentNode.removeChild(backref);
+
+      tip.innerHTML = clone.innerHTML;
+      tip.hidden = false;
+
+      var r = ref.getBoundingClientRect();
+      var top = r.bottom + window.scrollY + 8;
+      var left = r.left + window.scrollX - 140;
+      left = Math.max(12, Math.min(left, window.scrollX + document.documentElement.clientWidth - tip.offsetWidth - 12));
+      tip.style.top = top + 'px';
+      tip.style.left = left + 'px';
+    }
+
+    function hide() {
+      tip.hidden = true;
+    }
+
+    refs.forEach(function (ref) {
+      ref.addEventListener('mouseenter', function () { show(ref); });
+      ref.addEventListener('mouseleave', hide);
+      ref.addEventListener('focus', function () { show(ref); });
+      ref.addEventListener('blur', hide);
+    });
+  }
+
+  // ── Back to top ───────────────────────────────────────────────────────────
+  function initBackToTop() {
+    if (!document.querySelector('.post-content')) return;
+
+    var btn = document.createElement('button');
+    btn.className = 'back-to-top';
+    btn.type = 'button';
+    btn.setAttribute('aria-label', 'Back to top');
+    btn.textContent = '↑';
+    btn.hidden = true;
+    document.body.appendChild(btn);
+
+    btn.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    window.addEventListener('scroll', function () {
+      btn.hidden = window.scrollY < window.innerHeight;
+    }, { passive: true });
+  }
+
   // ── Image lightbox ────────────────────────────────────────────────────────
   // Click any chart/image in a post to enlarge it in a full-screen overlay.
   function initLightbox() {
@@ -263,10 +366,14 @@
     addHeadingAnchors();
     buildTOC();
     initPostFilter();
+    initSearchShortcut();
+    initShareCopy();
     initProgressBar();
     initCopyButtons();
     initTOCHighlight();
     initFadeIn();
+    initFootnotePreviews();
+    initBackToTop();
     initLightbox();
   });
 })();
