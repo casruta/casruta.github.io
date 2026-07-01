@@ -20,9 +20,9 @@
 
   /* Layout */
   --text-width:    748px;
-  /* Ultra-wide post canvas — academic-paper feel. Responsive so the fixed
-     right-edge social icons never collide (always ≥4rem outer margin). */
-  --post-width:    min(1560px, calc(100vw - 8rem));
+  /* Wide single-column canvas. Responsive so the fixed right-edge social
+     icons never collide (always ≥4rem outer margin). */
+  --post-width:    min(1200px, calc(100vw - 8rem));
   --note-width:    150px;
   --note-gap:      2rem;
   /* Content = reading column + gap + sidenote margin */
@@ -316,55 +316,15 @@ blockquote p {
 }
 
 /* ============================================================
-   POST LAYOUT — TWO-COLUMN (ACADEMIC PAPER)
+   POST LAYOUT — WIDE SINGLE COLUMN
    ============================================================ */
 .post-content {
-  font-size: 0.95rem;
-  line-height: 1.6;
+  font-size: 1rem;
+  line-height: 1.75;
   max-width: var(--post-width);
   margin: 0 auto;          /* centered on the page */
   text-align: justify;
   hyphens: auto;
-}
-
-@media (min-width: 768px) {
-  .post-content {
-    column-count: 2;
-    column-gap: 3.5rem;
-    column-rule: 1px solid var(--border);
-  }
-
-  /* Keep block elements from splitting across the column break */
-  .post-content pre,
-  .post-content blockquote,
-  .post-content figure,
-  .post-content img,
-  .post-content ul,
-  .post-content ol {
-    break-inside: avoid;
-  }
-
-  /* Don't strand a heading at the foot of a column */
-  .post-content h2,
-  .post-content h3,
-  .post-content h4 {
-    break-after: avoid;
-    break-inside: avoid;
-  }
-
-  /* Full-width elements span both columns, like a paper's abstract,
-     wide tables, and reference list. */
-  .post-content .abstract,
-  .post-content table,
-  .post-content .footnotes {
-    column-span: all;
-  }
-
-  /* A spanning table needs breathing room from the columns above/below */
-  .post-content table {
-    margin-top: 1.5em;
-    margin-bottom: 1.5em;
-  }
 }
 
 /* ============================================================
@@ -1029,10 +989,14 @@ pre:hover .copy-btn {
 /* ============================================================
    SCROLL FADE-IN ANIMATIONS
    ============================================================ */
+/* Scroll reveal — each block unfolds as it enters the viewport, and
+   re-folds when it leaves, so text animates on the way down and up. */
 .fade-target {
   opacity: 0;
-  transform: translateY(12px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  transform: translateY(28px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
 }
 
 .fade-target.fade-in {

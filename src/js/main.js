@@ -240,24 +240,32 @@
     headingEls.forEach(function (h) { observer.observe(h); });
   }
 
-  // ── Scroll fade-in animations ───────────────────────────────────────────
+  // ── Scroll reveal ─────────────────────────────────────────────────────────
+  // Every top-level block of the article unfolds (fade + slide up) as it
+  // enters the viewport, and re-folds once it leaves — so the text animates
+  // whether the reader is scrolling down or back up. Skipped entirely when the
+  // reader prefers reduced motion, leaving all text visible.
   function initFadeIn() {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     var content = document.querySelector('.post-content');
     if (!content) return;
 
-    var targets = content.querySelectorAll('h2, h3, figure, blockquote, .abstract');
+    var targets = content.querySelectorAll(
+      ':scope > p, :scope > h2, :scope > h3, :scope > h4, :scope > ul, ' +
+      ':scope > ol, :scope > figure, :scope > blockquote, :scope > table, ' +
+      ':scope > pre, :scope > .abstract, :scope > .footnotes'
+    );
+    if (targets.length === 0) return;
+
     targets.forEach(function (el) { el.classList.add('fade-target'); });
 
     var observer = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('fade-in');
-          observer.unobserve(entry.target);
-        }
+        // Toggle in both directions: reveal on enter, re-fold on exit.
+        entry.target.classList.toggle('fade-in', entry.isIntersecting);
       });
-    }, { threshold: 0.15 });
+    }, { threshold: 0, rootMargin: '0px 0px -8% 0px' });
 
     targets.forEach(function (el) { observer.observe(el); });
   }

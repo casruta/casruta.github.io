@@ -170,21 +170,38 @@ describe("Blog build", () => {
     }
   });
 
-  describe("Two-column academic layout", () => {
-    it("CSS uses a two-column post body with editorial fonts", () => {
+  describe("Wide single-column layout + scroll reveal", () => {
+    it("CSS is single-column (no two-column rule) with editorial fonts", () => {
       const css = readFileSync(join(SITE, "css", "style.css"), "utf-8");
       assert.ok(
-        css.includes("column-count: 2"),
-        "two-column (column-count: 2) rule missing"
-      );
-      assert.ok(
-        css.includes("column-span: all"),
-        "full-width spanning rule (abstract/table) missing"
+        !css.includes("column-count: 2"),
+        "two-column rule should be removed"
       );
       assert.ok(css.includes('"Lora"'), "Lora body font missing");
       assert.ok(
         css.includes('"Playfair Display"'),
         "Playfair Display heading font missing"
+      );
+    });
+
+    it("CSS defines the scroll-reveal transition", () => {
+      const css = readFileSync(join(SITE, "css", "style.css"), "utf-8");
+      assert.ok(css.includes(".fade-target"), "fade-target class missing");
+      assert.ok(
+        css.includes(".fade-target.fade-in"),
+        "fade-in reveal state missing"
+      );
+    });
+
+    it("JS reveals blocks bidirectionally on scroll", () => {
+      const js = readFileSync(join(SITE, "js", "main.js"), "utf-8");
+      assert.ok(
+        js.includes("IntersectionObserver"),
+        "IntersectionObserver missing"
+      );
+      assert.ok(
+        js.includes("toggle('fade-in', entry.isIntersecting)"),
+        "bidirectional reveal toggle missing"
       );
     });
   });
