@@ -84,13 +84,13 @@
 
     var items = Array.from(document.querySelectorAll('.post-list li'));
     var empty = document.querySelector('.post-filter-empty');
-    var featured = document.querySelector('.featured');
+    var featured = document.querySelector('.featured-wrap');
 
     input.addEventListener('input', function () {
       var terms = words(input.value);
       var visible = 0;
 
-      // Hide the featured card while a query is active — the list is the
+      // Hide the featured block while a query is active — the list is the
       // filtered view.
       if (featured) featured.hidden = terms.length > 0;
 

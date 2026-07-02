@@ -18,21 +18,43 @@ describe("Blog build", () => {
   before(() => build());
 
   describe("Home page", () => {
-    it("exists and contains the top menu", () => {
+    it("has the centered blackletter badge and tab navigation", () => {
       const html = readFileSync(join(SITE, "index.html"), "utf-8");
-      assert.ok(html.includes("casruta"), "site title missing");
-      assert.ok(html.includes("Writing"), "Writing link missing");
-      assert.ok(html.includes("About"), "About link missing");
-    });
-
-    it("has the circular masthead icon slot beside the title", () => {
-      const html = readFileSync(join(SITE, "index.html"), "utf-8");
-      assert.ok(html.includes("masthead-icon"), "masthead icon missing");
+      assert.ok(html.includes("site-badge"), "site badge missing");
+      assert.ok(html.includes('class="tabs"'), "tabs missing");
+      for (const tab of ["Posts", "Archive", "Tags", "About"]) {
+        assert.ok(html.includes(`>${tab}</a>`), `${tab} tab missing`);
+      }
+      assert.ok(html.includes("tab-active"), "active tab state missing");
       const css = readFileSync(join(SITE, "css", "style.css"), "utf-8");
       assert.match(
         css,
-        /\.masthead-icon\s*\{[^}]*border-radius:\s*50%/,
-        "icon is not circular"
+        /\.site-badge\s*\{[^}]*font-family: var\(--font-gothic\)/,
+        "badge must use the blackletter"
+      );
+    });
+
+    it("shows the profile hero with handle, avatar, and actions", () => {
+      const html = readFileSync(join(SITE, "index.html"), "utf-8");
+      assert.ok(html.includes("profile-name"), "profile name missing");
+      assert.ok(
+        html.includes(">@CasparKozlowski</a>"),
+        "twitter handle missing"
+      );
+      assert.match(
+        html,
+        /profile-handle" href="https:\/\/x\.com\/CasparKozlowski"/,
+        "handle must link to X"
+      );
+      assert.ok(html.includes("profile-avatar"), "avatar missing");
+      assert.ok(html.includes("btn-subscribe"), "Subscribe button missing");
+      assert.ok(html.includes("btn-message"), "Message button missing");
+      assert.ok(html.includes('class="pill"'), "profile pills missing");
+      const css = readFileSync(join(SITE, "css", "style.css"), "utf-8");
+      assert.match(
+        css,
+        /\.profile-avatar\s*\{[^}]*border-radius:\s*50%/,
+        "avatar is not circular"
       );
     });
 
@@ -41,19 +63,21 @@ describe("Blog build", () => {
       assert.ok(html.includes("post-list"), "post-list class missing");
     });
 
-    it("features the newest post as a lead card", () => {
+    it("features the newest post as a Latest post card with overlay", () => {
       const html = readFileSync(join(SITE, "index.html"), "utf-8");
+      assert.ok(html.includes("latest-label"), "Latest post label missing");
       assert.ok(html.includes('class="featured"'), "featured card missing");
+      assert.ok(html.includes("featured-overlay"), "title overlay missing");
       assert.ok(
         html.includes("Spending Outpaced Growth"),
         "newest post should be featured"
       );
-    });
-
-    it("shows the newsletter box", () => {
-      const html = readFileSync(join(SITE, "index.html"), "utf-8");
-      assert.ok(html.includes("newsletter-box"), "newsletter box missing");
-      assert.ok(html.includes("Subscribe"), "subscribe link missing");
+      const css = readFileSync(join(SITE, "css", "style.css"), "utf-8");
+      assert.match(
+        css,
+        /\.featured-wrap\[hidden\]\s*\{\s*display:\s*none\s*!important/,
+        "featured-wrap hide rule missing"
+      );
     });
 
     it("keeps content visible without JavaScript (noscript fallback)", () => {
@@ -255,12 +279,12 @@ describe("Blog build", () => {
       assert.ok(t.includes("--font-body"), "--font-body token missing");
     });
 
-    it("nav links use the nameplate blackletter", () => {
+    it("tab links use the sans label font", () => {
       const css = readFileSync(join(SITE, "css", "style.css"), "utf-8");
       assert.match(
         css,
-        /header nav a \{[^}]*font-family: var\(--font-gothic\)/,
-        "nav must use the gothic font"
+        /\.tabs a \{[^}]*font-family: var\(--font-sans\)/,
+        "tabs must use the sans font"
       );
     });
 
@@ -273,9 +297,9 @@ describe("Blog build", () => {
       assert.ok(t.includes("--layout-width"), "layout width token missing");
     });
 
-    it("tokens.css defines the NYT-style palette", () => {
+    it("tokens.css defines the dark profile palette", () => {
       const t = readFileSync(join(SITE, "css", "tokens.css"), "utf-8").toLowerCase();
-      for (const hex of ["#ffffff", "#121212", "#326891", "#f7f7f7"]) {
+      for (const hex of ["#0f0f0f", "#e8e8e8", "#a855f7", "#1c1c1c"]) {
         assert.ok(t.includes(hex), `palette colour ${hex} missing`);
       }
     });
@@ -323,23 +347,20 @@ describe("Blog build", () => {
     });
   });
 
-  describe("Social sidebar and X feed", () => {
-    it("renders social icons on every page", () => {
+  describe("Removed legacy chrome", () => {
+    it("no X widgets script, sidebar, or newsletter box remains", () => {
       const html = readFileSync(join(SITE, "index.html"), "utf-8");
-      assert.ok(html.includes("social-sidebar"), "social sidebar missing");
-      assert.ok(html.includes("social-icon"), "social icons missing");
-    });
-
-    it("renders the X timeline on the home page", () => {
-      const html = readFileSync(join(SITE, "index.html"), "utf-8");
-      assert.ok(html.includes("home-feed"), "home feed column missing");
       assert.ok(
-        html.includes("twitter-timeline"),
-        "X timeline embed missing"
+        !html.includes("platform.twitter.com"),
+        "widgets.js should be removed"
       );
       assert.ok(
-        html.includes("CasparKozlowski"),
-        "Twitter handle missing from embed"
+        !html.includes("social-sidebar"),
+        "fixed social sidebar should be removed"
+      );
+      assert.ok(
+        !html.includes("newsletter-box"),
+        "newsletter box should be folded into the profile"
       );
     });
   });

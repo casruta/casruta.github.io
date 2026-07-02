@@ -2,6 +2,8 @@ export default {
   url: "https://casruta.github.io",
   title: "casruta",
   author: "Kacper Ruta",
+  displayName: "Kacper Ruta",
+  tagline: "Essays, op-eds & data-driven commentary",
   description:
     "The writing portfolio of Kacper Ruta — essays, op-eds, and data-driven social commentary.",
   bio: "Kacper Ruta writes essays, op-eds, and data-driven social commentary.",
