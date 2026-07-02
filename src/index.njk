@@ -3,6 +3,28 @@ layout: base.njk
 title: Home
 ---
 
+<section class="profile">
+  <div class="profile-info">
+    <h1 class="profile-name">{{ site.displayName }}</h1>
+    <a class="profile-handle" href="{{ site.social.twitter }}" target="_blank" rel="noopener noreferrer">@{{ site.twitterHandle }}</a>
+    <p class="profile-bio">{{ site.tagline }}</p>
+    <div class="profile-pills">
+      <a class="pill" href="{{ site.social.twitter }}" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        X
+      </a>
+      <a class="pill" href="{{ site.social.goodreads }}" target="_blank" rel="noopener noreferrer">Goodreads</a>
+      <a class="pill" href="{{ site.social.rym }}" target="_blank" rel="noopener noreferrer">RateYourMusic</a>
+      <a class="pill" href="/feed.xml">RSS</a>
+    </div>
+    <div class="profile-actions">
+      <a class="btn-subscribe" href="{{ site.newsletter or ('mailto:' + site.email + '?subject=Subscribe%20me%20to%20the%20newsletter') }}">Subscribe</a>
+      <a class="btn-message" href="mailto:{{ site.email }}">Message</a>
+    </div>
+  </div>
+  <img class="profile-avatar" src="/masthead-icon.png" alt="Portrait of {{ site.displayName }}" onerror="this.remove()" />
+</section>
+
 {% if collections.post.length > 0 %}
   <input
     class="post-filter post-filter-top"
@@ -12,72 +34,51 @@ title: Home
   />
 {% endif %}
 
-<div class="home-grid">
-  <div class="home-main">
-    <h1>Posts</h1>
-    <p class="home-intro">The writing portfolio of Kacper Ruta — essays, op-eds, and data-driven social commentary.</p>
-
-    {% if collections.post.length == 0 %}
-      <p>No posts yet.</p>
-    {% else %}
-      {% set lead = (collections.post | reverse) | first %}
+<div class="home-main">
+  {% if collections.post.length == 0 %}
+    <p>No posts yet.</p>
+  {% else %}
+    {% set lead = (collections.post | reverse) | first %}
+    <div class="featured-wrap">
+      <p class="latest-label">✦ Latest post</p>
       <a class="featured" href="{{ lead.url }}">
         {% if lead.data.thumbnail %}
           <img class="featured-thumb" src="{{ lead.data.thumbnail }}" alt="" loading="lazy" />
         {% endif %}
-        <div class="featured-text">
-          <p class="featured-kicker">Latest</p>
+        <div class="featured-overlay">
+          <span class="featured-chip">{{ site.title }}</span>
           <p class="featured-title">{{ lead.data.title }}</p>
-          {% if lead.data.subtitle %}
-            <p class="featured-sub">{{ lead.data.subtitle }}</p>
-          {% endif %}
-          <p class="featured-meta">
-            {{ lead.date | readableDate }} · {{ lead.templateContent | readTime }}
-          </p>
         </div>
       </a>
-
-      <ul class="post-list">
-        {% for post in collections.post | reverse %}
-          <li data-search="{{ post.data.title }}{% for t in post.data.hashtags %} #{{ t }}{% endfor %}">
-            {% if post.data.thumbnail %}
-              <a class="post-list-thumb" href="{{ post.url }}">
-                <img src="{{ post.data.thumbnail }}" alt="" loading="lazy" />
-              </a>
-            {% endif %}
-            <div class="post-list-text">
-              <a href="{{ post.url }}">{{ post.data.title }}</a>
-              {% if post.data.subtitle %}
-                <p class="post-list-subtitle">{{ post.data.subtitle }}</p>
-              {% endif %}
-              <p class="post-list-meta">
-                <time datetime="{{ post.date | htmlDateString }}">
-                  {{ post.date | readableDate }}
-                </time>
-                {% for t in post.data.hashtags %}<a class="tag-chip" href="/tags/{{ t | slugifyTag }}/">#{{ t }}</a>{% endfor %}
-              </p>
-            </div>
-          </li>
-        {% endfor %}
-      </ul>
-      <p class="post-filter-empty" hidden>No posts match.</p>
-    {% endif %}
-  </div>
-
-  <aside class="home-feed" aria-label="Newsletter and latest posts on X">
-    <div class="newsletter-box">
-      <p class="home-feed-title">Newsletter</p>
-      <p class="newsletter-blurb">Get new essays straight to your inbox.</p>
-      <a class="newsletter-btn" href="{{ site.newsletter or ('mailto:' + site.email + '?subject=Subscribe%20me%20to%20the%20newsletter') }}">Subscribe</a>
+      <p class="featured-meta">
+        {{ lead.date | readableDate }} · {{ lead.templateContent | readTime }}
+      </p>
     </div>
 
-    <p class="home-feed-title">Latest on X</p>
-    <a class="twitter-timeline"
-       data-theme="light"
-       data-chrome="noheader nofooter noborders transparent"
-       data-tweet-limit="8"
-       href="{{ site.social.twitter }}">
-      Posts by @{{ site.twitterHandle }}
-    </a>
-  </aside>
+    <p class="list-label">All posts</p>
+    <ul class="post-list">
+      {% for post in collections.post | reverse %}
+        <li data-search="{{ post.data.title }}{% for t in post.data.hashtags %} #{{ t }}{% endfor %}">
+          {% if post.data.thumbnail %}
+            <a class="post-list-thumb" href="{{ post.url }}">
+              <img src="{{ post.data.thumbnail }}" alt="" loading="lazy" />
+            </a>
+          {% endif %}
+          <div class="post-list-text">
+            <a href="{{ post.url }}">{{ post.data.title }}</a>
+            {% if post.data.subtitle %}
+              <p class="post-list-subtitle">{{ post.data.subtitle }}</p>
+            {% endif %}
+            <p class="post-list-meta">
+              <time datetime="{{ post.date | htmlDateString }}">
+                {{ post.date | readableDate }}
+              </time>
+              {% for t in post.data.hashtags %}<a class="tag-chip" href="/tags/{{ t | slugifyTag }}/">#{{ t }}</a>{% endfor %}
+            </p>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+    <p class="post-filter-empty" hidden>No posts match.</p>
+  {% endif %}
 </div>

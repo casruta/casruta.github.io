@@ -45,17 +45,15 @@
     </noscript>
   </head>
   <body>
-    <header>
-      <span class="masthead">
-        <img class="masthead-icon" src="/masthead-icon.png" alt="Portrait of Kacper Ruta" onerror="this.remove()" />
-        <a class="site-title" href="/">Casruta</a>
-      </span>
-      <nav>
-        <a href="/">Writing</a>
-        <a href="/archive/">Archive</a>
-        <a href="/about/">About</a>
-      </nav>
+    <header class="top-bar">
+      <a class="site-badge" href="/">Casruta</a>
     </header>
+    <nav class="tabs" aria-label="Site sections">
+      <a href="/" {% if page.url == "/" %}class="tab-active" aria-current="page"{% endif %}>Posts</a>
+      <a href="/archive/" {% if page.url == "/archive/" %}class="tab-active" aria-current="page"{% endif %}>Archive</a>
+      <a href="/tags/" {% if "/tags/" in page.url %}class="tab-active" aria-current="page"{% endif %}>Tags</a>
+      <a href="/about/" {% if page.url == "/about/" %}class="tab-active" aria-current="page"{% endif %}>About</a>
+    </nav>
     <div class="progress-bar" aria-hidden="true"></div>
     <main id="main-content">
       {{ content | safe }}
@@ -64,20 +62,6 @@
       <p>&copy; {{ year }} Kacper Ruta</p>
     </footer>
 
-    {# ── Social icons — fixed right side ── #}
-    <nav class="social-sidebar" aria-label="Social links">
-      <a href="{{ site.social.twitter }}" target="_blank" rel="noopener noreferrer" aria-label="X / Twitter" class="social-icon">
-        <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-      </a>
-      <a href="{{ site.social.goodreads }}" target="_blank" rel="noopener noreferrer" aria-label="Goodreads" class="social-icon">
-        <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M12.876 2C8.621 2 6.168 4.784 6.168 8.37c0 3.588 2.453 6.37 6.708 6.37 4.254 0 4.956-3.45 4.956-3.45h.088s0 .494.044.846c.044.352.044.758.044 1.076 0 3.412-2.232 5.538-5.632 5.538-2.144 0-3.74-.55-4.736-1.166l-.616 1.694c1.232.704 3.036 1.222 5.352 1.222 4.576 0 7.388-2.728 7.388-7.288V2.374h-1.716v2.552h-.088S16.956 2 12.876 2zm.352 1.75c3.168 0 4.604 2.508 4.604 4.62s-1.436 4.62-4.604 4.62-4.604-2.508-4.604-4.62 1.436-4.62 4.604-4.62z"/></svg>
-      </a>
-      <a href="{{ site.social.rym }}" target="_blank" rel="noopener noreferrer" aria-label="RateYourMusic" class="social-icon">
-        <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm0 1.5c4.687 0 8.5 3.813 8.5 8.5s-3.813 8.5-8.5 8.5S3.5 16.687 3.5 12 7.313 3.5 12 3.5zm0 3a5.5 5.5 0 100 11 5.5 5.5 0 000-11zm0 1.5a4 4 0 110 8 4 4 0 010-8zm0 2a2 2 0 100 4 2 2 0 000-4z"/></svg>
-      </a>
-    </nav>
-
     <script src="/js/main.js?v={{ build }}"></script>
-    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
   </body>
 </html>
