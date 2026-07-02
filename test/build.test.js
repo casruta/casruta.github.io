@@ -327,11 +327,12 @@ describe("Blog build", () => {
       assert.ok(t.includes("--layout-width"), "layout width token missing");
     });
 
-    it("tokens.css defines the dark profile palette", () => {
+    it("tokens.css defines the NYT palette (no stray colours)", () => {
       const t = readFileSync(join(SITE, "css", "tokens.css"), "utf-8").toLowerCase();
-      for (const hex of ["#0f0f0f", "#e8e8e8", "#a855f7", "#1c1c1c"]) {
+      for (const hex of ["#ffffff", "#121212", "#326891", "#f7f7f7"]) {
         assert.ok(t.includes(hex), `palette colour ${hex} missing`);
       }
+      assert.ok(!t.includes("#a855f7"), "purple accent must be gone");
     });
 
     it("every page loads the tokens stylesheet before style.css", () => {

@@ -6,17 +6,18 @@
    stylesheet references these variables — it never hard-codes a
    colour or a font name.
 
-   Scheme: dark Substack-style profile — near-black page, light text,
-   purple accent; Cheltenham-style serif headlines (Domine), Georgia
-   for body AND labels/tabs (uniform type), blackletter nameplate.
+   Scheme: NYT colorway on a Substack-style profile layout — white
+   page, #121212 text, thin grey rules, navy links; Cheltenham-style
+   serif headlines (Domine), Georgia for body AND labels/tabs
+   (uniform type), blackletter nameplate.
    ============================================================ */
 :root {
-  /* ---- Brand palette ---------------------------------------- */
-  --color-background: #0f0f0f;  /* page background — near-black       */
-  --color-text:       #e8e8e8;  /* body + headings — light grey       */
-  --color-primary:    #e8e8e8;  /* primary UI / strong marks          */
-  --color-accent:     #a855f7;  /* links, Subscribe — Substack purple */
-  --color-surface:    #1c1c1c;  /* cards, chips, inputs — dark grey   */
+  /* ---- Brand palette — NYT colorway -------------------------- */
+  --color-background: #ffffff;  /* page background — white            */
+  --color-text:       #121212;  /* body + headings — NYT text black   */
+  --color-primary:    #121212;  /* primary UI / strong marks          */
+  --color-accent:     #326891;  /* links, Subscribe — NYT navy blue   */
+  --color-surface:    #f7f7f7;  /* cards, chips, inputs — light grey  */
 
   /* ---- Type voices ------------------------------------------- */
   --font-heading: "Domine", Georgia, "Times New Roman", serif;         /* content headlines — NYT Cheltenham-like */
