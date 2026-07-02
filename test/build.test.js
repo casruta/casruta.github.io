@@ -46,15 +46,41 @@ describe("Blog build", () => {
         /profile-handle" href="https:\/\/x\.com\/CasparKozlowski"/,
         "handle must link to X"
       );
-      assert.ok(html.includes("profile-avatar"), "avatar missing");
       assert.ok(html.includes("btn-subscribe"), "Subscribe button missing");
       assert.ok(html.includes("btn-message"), "Message button missing");
       assert.ok(html.includes('class="pill"'), "profile pills missing");
+    });
+
+    it("shows the portrait as a small circular icon left of the wordmark", () => {
+      const html = readFileSync(join(SITE, "index.html"), "utf-8");
+      assert.match(
+        html,
+        /site-badge[^>]*>\s*<img [^>]*class="badge-icon"/,
+        "badge icon must precede the wordmark inside the badge"
+      );
       const css = readFileSync(join(SITE, "css", "style.css"), "utf-8");
       assert.match(
         css,
-        /\.profile-avatar\s*\{[^}]*border-radius:\s*50%/,
-        "avatar is not circular"
+        /\.badge-icon\s*\{[^}]*border-radius:\s*50%/,
+        "badge icon is not circular"
+      );
+      assert.ok(
+        !css.match(/\.site-badge\s*\{[^}]*background:\s*#fff/),
+        "white box behind the wordmark should be gone"
+      );
+    });
+
+    it("aligns search, profile, and list on the same column", () => {
+      const css = readFileSync(join(SITE, "css", "style.css"), "utf-8");
+      assert.match(
+        css,
+        /\.post-filter-top\s*\{[^}]*max-width:\s*var\(--text-width\)/,
+        "search bar must match the content column width"
+      );
+      assert.match(
+        css,
+        /\.home-main\s*\{[^}]*margin:\s*0 auto/,
+        "content column must be centered like the profile"
       );
     });
 
@@ -275,7 +301,11 @@ describe("Blog build", () => {
         "nameplate/nav blackletter missing"
       );
       assert.ok(t.includes("Georgia"), "body font missing");
-      assert.ok(t.includes('"Libre Franklin"'), "sans/label font missing");
+      assert.match(
+        t,
+        /--font-sans:\s*var\(--font-body\)/,
+        "labels/tabs must share the body font (uniform type)"
+      );
       assert.ok(t.includes("--font-body"), "--font-body token missing");
     });
 

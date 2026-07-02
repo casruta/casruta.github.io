@@ -36,7 +36,7 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Domine:wght@400;500;600;700&family=Libre+Franklin:ital,wght@0,400;0,500;0,600;0,700;1,400&family=UnifrakturMaguntia&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Domine:wght@400;500;600;700&family=UnifrakturMaguntia&display=swap" />
     <link rel="stylesheet" href="/css/tokens.css?v={{ build }}" />
     <link rel="stylesheet" href="/css/style.css?v={{ build }}" />
     <noscript>
@@ -46,7 +46,10 @@
   </head>
   <body>
     <header class="top-bar">
-      <a class="site-badge" href="/">Casruta</a>
+      <a class="site-badge" href="/">
+        <img class="badge-icon" src="/masthead-icon.png" alt="" onerror="this.remove()" />
+        Casruta
+      </a>
     </header>
     <nav class="tabs" aria-label="Site sections">
       <a href="/" {% if page.url == "/" %}class="tab-active" aria-current="page"{% endif %}>Posts</a>

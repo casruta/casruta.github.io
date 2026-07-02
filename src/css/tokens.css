@@ -8,8 +8,7 @@
 
    Scheme: dark Substack-style profile — near-black page, light text,
    purple accent; Cheltenham-style serif headlines (Domine), Georgia
-   body, Franklin Gothic sans for labels/tabs (Libre Franklin),
-   blackletter nameplate badge.
+   for body AND labels/tabs (uniform type), blackletter nameplate.
    ============================================================ */
 :root {
   /* ---- Brand palette ---------------------------------------- */
@@ -22,7 +21,7 @@
   /* ---- Type voices ------------------------------------------- */
   --font-heading: "Domine", Georgia, "Times New Roman", serif;         /* content headlines — NYT Cheltenham-like */
   --font-body:    Georgia, "Times New Roman", serif;                   /* body — NYT web voice, system font */
-  --font-sans:    "Libre Franklin", Helvetica, Arial, sans-serif;      /* labels, bylines, nav — Franklin Gothic revival */
+  --font-sans:    var(--font-body);                                    /* labels/tabs share the body serif — uniform type */
   --font-gothic:  "UnifrakturMaguntia", cursive;                       /* nameplate */
 
   /* ============================================================
