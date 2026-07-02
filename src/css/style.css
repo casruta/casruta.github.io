@@ -39,9 +39,8 @@ footer {
 }
 
 main {
-  /* expands wider on post pages via .post-content grid */
-  margin-top: 4rem;
-  margin-bottom: 4rem;
+  margin-top: 1.25rem;
+  margin-bottom: 2.5rem;
 }
 
 /* ============================================================
@@ -49,7 +48,7 @@ main {
    ============================================================ */
 header.top-bar {
   margin: 0 calc(-1 * ((100vw - 100%) / 2));  /* full-bleed bar */
-  padding: 0.9rem 0 0.8rem;
+  padding: 0.55rem 0 0.5rem;
   border-bottom: 1px solid var(--border);
   display: flex;
   justify-content: center;
@@ -88,7 +87,6 @@ header.top-bar {
   justify-content: center;
   gap: 2.25rem;
   border-bottom: 1px solid var(--border);
-  margin-bottom: 0.5rem;
 }
 
 .tabs a {
@@ -98,7 +96,7 @@ header.top-bar {
   letter-spacing: 0.02em;
   color: var(--text-dim);
   text-decoration: none;
-  padding: 0.8em 0.2em;
+  padding: 0.55em 0.2em;
   border-bottom: 2px solid transparent;
   margin-bottom: -1px;
 }
@@ -118,7 +116,7 @@ header.top-bar {
    ============================================================ */
 .profile {
   max-width: var(--text-width);
-  margin: 0 auto 2.5rem;
+  margin: 0 auto 1.4rem;
 }
 
 .profile-name {
@@ -139,7 +137,7 @@ header.top-bar {
 }
 
 .profile-bio {
-  margin: 1.1em 0 0.9em;
+  margin: 0.5em 0 0.6em;
   font-size: 1rem;
 }
 
@@ -147,7 +145,7 @@ header.top-bar {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin-bottom: 1.1rem;
+  margin-bottom: 0.75rem;
 }
 
 .pill {
@@ -694,7 +692,7 @@ sup a,
    Same width as the content column so every block shares the same edges. */
 .post-filter-top {
   max-width: var(--text-width);
-  margin: 0 auto 2.5rem;
+  margin: 0 auto 1.25rem;
 }
 
 .post-filter::placeholder {
@@ -723,7 +721,7 @@ sup a,
   display: flex;
   gap: 1.25rem;
   align-items: flex-start;
-  padding: 0.85rem 0;
+  padding: 0.6rem 0;
   border-bottom: 1px solid var(--border);
 }
 
@@ -899,14 +897,14 @@ sup a,
 }
 
 .featured-wrap {
-  margin: 0 0 2.5rem;
+  margin: 0 0 1.5rem;
 }
 
 .latest-label {
   font-family: var(--font-sans);
   font-size: 0.85rem;
   color: var(--text-dim);
-  margin: 0 0 0.75rem;
+  margin: 0 0 0.4rem;
 }
 
 .featured {
@@ -928,7 +926,8 @@ sup a,
 .featured-thumb {
   display: block;
   width: 100%;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 2 / 1;
+  max-height: 320px;
   object-fit: cover;
 }
 
@@ -972,7 +971,7 @@ sup a,
   font-family: var(--font-sans);
   font-size: 0.76rem;
   color: var(--text-dim);
-  margin: 0.6rem 0 0;
+  margin: 0.4rem 0 0;
 }
 
 .list-label {
