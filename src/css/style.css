@@ -34,7 +34,6 @@ body {
 /* ============================================================
    LAYOUT SHELLS
    ============================================================ */
-header,
 footer {
   max-width: var(--text-width);
 }
@@ -57,24 +56,30 @@ header.top-bar {
 }
 
 .site-badge {
-  /* White badge with black blackletter wordmark, like the reference.
+  /* Blackletter wordmark with the portrait icon on its left — no box.
      Single-weight face: thicken real strokes instead of faux-bold. */
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
   font-family: var(--font-gothic);
-  font-size: 1.6rem;
+  font-size: 1.7rem;
   font-weight: 400;
   -webkit-text-stroke: 0.028em currentColor;
   letter-spacing: 0.01em;
-  color: #111111;
-  background: #ffffff;
-  border-radius: 8px;
-  padding: 0.1em 0.65em 0.18em;
+  color: var(--text);
   text-decoration: none;
-  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.45);
 }
 
 .site-badge:hover {
-  color: #111111;
-  background: #f1ede4;
+  color: var(--accent-h);
+}
+
+.badge-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--border-h);
 }
 
 /* ── Tab navigation, under the top bar ── */
@@ -112,10 +117,6 @@ header.top-bar {
    PROFILE HERO (home)
    ============================================================ */
 .profile {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 2rem;
   max-width: var(--text-width);
   margin: 0 auto 2.5rem;
 }
@@ -206,20 +207,15 @@ header.top-bar {
   border-color: var(--border-h);
 }
 
-.profile-avatar {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 1px solid var(--border-h);
-  flex-shrink: 0;
-}
 
 /* ============================================================
    SITE FOOTER
    ============================================================ */
 footer {
+  margin-left: auto;
+  margin-right: auto;
   margin-bottom: 2.5rem;
+  text-align: center;
   padding-top: 0.75rem;
   border-top: 1px solid var(--border);
   color: var(--text-dim);
@@ -675,6 +671,7 @@ sup a,
    ============================================================ */
 .home-main {
   max-width: var(--text-width);
+  margin: 0 auto;
   min-width: 0;
 }
 
@@ -693,9 +690,10 @@ sup a,
   transition: border-color 0.2s;
 }
 
-/* Search bar at the very top of the home page, between header and content */
+/* Search bar at the very top of the home page, between header and content.
+   Same width as the content column so every block shares the same edges. */
 .post-filter-top {
-  max-width: var(--layout-width);
+  max-width: var(--text-width);
   margin: 0 auto 2.5rem;
 }
 
@@ -885,17 +883,6 @@ sup a,
     width: 100%;
     height: auto;
     max-height: 200px;
-  }
-
-  .profile {
-    flex-direction: column-reverse;
-    align-items: center;
-    text-align: center;
-  }
-
-  .profile-pills,
-  .profile-actions {
-    justify-content: center;
   }
 
   .tabs {
